@@ -2,6 +2,7 @@
 
 import { motion, useScroll, useTransform } from 'framer-motion'
 import { useRef, useState, useEffect } from 'react'
+import Image from 'next/image'
 
 // 역사상 가장 아이코닉한 앨범 커버들 (UpVenue 기사 참조)
 const vinylRecords = [
@@ -403,10 +404,12 @@ export default function TopDownScrollSequence() {
               {/* Album Cover Image */}
               {coverImages[record.id] ? (
                 <div className="absolute inset-0 rounded-lg overflow-hidden">
-                  <img 
+                  <Image 
                     src={coverImages[record.id]} 
                     alt={`${record.title} by ${record.artist}`}
-                    className="w-full h-full object-cover"
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     onError={(e) => {
                       // 이미지 로드 실패 시 기본 바이닐 디자인으로 폴백
                       e.currentTarget.style.display = 'none'
@@ -563,10 +566,12 @@ export default function TopDownScrollSequence() {
                       {/* Album cover thumbnail */}
                       <div className="w-10 h-10 rounded-lg overflow-hidden bg-white/20 flex-shrink-0">
                         {coverImages[record.id] ? (
-                          <img 
+                          <Image 
                             src={coverImages[record.id]} 
                             alt={record.title}
-                            className="w-full h-full object-cover"
+                            fill
+                            className="object-cover"
+                            sizes="40px"
                           />
                         ) : (
                           <div 
@@ -813,10 +818,12 @@ export default function TopDownScrollSequence() {
                           }}
                         >
                           {coverImages[randomTopIndex] ? (
-                            <img 
+                            <Image 
                               src={coverImages[randomTopIndex]} 
-                              alt={vinylRecords.find(record => record.id === randomTopIndex)?.title}
-                              className="w-full h-full object-cover"
+                              alt={vinylRecords.find(record => record.id === randomTopIndex)?.title || 'Album cover'}
+                              fill
+                              className="object-cover"
+                              sizes="192px"
                             />
                           ) : (
                             <div 
@@ -856,10 +863,12 @@ export default function TopDownScrollSequence() {
                   <div className="bg-white/10 backdrop-blur-sm rounded-lg p-3">
                     <div className="flex items-center space-x-3 mb-3">
                       <div className="w-12 h-12 rounded-lg overflow-hidden bg-white/20 flex-shrink-0">
-                        <img 
+                        <Image 
                           src="/albums/dark-side-of-the-moon.jpg" 
                           alt="Dark Side of The Moon"
-                          className="w-full h-full object-cover"
+                          fill
+                          className="object-cover"
+                          sizes="48px"
                         />
                       </div>
                       <div className="flex-1">
@@ -943,10 +952,12 @@ export default function TopDownScrollSequence() {
                       >
                         <div className="flex items-center space-x-3">
                           <div className="w-8 h-8 bg-white/10 rounded-lg overflow-hidden">
-                            <img 
+                            <Image 
                               src={item.image} 
                               alt={item.title}
-                              className="w-full h-full object-cover"
+                              fill
+                              className="object-cover"
+                              sizes="32px"
                             />
                           </div>
                           <div>
@@ -1082,11 +1093,12 @@ export default function TopDownScrollSequence() {
             display: useTransform(scrollYProgress, (value) => value >= 0.35 && value <= 0.50 ? 'block' : 'none')
           }}
         >
-          <img 
+          <Image 
             src="/assets/cat_snap_01.png" 
             alt="Cat" 
-            className="w-144 h-144 object-contain drop-shadow-2xl"
-            style={{ width: '600px', height: '600px' }}
+            width={600}
+            height={600}
+            className="object-contain drop-shadow-2xl"
           />
         </motion.div>
 
@@ -1213,11 +1225,12 @@ export default function TopDownScrollSequence() {
             display: useTransform(scrollYProgress, (value) => value >= 0.50 && value <= 0.65 ? 'block' : 'none')
           }}
         >
-          <img 
+          <Image 
             src="/assets/cat_collect_01.png" 
             alt="Vinyl Crate" 
-            className="w-144 h-144 object-contain drop-shadow-2xl"
-            style={{ width: '500px', height: '500px' }}
+            width={500}
+            height={500}
+            className="object-contain drop-shadow-2xl"
           />
         </motion.div>
 
@@ -1344,11 +1357,12 @@ export default function TopDownScrollSequence() {
             display: useTransform(scrollYProgress, (value) => value >= 0.65 && value <= 0.80 ? 'block' : 'none')
           }}
         >
-          <img 
+          <Image 
             src="/assets/cat.png" 
             alt="Cat" 
-            className="w-144 h-144 object-contain drop-shadow-2xl"
-            style={{ width: '430px', height: '430px' }}
+            width={430}
+            height={430}
+            className="object-contain drop-shadow-2xl"
           />
         </motion.div>
 
@@ -1526,11 +1540,12 @@ export default function TopDownScrollSequence() {
             display: useTransform(scrollYProgress, (value) => value >= 0.80 && value <= 0.95 ? 'block' : 'none')
           }}
         >
-          <img 
+          <Image 
             src="/assets/cat_trade_01.png" 
             alt="Cat" 
-            className="w-144 h-144 object-contain drop-shadow-2xl"
-            style={{ width: '576px', height: '576px' }}
+            width={576}
+            height={576}
+            className="object-contain drop-shadow-2xl"
           />
         </motion.div>
 
