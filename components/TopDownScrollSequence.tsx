@@ -3,6 +3,7 @@
 import { motion, useScroll, useTransform } from 'framer-motion'
 import { useRef, useState, useEffect } from 'react'
 import Image from 'next/image'
+import VinylRecord from './VinylRecord'
 
 // 역사상 가장 아이코닉한 앨범 커버들 (UpVenue 기사 참조)
 const vinylRecords = [
@@ -137,6 +138,7 @@ export default function TopDownScrollSequence() {
       })
       
       setCoverImages(images)
+      console.log('Loaded cover images:', images) // 디버깅용 로그 추가
     }
     
     loadCoverImages()
@@ -326,117 +328,17 @@ export default function TopDownScrollSequence() {
         </motion.div>
 
         {/* Scattered vinyl records */}
-        {vinylRecords.map((record) => {
-          const recordX = useTransform(
-            mergeProgress,
-            [0, 1],
-            [`${record.x}%`, '50%']
-          )
-          const recordY = useTransform(
-            mergeProgress,
-            [0, 1],
-            [`${record.y}%`, '50%']
-          )
-          const recordRotation = useTransform(
-            mergeProgress,
-            [0, 1],
-            [record.rotation, 0]
-          )
-          const recordScale = useTransform(
-            mergeProgress,
-            [0, 1],
-            [1, 1]
-          )
-          const recordOpacity = useTransform(
-            scrollYProgress,
-            [0, 0.45, 0.9, 1],
-            [1, 1, 0, 0]
-          )
-
-          return (
-            <motion.div
-              key={record.id}
-              className="absolute w-52 h-52 md:w-64 md:h-64 rounded-lg cursor-pointer"
-               style={{
-                 left: recordX,
-                 top: recordY,
-                 x: '-50%',
-                 y: '-50%',
-                 rotate: recordRotation,
-                 scale: recordScale,
-                 opacity: recordOpacity,
-                 backgroundColor: record.color,
-                 zIndex: record.id === randomTopIndex ? 30 : 20 - record.id,
-                 boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-                 transformStyle: 'preserve-3d'
-               }}
-                             initial={{ 
-                 scale: 0, 
-                 opacity: 0,
-                 filter: 'blur(4px)'
-               }}
-               animate={{ 
-                 scale: 1, 
-                 opacity: 1,
-                 filter: shouldBlur ? 'blur(4px)' : 'blur(0px)'
-               }}
-              transition={{ delay: record.id * 0.1, duration: 0.8 }}
-              whileHover={{
-                scale: 1.1,
-                rotateX: 15,
-                rotateY: 10,
-                z: 50,
-                zIndex: 50,
-                boxShadow: '0 20px 40px rgba(0, 0, 0, 0.3)',
-                filter: 'blur(0px)',
-                transition: { 
-                  type: "spring", 
-                  stiffness: 300, 
-                  damping: 20
-                }
-              }}
-              whileTap={{
-                scale: 0.95,
-                rotateX: 5,
-                rotateY: 5
-              }}
-            >
-              {/* Album Cover Image */}
-              {coverImages[record.id] ? (
-                <div className="absolute inset-0 rounded-lg overflow-hidden">
-                  <Image 
-                    src={coverImages[record.id]} 
-                    alt={`${record.title} by ${record.artist}`}
-                    fill
-                    className="object-cover"
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                  />
-
-                </div>
-              ) : (
-                <>
-                  {/* Fallback vinyl design when no cover image */}
-                  <>
-                    {/* Default vinyl record grooves */}
-                    <div className="absolute inset-4 bg-black rounded-full opacity-80 transition-all duration-300 hover:shadow-inner">
-                      <div className="absolute inset-8 border-4 border-gray-600 rounded-full opacity-60 transition-all duration-300" />
-                      <div className="absolute inset-12 border-2 border-gray-500 rounded-full opacity-40 transition-all duration-300" />
-                      <div className="absolute inset-16 border border-gray-400 rounded-full opacity-30 transition-all duration-300" />
-                      <div className="absolute top-1/2 left-1/2 w-6 h-6 bg-black rounded-full transform -translate-x-1/2 -translate-y-1/2 transition-all duration-300">
-                        {/* Center hole highlight */}
-                        <div className="absolute inset-0.5 bg-gray-400 rounded-full opacity-60" />
-                      </div>
-                    </div>
-
-                  </>
-                </>
-                            )}
-              
-              {/* Album cover shine */}
-              <div className="absolute inset-0 bg-white/10 rounded-lg transition-all duration-300 hover:bg-white/10" />
-            </motion.div>
-          )
-        })}
+        {vinylRecords.map((record) => (
+          <VinylRecord
+            key={record.id}
+            record={record}
+            coverImage={coverImages[record.id]}
+            mergeProgress={mergeProgress}
+            scrollYProgress={scrollYProgress}
+            shouldBlur={shouldBlur}
+            randomTopIndex={randomTopIndex}
+          />
+        ))}
 
         
 
@@ -568,6 +470,9 @@ export default function TopDownScrollSequence() {
                             fill
                             className="object-cover"
                             sizes="40px"
+                            onError={(e) => {
+                              console.log(`Failed to load image: ${coverImages[record.id]}`)
+                            }}
                           />
                         ) : (
                           <div 
@@ -865,6 +770,9 @@ export default function TopDownScrollSequence() {
                           fill
                           className="object-cover"
                           sizes="48px"
+                          onError={(e) => {
+                            console.log('Failed to load Dark Side of the Moon image')
+                          }}
                         />
                         </div>
                       <div className="flex-1">
@@ -954,6 +862,9 @@ export default function TopDownScrollSequence() {
                               fill
                               className="object-cover"
                               sizes="32px"
+                              onError={(e) => {
+                                console.log(`Failed to load marketplace image: ${item.image}`)
+                              }}
                             />
                             </div>
                           <div>

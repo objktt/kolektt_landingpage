@@ -163,4 +163,39 @@ body {
   transform: translateY(0);
 }
 
+/* GPU 가속 및 성능 최적화 */
+.gpu-accelerated {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+  will-change: transform, opacity;
+}
+
+.vinyl-animation {
+  transform: translateZ(0);
+  will-change: transform, opacity, filter;
+  backface-visibility: hidden;
+}
+
+.phone-animation {
+  transform: translateZ(0);
+  will-change: transform, scale, opacity;
+  backface-visibility: hidden;
+}
+
+/* 이미지 최적화 */
+img {
+  content-visibility: auto;
+  contain: layout style paint;
+}
+
+/* 애니메이션 감소 설정 존중 */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
  
