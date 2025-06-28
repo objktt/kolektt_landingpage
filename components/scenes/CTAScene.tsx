@@ -312,7 +312,7 @@ export default function CTAScene() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.4 }}
             >
-              You're on the list! 🎉
+              You&apos;re on the list! 🎉
             </motion.h3>
             
             <motion.p
@@ -321,7 +321,7 @@ export default function CTAScene() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.6 }}
             >
-              We'll notify you as soon as Kolektt is ready to revolutionize your music collection experience.
+              We&apos;ll notify you as soon as Kolektt is ready to revolutionize your music collection experience.
             </motion.p>
             
             <motion.div

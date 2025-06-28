@@ -123,9 +123,35 @@ export default function TopDownScrollSequence() {
     const randomIndex = Math.floor(Math.random() * vinylRecords.length)
     setRandomTopIndex(vinylRecords[randomIndex].id)
     
-    // SNAP 섹션용 랜덤 앨범 선택
-    const randomSnapIndex = Math.floor(Math.random() * snapAlbumCovers.length)
-    setRandomSnapAlbum(snapAlbumCovers[randomSnapIndex])
+    // SNAP 섹션용 랜덤 앨범 선택 (useEffect 내부에서 배열 정의)
+    const snapCovers = [
+      'abbey-road.jpg',
+      'dark-side-of-the-moon.jpg',
+      'nevermind.jpg',
+      'rumours.jpg',
+      'thriller.jpg',
+      'led-zeppelin-iv.jpg',
+      'ok-computer.jpg',
+      'pet-sounds.jpg',
+      'hotel-california.jpg',
+      'sgt-peppers.jpg',
+      'london-calling.jpg',
+      'master-of-puppets.jpg',
+      'purple-rain.jpg',
+      'back-in-black.jpg',
+      'whats-going-on.jpg',
+      'disintegration.jpg',
+      'appetite-for-destruction.jpg',
+      'born-to-run.jpg',
+      'unknown-pleasures.jpg',
+      'the-wall.jpg',
+      'ziggy-stardust.jpg',
+      'velvet-underground-nico.jpg',
+      'maggot-brain.jpg',
+      'its-blitz.jpg'
+    ]
+    const randomSnapIndex = Math.floor(Math.random() * snapCovers.length)
+    setRandomSnapAlbum(snapCovers[randomSnapIndex])
     
     const loadCoverImages = () => {
       const images: {[key: number]: string} = {}

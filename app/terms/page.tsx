@@ -164,7 +164,7 @@ export default function TermsOfService() {
             <h2 className="text-2xl font-semibold mb-4">9. Disclaimers and Limitation of Liability</h2>
             <div className="space-y-4 text-gray-300">
               <p>
-                Kolektt is provided "as is" without warranties of any kind. We disclaim all warranties, 
+                Kolektt is provided &quot;as is&quot; without warranties of any kind. We disclaim all warranties, 
                 express or implied, including merchantability and fitness for a particular purpose.
               </p>
               <p>

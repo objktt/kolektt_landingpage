@@ -17,7 +17,7 @@ export default function PrivacyPolicy() {
         <h1 className="text-4xl font-bold mb-8">Privacy Policy</h1>
         <p className="text-gray-400 mb-4">Last updated: {new Date().toLocaleDateString()}</p>
         <p className="text-gray-300 mb-8">
-          This Privacy Policy describes how objktt ("we," "our," or "us") collects, uses, and shares information 
+          This Privacy Policy describes how objktt (&quot;we,&quot; &quot;our,&quot; or &quot;us&quot;) collects, uses, and shares information 
           about you when you use our Kolektt application and related services.
         </p>
 
@@ -138,7 +138,7 @@ export default function PrivacyPolicy() {
           </section>
 
           <section>
-            <h2 className="text-2xl font-semibold mb-4">8. Children's Privacy</h2>
+            <h2 className="text-2xl font-semibold mb-4">8. Children&apos;s Privacy</h2>
             <div className="space-y-4 text-gray-300">
               <p>
                 Our services are not intended for children under 13 years of age. We do not knowingly 
@@ -153,7 +153,7 @@ export default function PrivacyPolicy() {
             <div className="space-y-4 text-gray-300">
               <p>
                 We may update this Privacy Policy from time to time. We will notify you of any changes 
-                by posting the new Privacy Policy on this page and updating the "Last updated" date.
+                by posting the new Privacy Policy on this page and updating the &quot;Last updated&quot; date.
               </p>
             </div>
           </section>
