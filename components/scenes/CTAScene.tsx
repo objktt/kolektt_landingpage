@@ -176,7 +176,7 @@ export default function CTAScene() {
                   <motion.button
                     type="submit"
                     disabled={isLoading}
-                    className="px-8 py-4 bg-gradient-to-r from-vinyl-500 to-vinyl-600 text-white font-semibold rounded-full hover:from-vinyl-600 hover:to-vinyl-700 focus:outline-none focus:ring-4 focus:ring-vinyl-500/30 transition-all duration-200 shadow-lg hover:shadow-vinyl-500/25 disabled:opacity-50 whitespace-nowrap"
+                    className="px-8 py-4 bg-gradient-to-r from-vinyl-500 to-vinyl-600 text-white font-semibold rounded-full hover:from-vinyl-600 hover:to-vinyl-700 focus:outline-none focus:ring-4 focus:ring-vinyl-500/30 transition-all duration-150 shadow-lg hover:shadow-vinyl-500/25 disabled:opacity-50 whitespace-nowrap"
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                   >

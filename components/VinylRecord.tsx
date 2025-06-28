@@ -123,11 +123,11 @@ const VinylRecord = memo(({
       ) : (
         <>
           {/* Default vinyl record grooves */}
-          <div className="absolute inset-4 bg-black rounded-full opacity-80 transition-all duration-300 hover:shadow-inner">
-            <div className="absolute inset-8 border-4 border-gray-600 rounded-full opacity-60 transition-all duration-300" />
-            <div className="absolute inset-12 border-2 border-gray-500 rounded-full opacity-40 transition-all duration-300" />
-            <div className="absolute inset-16 border border-gray-400 rounded-full opacity-30 transition-all duration-300" />
-            <div className="absolute top-1/2 left-1/2 w-6 h-6 bg-black rounded-full transform -translate-x-1/2 -translate-y-1/2 transition-all duration-300">
+          <div className="absolute inset-4 bg-black rounded-full opacity-80 transition-all duration-150 hover:shadow-inner">
+            <div className="absolute inset-8 border-4 border-gray-600 rounded-full opacity-60 transition-all duration-150" />
+            <div className="absolute inset-12 border-2 border-gray-500 rounded-full opacity-40 transition-all duration-150" />
+            <div className="absolute inset-16 border border-gray-400 rounded-full opacity-30 transition-all duration-150" />
+            <div className="absolute top-1/2 left-1/2 w-6 h-6 bg-black rounded-full transform -translate-x-1/2 -translate-y-1/2 transition-all duration-150">
               <div className="absolute inset-0.5 bg-gray-400 rounded-full opacity-60" />
             </div>
           </div>
@@ -135,7 +135,7 @@ const VinylRecord = memo(({
       )}
       
       {/* Album cover shine */}
-      <div className="absolute inset-0 bg-white/10 rounded-lg transition-all duration-300 hover:bg-white/10" />
+      <div className="absolute inset-0 bg-white/10 rounded-lg transition-all duration-150 hover:bg-white/10" />
     </motion.div>
   )
 })
