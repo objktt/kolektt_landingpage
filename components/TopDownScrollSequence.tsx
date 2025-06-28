@@ -209,7 +209,7 @@ export default function TopDownScrollSequence() {
       <motion.div 
         className="fixed top-0 left-0 right-0 z-[100] p-6"
         style={{
-          opacity: useTransform(scrollYProgress, [0, 0.1, 0.95, 1], [0, 1, 1, 0.7])
+          opacity: useTransform(scrollYProgress, [0, 0.1, 0.98, 1], [0, 1, 1, 0.9])
         }}
       >
         <div className="flex items-center justify-between">
