@@ -89,8 +89,8 @@ const VinylRecord = memo(({
         delay: record.id * 0.1, 
         duration: 0.8,
         type: "spring",
-        stiffness: 500,
-        damping: 30
+        stiffness: 600,
+        damping: 40
       }}
       whileHover={{
         scale: 1.1,
@@ -99,12 +99,7 @@ const VinylRecord = memo(({
         z: 50,
         zIndex: 50,
         boxShadow: '0 20px 40px rgba(0, 0, 0, 0.3)',
-        filter: 'blur(0px)',
-        transition: { 
-          type: "spring", 
-          stiffness: 400, 
-          damping: 25
-        }
+        filter: 'blur(0px)'
       }}
       whileTap={{
         scale: 0.95,
