@@ -59,6 +59,13 @@ const VinylRecord = memo(({
     [1, 1, 0, 0]
   )
 
+  // 완전히 모인 후에 맨 위 이미지만 남기고 나머지는 사라지게
+  const mergeOpacity = useTransform(
+    mergeProgress,
+    [0, 0.99, 1],
+    [1, 1, record.id === randomTopIndex ? 1 : 0]
+  )
+
   return (
     <motion.div
       className="absolute w-52 h-52 md:w-64 md:h-64 rounded-lg cursor-pointer vinyl-animation"
@@ -69,7 +76,7 @@ const VinylRecord = memo(({
         y: '-50%',
         rotate: recordRotation,
         scale: recordScale,
-        opacity: recordOpacity,
+        opacity: useTransform([recordOpacity, mergeOpacity], ([scroll, merge]) => (scroll as number) * (merge as number)),
         backgroundColor: record.color,
         zIndex: record.id === randomTopIndex ? 30 : 20 - record.id,
         boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
@@ -83,14 +90,18 @@ const VinylRecord = memo(({
       animate={{ 
         scale: 1, 
         opacity: 1,
-        filter: shouldBlur ? 'blur(4px)' : 'blur(0px)'
+        filter: shouldBlur ? 'blur(4px)' : 'blur(0px)',
+        rotateX: 0,
+        rotateY: 0,
+        z: 0,
+        boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)'
       }}
       transition={{ 
         delay: record.id * 0.1, 
         duration: 0.8,
         type: "spring",
-        stiffness: 600,
-        damping: 40
+        stiffness: 1200,
+        damping: 60
       }}
       whileHover={{
         scale: 1.1,
@@ -130,11 +141,11 @@ const VinylRecord = memo(({
       ) : (
         <>
           {/* Default vinyl record grooves */}
-          <div className="absolute inset-4 bg-black rounded-full opacity-80 transition-all duration-100 hover:shadow-inner">
-            <div className="absolute inset-8 border-4 border-gray-600 rounded-full opacity-60 transition-all duration-100" />
-            <div className="absolute inset-12 border-2 border-gray-500 rounded-full opacity-40 transition-all duration-100" />
-            <div className="absolute inset-16 border border-gray-400 rounded-full opacity-30 transition-all duration-100" />
-            <div className="absolute top-1/2 left-1/2 w-6 h-6 bg-black rounded-full transform -translate-x-1/2 -translate-y-1/2 transition-all duration-100">
+          <div className="absolute inset-4 bg-black rounded-full opacity-80 transition-all duration-75 hover:shadow-inner">
+            <div className="absolute inset-8 border-4 border-gray-600 rounded-full opacity-60 transition-all duration-75" />
+            <div className="absolute inset-12 border-2 border-gray-500 rounded-full opacity-40 transition-all duration-75" />
+            <div className="absolute inset-16 border border-gray-400 rounded-full opacity-30 transition-all duration-75" />
+            <div className="absolute top-1/2 left-1/2 w-6 h-6 bg-black rounded-full transform -translate-x-1/2 -translate-y-1/2 transition-all duration-75">
               <div className="absolute inset-0.5 bg-gray-400 rounded-full opacity-60" />
             </div>
           </div>
@@ -142,7 +153,7 @@ const VinylRecord = memo(({
       )}
       
       {/* Album cover shine */}
-      <div className="absolute inset-0 bg-white/10 rounded-lg transition-all duration-100 hover:bg-white/10" />
+      <div className="absolute inset-0 bg-white/10 rounded-lg transition-all duration-75 hover:bg-white/10" />
     </motion.div>
   )
 })

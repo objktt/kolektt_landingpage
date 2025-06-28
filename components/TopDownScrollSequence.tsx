@@ -311,7 +311,7 @@ export default function TopDownScrollSequence() {
         <motion.div
           className="absolute inset-0 bg-black/60 z-[45] pointer-events-none"
           style={{
-            opacity: useTransform(scrollYProgress, [0, 0.1], [1, 0])
+            opacity: useTransform(scrollYProgress, [0, 0.3], [1, 0])
           }}
         />
 
@@ -1552,7 +1552,7 @@ export default function TopDownScrollSequence() {
                   scale: useTransform(scrollYProgress, [0, 0.2], [1, 0.8]),
                 }}
               >
-                <div 
+                <motion.div 
                   className="px-3 py-1 rounded-full text-white text-sm font-bold shadow-lg transform rotate-12"
                   style={{
                     backgroundColor: '#0036ff',
@@ -1560,7 +1560,7 @@ export default function TopDownScrollSequence() {
                   }}
                 >
                   Beta Service July Open
-                </div>
+                </motion.div>
               </motion.div>
             </div>
             
