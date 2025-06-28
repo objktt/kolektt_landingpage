@@ -99,7 +99,13 @@ const VinylRecord = memo(({
         z: 50,
         zIndex: 50,
         boxShadow: '0 20px 40px rgba(0, 0, 0, 0.3)',
-        filter: 'blur(0px)'
+        filter: 'blur(0px)',
+        transition: {
+          type: "spring",
+          stiffness: 800,
+          damping: 30,
+          duration: 0.08
+        }
       }}
       whileTap={{
         scale: 0.95,
