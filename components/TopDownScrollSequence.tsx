@@ -41,38 +41,38 @@ const vinylRecords = [
 
 const slogans = ['SNAP', 'COLLECT', 'ANALYZE', 'TRADE']
 
-// 로컬 앨범 커버 이미지 경로 (public/albums/ 폴더)
+// 로컬 앨범 커버 이미지 경로 (public/albums/ 폴더) - 아티스트_앨범명 형식 (숫자 제거)
 const albumCoverUrls: {[key: string]: string} = {
-  'Abbey Road': '/albums/abbey-road.jpg',
-  'Dark Side of the Moon': '/albums/dark-side-of-the-moon.jpg',
-  'Nevermind': '/albums/nevermind.jpg',
-  'Rumours': '/albums/rumours.jpg',
-  'The Velvet Underground & Nico': '/albums/velvet-underground-nico.jpg',
-  '조용필 1집': '/albums/born-to-run.jpg',
-  'Master of Puppets': '/albums/master-of-puppets.jpg',
-  'Maggot Brain': '/albums/maggot-brain.jpg',
-  'Unknown Pleasures': '/albums/unknown-pleasures.jpg',
-  'London Calling': '/albums/london-calling.jpg',
-  'The Rise and Fall of Ziggy Stardust': '/albums/ziggy-stardust.jpg',
-  'Pet Sounds': '/albums/pet-sounds.jpg',
-  'Music for the Jilted Generation': '/albums/music-for-jilted-generation.jpg',
-  'It\'s Blitz!': '/albums/its-blitz.jpg',
-  'The Wall': '/albums/the-wall.jpg',
-  'Led Zeppelin IV': '/albums/led-zeppelin-iv.jpg',
-  'Never Mind The Bollocks Here\'s The Sex Pistols': '/albums/sgt-peppers.jpg',
-  'Thriller': '/albums/thriller.jpg',
-  '1984': '/albums/back-in-black.jpg',
-  'Hotel California': '/albums/hotel-california.jpg',
-  'Purple Rain': '/albums/purple-rain.jpg',
-  '1집': '/albums/blonde-on-blonde.jpg',
-  'What\'s Going On': '/albums/whats-going-on.jpg',
-  'Born to Die': '/albums/born-to-die.jpg',
-  'OK Computer': '/albums/ok-computer.jpg',
-  'The Chronic': '/albums/the-chronic.jpg',
-  'Appetite for Destruction': '/albums/appetite-for-destruction.jpg',
-  'Disintegration': '/albums/disintegration.jpg',
-  'Doggystyle': '/albums/doggystyle.jpg',
-  '산울림 1집': '/albums/sanullim-1.jpg'
+  'Abbey Road': '/albums/the-beatles_abbey-road.webp',
+  'Dark Side of the Moon': '/albums/pink-floyd_dark-side-of-the-moon.webp',
+  'Nevermind': '/albums/nirvana_nevermind.webp',
+  'Rumours': '/albums/fleetwood-mac_rumours.webp',
+  'The Velvet Underground & Nico': '/albums/the-velvet-underground_nico.webp',
+  '조용필 1집': '/albums/bruce-springsteen_born-to-run.webp',
+  'Master of Puppets': '/albums/metallica_master-of-puppets.webp',
+  'Maggot Brain': '/albums/funkadelic_maggot-brain.webp',
+  'Unknown Pleasures': '/albums/joy-division_unknown-pleasures.webp',
+  'London Calling': '/albums/the-clash_london-calling.webp',
+  'The Rise and Fall of Ziggy Stardust': '/albums/david-bowie_ziggy-stardust.webp',
+  'Pet Sounds': '/albums/the-beach-boys_pet-sounds.webp',
+  'Music for the Jilted Generation': '/albums/the-prodigy_music-for-the-jilted-generation.webp',
+  'It\'s Blitz!': '/albums/yeah-yeah-yeahs_its-blitz.webp',
+  'The Wall': '/albums/pink-floyd_the-wall.webp',
+  'Led Zeppelin IV': '/albums/led-zeppelin_iv.webp',
+  'Never Mind The Bollocks Here\'s The Sex Pistols': '/albums/sex-pistols_never-mind-the-bollocks.webp',
+  'Thriller': '/albums/michael-jackson_thriller.webp',
+  '1984': '/albums/van-halen_1984.webp',
+  'Hotel California': '/albums/eagles_hotel-california.webp',
+  'Purple Rain': '/albums/prince_purple-rain.webp',
+  '1집': '/albums/bob-dylan_blonde-on-blonde.webp',
+  'What\'s Going On': '/albums/marvin-gaye_whats-going-on.webp',
+  'Born to Die': '/albums/lana-del-rey_born-to-die.webp',
+  'OK Computer': '/albums/radiohead_ok-computer.webp',
+  'The Chronic': '/albums/dr-dre_the-chronic.webp',
+  'Appetite for Destruction': '/albums/guns-n-roses_appetite-for-destruction.webp',
+  'Disintegration': '/albums/the-cure_disintegration.webp',
+  'Doggystyle': '/albums/snoop-dogg_doggystyle.webp',
+  '산울림 1집': '/albums/sanullim_1.webp'
 }
 
 // 로컬 앨범 커버 이미지 가져오기
@@ -494,10 +494,14 @@ export default function TopDownScrollSequence() {
                             src={coverImages[record.id]} 
                             alt={record.title}
                             fill
-                            className="object-cover"
+                            className="object-cover will-change-transform"
                             sizes="40px"
+                            quality={75}
+                            loading="lazy"
+                            placeholder="blur"
+                            blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
                             onError={(e) => {
-                              console.log(`Failed to load image: ${coverImages[record.id]}`)
+                              console.warn(`Failed to load collection image: ${coverImages[record.id]}`)
                             }}
                           />
                         ) : (
@@ -750,7 +754,11 @@ export default function TopDownScrollSequence() {
                               alt={vinylRecords.find(record => record.id === randomTopIndex)?.title || 'Album cover'}
                               width={192}
                               height={192}
-                              className="w-full h-full object-cover"
+                              className="w-full h-full object-cover will-change-transform"
+                              quality={90}
+                              priority={true}
+                              placeholder="blur"
+                              blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
                             />
                           ) : (
                             <div 
@@ -791,13 +799,17 @@ export default function TopDownScrollSequence() {
                                           <div className="flex items-center space-x-3 mb-3">
                         <div className="w-12 h-12 rounded-lg overflow-hidden bg-white/20 flex-shrink-0 relative">
                         <Image 
-                          src="/albums/dark-side-of-the-moon.jpg" 
+                          src="/albums/pink-floyd_dark-side-of-the-moon.webp" 
                           alt="Dark Side of The Moon"
                           fill
-                          className="object-cover"
+                          className="object-cover will-change-transform"
                           sizes="48px"
+                          quality={75}
+                          loading="lazy"
+                          placeholder="blur"
+                          blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
                           onError={(e) => {
-                            console.log('Failed to load Dark Side of the Moon image')
+                            console.warn('Failed to load Dark Side of the Moon image')
                           }}
                         />
                         </div>
@@ -863,8 +875,8 @@ export default function TopDownScrollSequence() {
                   <div className="space-y-2">
                     <p className="text-white/60 text-xs">More Listings</p>
                     {[
-                      { title: 'Abbey Road', artist: 'The Beatles', price: '$45-60', condition: 'VG+', image: '/albums/abbey-road.jpg' },
-                      { title: 'Rumours', artist: 'Fleetwood Mac', price: '$30-40', condition: 'VG', image: '/albums/rumours.jpg' }
+                      { title: 'Abbey Road', artist: 'The Beatles', price: '$45-60', condition: 'VG+', image: '/albums/the-beatles_abbey-road.webp' },
+                      { title: 'Rumours', artist: 'Fleetwood Mac', price: '$30-40', condition: 'VG', image: '/albums/fleetwood-mac_rumours.webp' }
                     ].map((item, index) => (
                       <motion.div
                         key={item.title}
@@ -886,10 +898,14 @@ export default function TopDownScrollSequence() {
                               src={item.image} 
                               alt={item.title}
                               fill
-                              className="object-cover"
+                              className="object-cover will-change-transform"
                               sizes="32px"
+                              quality={75}
+                              loading="lazy"
+                              placeholder="blur"
+                              blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
                               onError={(e) => {
-                                console.log(`Failed to load marketplace image: ${item.image}`)
+                                console.warn(`Failed to load marketplace image: ${item.image}`)
                               }}
                             />
                             </div>
@@ -1028,10 +1044,14 @@ export default function TopDownScrollSequence() {
         >
           <Image 
             src="/assets/cat_snap_01.png" 
-            alt="Cat" 
+            alt="Cat with camera for SNAP feature" 
             width={600}
             height={600}
-            className="object-contain drop-shadow-2xl"
+            className="object-contain drop-shadow-2xl will-change-transform"
+            quality={90}
+            priority={true}
+            placeholder="blur"
+            blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=="
           />
         </motion.div>
 
@@ -1160,10 +1180,14 @@ export default function TopDownScrollSequence() {
         >
           <Image 
             src="/assets/cat_collect_01.png" 
-            alt="Vinyl Crate" 
+            alt="Cat with vinyl collection crate for COLLECT feature" 
             width={500}
             height={500}
-            className="object-contain drop-shadow-2xl"
+            className="object-contain drop-shadow-2xl will-change-transform"
+            quality={90}
+            loading="lazy"
+            placeholder="blur"
+            blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=="
           />
         </motion.div>
 
@@ -1292,10 +1316,14 @@ export default function TopDownScrollSequence() {
         >
           <Image 
             src="/assets/cat.png" 
-            alt="Cat" 
+            alt="Cat with analytics for ANALYZE feature" 
             width={430}
             height={430}
-            className="object-contain drop-shadow-2xl"
+            className="object-contain drop-shadow-2xl will-change-transform"
+            quality={90}
+            loading="lazy"
+            placeholder="blur"
+            blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=="
           />
         </motion.div>
 
@@ -1475,10 +1503,14 @@ export default function TopDownScrollSequence() {
         >
           <Image 
             src="/assets/cat_trade_01.png" 
-            alt="Cat" 
+            alt="Cat with trading interface for TRADE feature" 
             width={576}
             height={576}
-            className="object-contain drop-shadow-2xl"
+            className="object-contain drop-shadow-2xl will-change-transform"
+            quality={90}
+            loading="lazy"
+            placeholder="blur"
+            blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=="
           />
         </motion.div>
 

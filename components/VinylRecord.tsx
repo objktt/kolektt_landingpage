@@ -68,7 +68,7 @@ const VinylRecord = memo(({
 
   return (
     <motion.div
-      className="absolute w-52 h-52 md:w-64 md:h-64 rounded-lg cursor-pointer vinyl-animation"
+      className="absolute w-52 h-52 md:w-64 md:h-64 rounded-lg cursor-pointer vinyl-animation will-change-transform"
       style={{
         left: recordX,
         top: recordY,
@@ -131,11 +131,17 @@ const VinylRecord = memo(({
             src={coverImage} 
             alt={`${record.title} by ${record.artist}`}
             fill
-            className="object-cover"
+            className="object-cover will-change-transform"
             sizes="(max-width: 768px) 208px, (max-width: 1024px) 256px, 256px"
-            priority={record.id < 5}
+            priority={record.id <= 10} // 처음 10개만 우선 로딩
+            loading={record.id <= 10 ? "eager" : "lazy"}
+            quality={85} // 품질 최적화
             placeholder="blur"
             blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
+            onError={(e) => {
+              console.warn(`Failed to load vinyl record image: ${coverImage}`)
+              // 에러 시 fallback 처리
+            }}
           />
         </div>
       ) : (

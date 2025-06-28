@@ -44,6 +44,13 @@ export default function RootLayout({
           href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" 
           rel="stylesheet" 
         />
+        {/* Preload critical images */}
+        <link rel="preload" href="/assets/cat_snap_01.png" as="image" type="image/png" />
+        <link rel="preload" href="/albums/the-beatles_abbey-road.webp" as="image" type="image/webp" />
+        <link rel="preload" href="/albums/pink-floyd_dark-side-of-the-moon.webp" as="image" type="image/webp" />
+        <link rel="preload" href="/albums/nirvana_nevermind.webp" as="image" type="image/webp" />
+        <link rel="preload" href="/albums/fleetwood-mac_rumours.webp" as="image" type="image/webp" />
+        <link rel="preload" href="/assets/phone.svg" as="image" type="image/svg+xml" />
       </head>
       <body className="antialiased bg-black text-white">
         {children}
