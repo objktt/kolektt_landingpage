@@ -85,7 +85,13 @@ const VinylRecord = memo(({
         opacity: 1,
         filter: shouldBlur ? 'blur(4px)' : 'blur(0px)'
       }}
-      transition={{ delay: record.id * 0.1, duration: 0.8 }}
+      transition={{ 
+        delay: record.id * 0.1, 
+        duration: 0.8,
+        type: "spring",
+        stiffness: 500,
+        damping: 30
+      }}
       whileHover={{
         scale: 1.1,
         rotateX: 15,
