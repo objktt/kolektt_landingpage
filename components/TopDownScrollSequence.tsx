@@ -410,10 +410,6 @@ export default function TopDownScrollSequence() {
                     fill
                     className="object-cover"
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                    onError={(e) => {
-                      // 이미지 로드 실패 시 기본 바이닐 디자인으로 폴백
-                      e.currentTarget.style.display = 'none'
-                    }}
                   />
 
                 </div>
@@ -564,7 +560,7 @@ export default function TopDownScrollSequence() {
                       }}
                     >
                       {/* Album cover thumbnail */}
-                      <div className="w-10 h-10 rounded-lg overflow-hidden bg-white/20 flex-shrink-0">
+                      <div className="w-10 h-10 rounded-lg overflow-hidden bg-white/20 flex-shrink-0 relative">
                         {coverImages[record.id] ? (
                           <Image 
                             src={coverImages[record.id]} 
@@ -821,9 +817,9 @@ export default function TopDownScrollSequence() {
                             <Image 
                               src={coverImages[randomTopIndex]} 
                               alt={vinylRecords.find(record => record.id === randomTopIndex)?.title || 'Album cover'}
-                              fill
-                              className="object-cover"
-                              sizes="192px"
+                              width={192}
+                              height={192}
+                              className="w-full h-full object-cover"
                             />
                           ) : (
                             <div 
@@ -861,8 +857,8 @@ export default function TopDownScrollSequence() {
                   
                   {/* Featured album for trade */}
                   <div className="bg-white/10 backdrop-blur-sm rounded-lg p-3">
-                    <div className="flex items-center space-x-3 mb-3">
-                      <div className="w-12 h-12 rounded-lg overflow-hidden bg-white/20 flex-shrink-0">
+                                          <div className="flex items-center space-x-3 mb-3">
+                        <div className="w-12 h-12 rounded-lg overflow-hidden bg-white/20 flex-shrink-0 relative">
                         <Image 
                           src="/albums/dark-side-of-the-moon.jpg" 
                           alt="Dark Side of The Moon"
@@ -870,7 +866,7 @@ export default function TopDownScrollSequence() {
                           className="object-cover"
                           sizes="48px"
                         />
-                      </div>
+                        </div>
                       <div className="flex-1">
                         <h4 className="text-white text-xs font-semibold">Dark Side of The Moon</h4>
                         <p className="text-blue-200 text-xs">Pink Floyd • 1973</p>
@@ -950,8 +946,8 @@ export default function TopDownScrollSequence() {
                           )
                         }}
                       >
-                        <div className="flex items-center space-x-3">
-                          <div className="w-8 h-8 bg-white/10 rounded-lg overflow-hidden">
+                                                  <div className="flex items-center space-x-3">
+                            <div className="w-8 h-8 bg-white/10 rounded-lg overflow-hidden relative">
                             <Image 
                               src={item.image} 
                               alt={item.title}
@@ -959,7 +955,7 @@ export default function TopDownScrollSequence() {
                               className="object-cover"
                               sizes="32px"
                             />
-                          </div>
+                            </div>
                           <div>
                             <p className="text-white text-xs font-medium">{item.title}</p>
                             <p className="text-blue-200 text-xs">{item.artist}</p>
