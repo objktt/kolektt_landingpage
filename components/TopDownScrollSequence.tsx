@@ -219,6 +219,14 @@ export default function TopDownScrollSequence() {
     useTransform(scrollYProgress, [0.50 + index * 0.015, 0.52 + index * 0.015], [30, 0])
   )
 
+  // Trade 섹션: 가격 옵션 map 바깥에서 useTransform 배열로 미리 선언
+  const tradePriceOpacityArr = [0, 1, 2].map((index) =>
+    useTransform(scrollYProgress, [0.83 + index * 0.01, 0.85 + index * 0.01], [0, 1])
+  )
+  const tradePriceYArr = [0, 1, 2].map((index) =>
+    useTransform(scrollYProgress, [0.83 + index * 0.01, 0.85 + index * 0.01], [10, 0])
+  )
+
   return (
     <div ref={containerRef} className="relative" style={{ height: '5500px' }}>
       {/* Fixed Header with Business Offer, Language Toggle and Join Waitlist Button */}
@@ -845,14 +853,8 @@ export default function TopDownScrollSequence() {
                             key={option.price}
                             className={`${option.color} border rounded-lg p-2 text-center cursor-pointer transition-all`}
                             style={{
-                              opacity: useTransform(scrollYProgress, 
-                                [0.83 + index * 0.01, 0.85 + index * 0.01], 
-                                [0, 1]
-                              ),
-                              y: useTransform(scrollYProgress, 
-                                [0.83 + index * 0.01, 0.85 + index * 0.01], 
-                                [10, 0]
-                              )
+                              opacity: tradePriceOpacityArr[index],
+                              y: tradePriceYArr[index]
                             }}
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
