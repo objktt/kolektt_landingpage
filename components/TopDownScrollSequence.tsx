@@ -227,6 +227,22 @@ export default function TopDownScrollSequence() {
     useTransform(scrollYProgress, [0.83 + index * 0.01, 0.85 + index * 0.01], [10, 0])
   )
 
+  // Trade 섹션: More Listings map 바깥에서 useTransform 배열로 미리 선언
+  const tradeMoreOpacityArr = [0, 1].map((index) =>
+    useTransform(scrollYProgress, [0.87 + index * 0.02, 0.89 + index * 0.02], [0, 1])
+  )
+  const tradeMoreXArr = [0, 1].map((index) =>
+    useTransform(scrollYProgress, [0.87 + index * 0.02, 0.89 + index * 0.02], [20, 0])
+  )
+
+  // Analyze 섹션: 장르별 원형 차트 useTransform map 바깥에서 선언
+  const genreStrokeDashArr = [0, 1, 2, 3].map((index) =>
+    useTransform(scrollYProgress,
+      [0.67 + index * 0.01, 0.71 + index * 0.01],
+      [`0 100`, null] // 두 번째 값은 map 내부에서 strokeDasharray로 대체
+    )
+  )
+
   return (
     <div ref={containerRef} className="relative" style={{ height: '5500px' }}>
       {/* Fixed Header with Business Offer, Language Toggle and Join Waitlist Button */}
@@ -601,10 +617,7 @@ export default function TopDownScrollSequence() {
                                   strokeWidth="3"
                                   strokeLinecap="round"
                                   style={{
-                                    strokeDasharray: useTransform(scrollYProgress,
-                                      [0.67 + index * 0.01, 0.71 + index * 0.01],
-                                      [`0 100`, strokeDasharray]
-                                    ),
+                                    strokeDasharray: (genreStrokeDashArr[index] as any).to((v: string | null) => v === null ? strokeDasharray : v),
                                     strokeDashoffset
                                   }}
                                 />
@@ -894,14 +907,8 @@ export default function TopDownScrollSequence() {
                         key={item.title}
                         className="bg-white/5 rounded-lg p-3 flex items-center justify-between"
                         style={{
-                          opacity: useTransform(scrollYProgress, 
-                            [0.87 + index * 0.02, 0.89 + index * 0.02], 
-                            [0, 1]
-                          ),
-                          x: useTransform(scrollYProgress, 
-                            [0.87 + index * 0.02, 0.89 + index * 0.02], 
-                            [20, 0]
-                          )
+                          opacity: tradeMoreOpacityArr[index],
+                          x: tradeMoreXArr[index]
                         }}
                       >
                                                   <div className="flex items-center space-x-3">
