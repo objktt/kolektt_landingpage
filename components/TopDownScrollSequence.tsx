@@ -1,7 +1,7 @@
 'use client'
 
 import { motion, useScroll, useTransform, useMotionValue } from 'framer-motion'
-import { useRef, useState, useEffect } from 'react'
+import { useRef, useState, useEffect, useMemo } from 'react'
 import Image from 'next/image'
 import VinylRecord from './VinylRecord'
 import BetaServiceSticker from './BetaServiceSticker'
@@ -213,29 +213,41 @@ export default function TopDownScrollSequence() {
     }
   }
 
-  // Collect 섹션: map 바깥에서 useTransform 배열로 미리 선언
-  const collectOpacityArr = vinylRecords.slice(0, 8).map((_, index) =>
-    useTransform(scrollYProgress ?? fallbackMotionValue, [0.50 + index * 0.015, 0.52 + index * 0.015], [0, 1])
-  )
-  const collectXArr = vinylRecords.slice(0, 8).map((_, index) =>
-    useTransform(scrollYProgress ?? fallbackMotionValue, [0.50 + index * 0.015, 0.52 + index * 0.015], [30, 0])
-  )
+  // Collect 섹션: map 바깥에서 useTransform 배열로 선언
+  const collectOpacityArr = [];
+  const collectXArr = [];
+  for (let i = 0; i < 8; i++) {
+    collectOpacityArr.push(
+      useTransform(scrollYProgress ?? fallbackMotionValue, [0.50 + i * 0.015, 0.52 + i * 0.015], [0, 1])
+    );
+    collectXArr.push(
+      useTransform(scrollYProgress ?? fallbackMotionValue, [0.50 + i * 0.015, 0.52 + i * 0.015], [30, 0])
+    );
+  }
 
-  // Trade 섹션: 가격 옵션 map 바깥에서 useTransform 배열로 미리 선언
-  const tradePriceOpacityArr = [0, 1, 2].map((index) =>
-    useTransform(scrollYProgress ?? fallbackMotionValue, [0.83 + index * 0.01, 0.85 + index * 0.01], [0, 1])
-  )
-  const tradePriceYArr = [0, 1, 2].map((index) =>
-    useTransform(scrollYProgress ?? fallbackMotionValue, [0.83 + index * 0.01, 0.85 + index * 0.01], [10, 0])
-  )
+  // Trade 섹션: 가격 옵션 map 바깥에서 useTransform 배열로 선언
+  const tradePriceOpacityArr = [];
+  const tradePriceYArr = [];
+  for (let i = 0; i < 3; i++) {
+    tradePriceOpacityArr.push(
+      useTransform(scrollYProgress ?? fallbackMotionValue, [0.83 + i * 0.01, 0.85 + i * 0.01], [0, 1])
+    );
+    tradePriceYArr.push(
+      useTransform(scrollYProgress ?? fallbackMotionValue, [0.83 + i * 0.01, 0.85 + i * 0.01], [10, 0])
+    );
+  }
 
-  // Trade 섹션: More Listings map 바깥에서 useTransform 배열로 미리 선언
-  const tradeMoreOpacityArr = [0, 1].map((index) =>
-    useTransform(scrollYProgress ?? fallbackMotionValue, [0.87 + index * 0.02, 0.89 + index * 0.02], [0, 1])
-  )
-  const tradeMoreXArr = [0, 1].map((index) =>
-    useTransform(scrollYProgress ?? fallbackMotionValue, [0.87 + index * 0.02, 0.89 + index * 0.02], [20, 0])
-  )
+  // Trade 섹션: More Listings map 바깥에서 useTransform 배열로 선언
+  const tradeMoreOpacityArr = [];
+  const tradeMoreXArr = [];
+  for (let i = 0; i < 2; i++) {
+    tradeMoreOpacityArr.push(
+      useTransform(scrollYProgress ?? fallbackMotionValue, [0.87 + i * 0.02, 0.89 + i * 0.02], [0, 1])
+    );
+    tradeMoreXArr.push(
+      useTransform(scrollYProgress ?? fallbackMotionValue, [0.87 + i * 0.02, 0.89 + i * 0.02], [20, 0])
+    );
+  }
 
   // Analyze 섹션: 장르별 원형 차트 strokeDasharray 값 미리 계산
   const genreList = [
@@ -250,31 +262,41 @@ export default function TopDownScrollSequence() {
     cumulativePercentage += item.percentage;
     return dash;
   });
-  const genreStrokeDashArr = [0, 1, 2, 3].map((index) =>
-    useTransform(scrollYProgress ?? fallbackMotionValue,
-      [0.67 + index * 0.01, 0.71 + index * 0.01],
-      ['0 100', strokeDasharrays[index]]
-    )
-  )
+  const genreStrokeDashArr = [];
+  for (let i = 0; i < 4; i++) {
+    genreStrokeDashArr.push(
+      useTransform(scrollYProgress ?? fallbackMotionValue,
+        [0.67 + i * 0.01, 0.71 + i * 0.01],
+        ['0 100', strokeDasharrays[i]]
+      )
+    );
+  }
 
   // Analyze 섹션: 장르별 레전드 useTransform map 바깥에서 선언
-  const genreLegendOpacityArr = [0, 1, 2, 3].map((index) =>
-    useTransform(scrollYProgress ?? fallbackMotionValue, [0.68 + index * 0.01, 0.72 + index * 0.01], [0, 1])
-  )
-  const genreLegendXArr = [0, 1, 2, 3].map((index) =>
-    useTransform(scrollYProgress ?? fallbackMotionValue, [0.68 + index * 0.01, 0.72 + index * 0.01], [10, 0])
-  )
+  const genreLegendOpacityArr = [];
+  const genreLegendXArr = [];
+  for (let i = 0; i < 4; i++) {
+    genreLegendOpacityArr.push(
+      useTransform(scrollYProgress ?? fallbackMotionValue, [0.68 + i * 0.01, 0.72 + i * 0.01], [0, 1])
+    );
+    genreLegendXArr.push(
+      useTransform(scrollYProgress ?? fallbackMotionValue, [0.68 + i * 0.01, 0.72 + i * 0.01], [10, 0])
+    );
+  }
 
-  // Analyze 섹션: Decade(Bar chart) decadeList 배열 선언
+  // Analyze 섹션: Decade(Bar chart) 배열 선언 및 useTransform map 바깥에서 선언
   const decadeList = [
     { decade: '70s', height: 60, albums: 12 },
     { decade: '80s', height: 85, albums: 23 },
     { decade: '90s', height: 75, albums: 18 },
     { decade: '00s', height: 40, albums: 8 }
   ];
-  const decadeBarHeightArr = [0, 1, 2, 3].map((index) =>
-    useTransform(scrollYProgress ?? fallbackMotionValue, [0.68 + index * 0.02, 0.72 + index * 0.02], ['0', `${decadeList[index].height}%`])
-  )
+  const decadeBarHeightArr = [];
+  for (let i = 0; i < 4; i++) {
+    decadeBarHeightArr.push(
+      useTransform(scrollYProgress ?? fallbackMotionValue, [0.68 + i * 0.02, 0.72 + i * 0.02], ['0', `${decadeList[i].height}%`])
+    );
+  }
 
   // Analyze 섹션: Mood Profile bar width useTransform map 바깥에서 선언
   const moodList = [
@@ -283,9 +305,12 @@ export default function TopDownScrollSequence() {
     { mood: 'Upbeat', value: 62 },
     { mood: 'Ambient', value: 33 }
   ];
-  const moodBarWidthArr = [0, 1, 2, 3].map((index) =>
-    useTransform(scrollYProgress ?? fallbackMotionValue, [0.69 + index * 0.01, 0.73 + index * 0.01], ['0', `${moodList[index].value}%`])
-  )
+  const moodBarWidthArr = [];
+  for (let i = 0; i < 4; i++) {
+    moodBarWidthArr.push(
+      useTransform(scrollYProgress ?? fallbackMotionValue, [0.69 + i * 0.01, 0.73 + i * 0.01], ['0', `${moodList[i].value}%`])
+    );
+  }
 
   return (
     <div ref={containerRef} className="relative" style={{ height: '5500px' }}>
