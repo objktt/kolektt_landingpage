@@ -243,6 +243,14 @@ export default function TopDownScrollSequence() {
     )
   )
 
+  // Analyze 섹션: 장르별 레전드 useTransform map 바깥에서 선언
+  const genreLegendOpacityArr = [0, 1, 2, 3].map((index) =>
+    useTransform(scrollYProgress, [0.68 + index * 0.01, 0.72 + index * 0.01], [0, 1])
+  )
+  const genreLegendXArr = [0, 1, 2, 3].map((index) =>
+    useTransform(scrollYProgress, [0.68 + index * 0.01, 0.72 + index * 0.01], [10, 0])
+  )
+
   return (
     <div ref={containerRef} className="relative" style={{ height: '5500px' }}>
       {/* Fixed Header with Business Offer, Language Toggle and Join Waitlist Button */}
@@ -639,14 +647,8 @@ export default function TopDownScrollSequence() {
                             key={item.genre} 
                             className="flex items-center justify-between"
                             style={{
-                              opacity: useTransform(scrollYProgress, 
-                                [0.68 + index * 0.01, 0.72 + index * 0.01], 
-                                [0, 1]
-                              ),
-                              x: useTransform(scrollYProgress, 
-                                [0.68 + index * 0.01, 0.72 + index * 0.01], 
-                                [10, 0]
-                              )
+                              opacity: genreLegendOpacityArr[index],
+                              x: genreLegendXArr[index]
                             }}
                           >
                             <div className="flex items-center space-x-1">
