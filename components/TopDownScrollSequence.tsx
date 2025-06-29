@@ -211,6 +211,14 @@ export default function TopDownScrollSequence() {
     }
   }
 
+  // Collect 섹션: map 바깥에서 useTransform 배열로 미리 선언
+  const collectOpacityArr = vinylRecords.slice(0, 8).map((_, index) =>
+    useTransform(scrollYProgress, [0.50 + index * 0.015, 0.52 + index * 0.015], [0, 1])
+  )
+  const collectXArr = vinylRecords.slice(0, 8).map((_, index) =>
+    useTransform(scrollYProgress, [0.50 + index * 0.015, 0.52 + index * 0.015], [30, 0])
+  )
+
   return (
     <div ref={containerRef} className="relative" style={{ height: '5500px' }}>
       {/* Fixed Header with Business Offer, Language Toggle and Join Waitlist Button */}
@@ -485,14 +493,8 @@ export default function TopDownScrollSequence() {
                       key={`collect-${record.id}`}
                       className="bg-white/10 backdrop-blur-sm rounded-lg p-3 flex items-center space-x-3"
                       style={{
-                        opacity: useTransform(scrollYProgress, 
-                          [0.50 + index * 0.015, 0.52 + index * 0.015], 
-                          [0, 1]
-                        ),
-                        x: useTransform(scrollYProgress, 
-                          [0.50 + index * 0.015, 0.52 + index * 0.015], 
-                          [30, 0]
-                        )
+                        opacity: collectOpacityArr[index],
+                        x: collectXArr[index]
                       }}
                     >
                       {/* Album cover thumbnail */}

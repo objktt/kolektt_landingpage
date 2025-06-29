@@ -1,6 +1,7 @@
 'use client'
 
-import { motion, useTransform, MotionValue } from 'framer-motion'
+import { motion, useTransform, MotionValue, useMotionValue } from 'framer-motion'
+import { useMemo } from 'react'
 
 interface BetaStickerProps {
   scrollYProgress?: MotionValue<number>
@@ -39,6 +40,13 @@ export default function BetaServiceSticker({
   const pathRadius = pathBase / 2 - fontSizePx / 2 - 2 // 텍스트 path는 baseSize 기준
   const whiteCircleRadius = size * 0.0375 // 2.4/64 비율 유지
 
+  const fallbackMotionValue = useMotionValue(0)
+  const fontSizeMotionValue = useTransform(
+    scrollYProgress ?? fallbackMotionValue,
+    [0, 0.2],
+    [fontSize.initial, fontSize.final]
+  )
+
   return (
     <motion.div 
       className={`rounded-full shadow-lg flex items-center justify-center relative ${className}`}
@@ -72,9 +80,7 @@ export default function BetaServiceSticker({
         <motion.text 
           className={`fill-${textColor === 'white' ? 'white' : 'current'} font-bold`}
           style={{
-            fontSize: scrollYProgress 
-              ? useTransform(scrollYProgress, [0, 0.2], [fontSize.initial, fontSize.final])
-              : fontSize.initial,
+            fontSize: fontSizeMotionValue,
             fontFamily: 'Inter, system-ui, -apple-system, sans-serif',
             fill: textColor
           }}
