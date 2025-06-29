@@ -35,7 +35,7 @@ export function Footer({
   copyright,
 }: FooterProps) {
   return (
-            <footer className="bg-black text-white pb-[30px] pt-4 lg:pb-2 lg:pt-5.5 min-h-[120px] relative">
+            <footer className="bg-black text-white pb-[80px] pt-4 lg:pb-[102px] lg:pt-5.5 min-h-[120px] relative">
       <div className="px-[50px] max-w-7xl mx-auto">
         
         <div className="md:flex md:items-start md:justify-between mb-2.5">

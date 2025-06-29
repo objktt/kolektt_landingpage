@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import TopDownScrollSequence from '@/components/TopDownScrollSequence'
 import CTAScene from '@/components/scenes/CTAScene'
 import { Footer } from '@/components/Footer'
+import BetaServiceSticker from '@/components/BetaServiceSticker'
 
 export default function Home() {
   const router = useRouter()
@@ -24,7 +25,7 @@ export default function Home() {
     const handleResize = () => {
       if (checkMobile()) {
         setIsMobile(true)
-        router.push('/mobile')
+        router.push('/m')
       } else {
         setIsMobile(false)
       }
@@ -33,7 +34,7 @@ export default function Home() {
     // 초기 체크
     if (checkMobile()) {
       setIsMobile(true)
-      router.push('/mobile')
+      router.push('/m')
     } else {
       setIsLoading(false)
     }

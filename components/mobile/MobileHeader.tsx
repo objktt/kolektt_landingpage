@@ -178,7 +178,12 @@ export default function MobileHeader({
                 scrollYProgress={scrollYProgress}
                 rotate={true}
                 rotationDuration={8}
-                size={64}
+                size={77}
+                baseSize={64}
+                backgroundColor="#0036ff"
+                textColor="white"
+                text="Beta service opening in July •"
+                fontSize={{ initial: '8px', final: '7px' }}
               />
             </motion.div>
           </div>

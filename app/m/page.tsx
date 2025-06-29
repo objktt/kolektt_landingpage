@@ -9,10 +9,10 @@ import MobileHeader from 'components/mobile/MobileHeader'
 import dynamic from 'next/dynamic'
 import { Footer } from 'components/Footer'
 
-const SnapSlogan = dynamic(() => import('components/scenes/SloganItem').then(mod => mod.SnapSlogan), { ssr: false })
-const CollectSlogan = dynamic(() => import('components/scenes/CollectSlogan').then(mod => mod.CollectSlogan), { ssr: false })
-const AnalyzeSlogan = dynamic(() => import('components/scenes/AnalyzeSlogan').then(mod => mod.AnalyzeSlogan), { ssr: false })
-const TradeSlogan = dynamic(() => import('components/scenes/TradeSlogan').then(mod => mod.TradeSlogan), { ssr: false })
+const SnapSlogan = dynamic(() => import('@/components/scenes/SloganItem').then(mod => mod.SnapSlogan), { ssr: false })
+const CollectSlogan = dynamic(() => import('@/components/scenes/CollectSlogan').then(mod => mod.CollectSlogan), { ssr: false })
+const AnalyzeSlogan = dynamic(() => import('@/components/scenes/AnalyzeSlogan').then(mod => mod.AnalyzeSlogan), { ssr: false })
+const TradeSlogan = dynamic(() => import('@/components/scenes/TradeSlogan').then(mod => mod.TradeSlogan), { ssr: false })
 
 export default function MPage() {
   const containerRef = useRef<HTMLDivElement>(null)

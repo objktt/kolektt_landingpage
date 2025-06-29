@@ -15,6 +15,7 @@ interface BetaStickerProps {
   }
   rotate?: boolean
   rotationDuration?: number
+  baseSize?: number
 }
 
 export default function BetaServiceSticker({
@@ -26,10 +27,16 @@ export default function BetaServiceSticker({
   textColor = "white",
   fontSize = { initial: "8px", final: "7px" },
   rotate = false,
-  rotationDuration = 10
+  rotationDuration = 10,
+  baseSize
 }: BetaStickerProps) {
   const center = size / 2
-  const pathRadius = size * 0.3125 // 20/64 비율 유지
+  let fontSizePx = 8
+  if (typeof fontSize.initial === 'string' && fontSize.initial.endsWith('px')) {
+    fontSizePx = parseFloat(fontSize.initial)
+  }
+  const pathBase = baseSize || size
+  const pathRadius = pathBase / 2 - fontSizePx / 2 - 2 // 텍스트 path는 baseSize 기준
   const whiteCircleRadius = size * 0.0375 // 2.4/64 비율 유지
 
   return (
@@ -51,7 +58,7 @@ export default function BetaServiceSticker({
         <defs>
           <path 
             id="circle-path" 
-            d={`M ${center}, ${center} m -${pathRadius}, 0 a ${pathRadius},${pathRadius} 0 1,1 ${pathRadius * 2},0 a ${pathRadius},${pathRadius} 0 1,1 -${pathRadius * 2},0`}
+            d={`M ${center.toFixed(2)},${center.toFixed(2)} m -${pathRadius.toFixed(2)},0 a ${pathRadius.toFixed(2)},${pathRadius.toFixed(2)} 0 1,1 ${(pathRadius * 2).toFixed(2)},0 a ${pathRadius.toFixed(2)},${pathRadius.toFixed(2)} 0 1,1 -${(pathRadius * 2).toFixed(2)},0`}
           />
         </defs>
         {/* Small white circle in center */}

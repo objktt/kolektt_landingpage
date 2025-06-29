@@ -4,6 +4,7 @@ import { motion, useScroll, useTransform } from 'framer-motion'
 import { useRef, useState, useEffect } from 'react'
 import Image from 'next/image'
 import VinylRecord from './VinylRecord'
+import BetaServiceSticker from './BetaServiceSticker'
 
 // 역사상 가장 아이코닉한 앨범 커버들 (UpVenue 기사 참조)
 const vinylRecords = [
@@ -88,6 +89,7 @@ export default function TopDownScrollSequence() {
   const [randomSnapAlbum, setRandomSnapAlbum] = useState<string>('')
   const [isKorean, setIsKorean] = useState(false)
   const [shouldBlur, setShouldBlur] = useState(true)
+  const [isPc, setIsPc] = useState(false)
 
   // SNAP 섹션용 앨범 커버 리스트
   const snapAlbumCovers = [
@@ -190,8 +192,14 @@ export default function TopDownScrollSequence() {
   const sloganProgress = useTransform(scrollYProgress, [0.3, 0.6], [0, 1])
   const phoneExitProgress = useTransform(scrollYProgress, [0.95, 1.0], [0, 1])
 
-
-
+  useEffect(() => {
+    const handleResize = () => {
+      setIsPc(window.innerWidth >= 1024)
+    }
+    handleResize()
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
 
   const scrollToWaitlist = () => {
     const waitlistSection = document.querySelector('[data-section="waitlist"]')
@@ -1584,15 +1592,17 @@ export default function TopDownScrollSequence() {
                   scale: useTransform(scrollYProgress, [0, 0.2], [1, 0.8]),
                 }}
               >
-                <motion.div 
-                  className="px-3 py-1 rounded-full text-white text-sm font-bold shadow-lg transform rotate-12"
-                  style={{
-                    backgroundColor: '#0036ff',
-                    fontSize: useTransform(scrollYProgress, [0, 0.2], ['1rem', '0.75rem']),
-                  }}
-                >
-                  Beta Service July Open
-                </motion.div>
+                <BetaServiceSticker
+                  scrollYProgress={scrollYProgress}
+                  rotate={true}
+                  rotationDuration={8}
+                  size={isPc ? 115 : 77}
+                  baseSize={isPc ? 96 : 64}
+                  backgroundColor="#0036ff"
+                  textColor="white"
+                  text="Beta service opening in July •"
+                  fontSize={isPc ? { initial: '12px', final: '10.5px' } : { initial: '8px', final: '7px' }}
+                />
               </motion.div>
             </div>
             
