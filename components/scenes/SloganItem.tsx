@@ -11,36 +11,68 @@ interface SnapSloganProps {
 export function SnapSlogan({ scrollYProgress, isKorean }: SnapSloganProps) {
   return (
     <>
-      {/* SNAP - Left aligned */}
+      {/* SNAP - 슬로건, 서브헤드, 설명글을 하나의 컨테이너로 래핑 */}
       <motion.div
-        className="absolute z-40 text-white text-left left-[calc(50%-200px)]"
+        className="absolute z-40 left-[calc(50%-200px)]"
         style={{
-          top: 'calc(50% - 200px)', // 위로 50px 이동
+          top: 'calc(50% - 200px)',
           y: useTransform(scrollYProgress, (value) => {
             // SNAP: 35%-50% (15% 구간)
-            if (value < 0.35) return '100vh'; // 브라우저 최하단
+            if (value < 0.35) return '100vh';
             if (value < 0.38) {
-              // 1단계: 하단에서 화면 중앙으로 올라옴 (3% 구간)
               const progress = (value - 0.35) / 0.03;
-              const eased = 1 - Math.pow(1 - progress, 3); // ease-out cubic
-              return `calc(${100 - eased * 100}vh)`; // 100vh -> 0%
+              const eased = 1 - Math.pow(1 - progress, 3);
+              return `calc(${100 - eased * 100}vh)`;
             }
             if (value < 0.47) {
-              // 2단계: 화면 중앙에서 멈춤 (9% 구간)
               return '0%';
             }
             if (value < 0.50) {
-              // 3단계: 상단으로 올라감 (3% 구간)
               const progress = (value - 0.47) / 0.03;
-              const eased = Math.pow(progress, 2); // ease-in quadratic
-              return `calc(0% - ${eased * 100}vh)`; // 0% -> -100vh
+              const eased = Math.pow(progress, 2);
+              return `calc(0% - ${eased * 100}vh)`;
             }
-            return '-100vh'; // 브라우저 최상단
+            return '-100vh';
           }),
           opacity: useTransform(scrollYProgress, [0.35, 0.37, 0.48, 0.50], [0, 1, 1, 0])
         }}
+        aria-label={isKorean ? 'SNAP 슬로건 및 설명' : 'SNAP slogan and description'}
       >
-        <div className="text-8xl font-bold">Snap</div>
+        <div className="relative w-[300px]">
+          <div className="absolute inset-0 bg-black/40 rounded-3xl -z-10" />
+          <div className="backdrop-blur-md bg-black/20 border border-white/20 rounded-3xl shadow-2xl px-8 py-8 text-white w-full"
+               style={{boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.25)'}}>
+            <div className="text-5xl font-bold mb-6 drop-shadow-lg leading-tight">Snap</div>
+            <div className="text-lg font-medium mb-2 leading-tight">
+              {isKorean ? (
+                <>
+                  바이닐을 촬영하세요.<br />AI가 인식합니다.
+                </>
+              ) : (
+                <>
+                  Capture your vinyl.<br />Let AI recognize it.
+                </>
+              )}
+            </div>
+            <div className="text-xs font-normal mt-2 leading-snug opacity-90">
+              {isKorean ? (
+                <>
+                  앨범 재킷에 카메라를 향하기만 하면 됩니다.<br />
+                  한 번의 스냅으로 충분합니다.<br />
+                  AI가 앨범, 아티스트, 릴리스를 즉시 인식합니다 — 바코드나 타이핑 불필요.<br />
+                  커버를 촬영하는 순간부터 컬렉션 구축을 시작하세요.
+                </>
+              ) : (
+                <>
+                  Just point your camera at the album jacket.<br />
+                  One snap is all it takes.<br />
+                  Our AI instantly recognizes the album, artist, and release — no barcodes, no typing.<br />
+                  Start building your collection the moment you capture the cover.
+                </>
+              )}
+            </div>
+          </div>
+        </div>
       </motion.div>
 
       {/* SNAP 원형 도형 - 오른쪽에서 중앙으로, 왼쪽으로 나감 */}
@@ -80,26 +112,11 @@ export function SnapSlogan({ scrollYProgress, isKorean }: SnapSloganProps) {
       >
       </motion.div>
 
-      {/* SNAP Blur Panel - appears above iPhone during SNAP section */}
-      <motion.div
-        className="absolute z-[30]"
-        style={{
-          left: '50%',
-          top: 'calc(50% - 300px)',
-          x: '-50%',
-          opacity: useTransform(scrollYProgress, [0.35, 0.37, 0.48, 0.50], [0, 1, 1, 0]),
-          scale: useTransform(scrollYProgress, [0.35, 0.37, 0.48, 0.50], [0.9, 1, 1, 0.9])
-        }}
-      >
-        <div className="bg-black/20 backdrop-blur-md border border-white/30 rounded-3xl shadow-2xl w-[300px] h-[300px]">
-        </div>
-      </motion.div>
-
       {/* SNAP Cat Image - 왼쪽에서 중앙으로, 왼쪽으로 나감 */}
       <motion.div
         className="absolute z-50"
         style={{
-          left: '20%',
+          left: 'calc(20% + 100px)',
           top: 'calc(50% + 190px)',
           x: useTransform(scrollYProgress, (value) => {
             // SNAP 구간: 35%-50%
@@ -130,73 +147,14 @@ export function SnapSlogan({ scrollYProgress, isKorean }: SnapSloganProps) {
         <Image 
           src="/assets/cat_snap_01.png" 
           alt="Cat with camera for SNAP feature" 
-          width={600}
-          height={600}
-          className="object-contain drop-shadow-2xl will-change-transform"
+          width={300}
+          height={300}
+          className="object-contain drop-shadow-2xl will-change-transform scale-x-[-1]"
           quality={90}
           priority={true}
           placeholder="blur"
           blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=="
         />
-      </motion.div>
-
-      {/* SNAP Subtext - Left aligned */}
-      <motion.div
-        className="absolute z-40 text-white text-left left-[calc(50%-200px)]"
-        style={{
-          top: 'calc(50% - 90px)', // TRADE 서브텍스트와 동일한 위치
-          y: useTransform(scrollYProgress, (value) => {
-            // SNAP 서브텍스트: 36%-51% (15% 구간)
-            if (value < 0.36) return '100vh'; // 브라우저 최하단
-            if (value < 0.39) {
-              // 1단계: 하단에서 화면 중앙으로 올라옴 (3% 구간)
-              const progress = (value - 0.36) / 0.03;
-              const eased = 1 - Math.pow(1 - progress, 3); // ease-out cubic
-              return `calc(${100 - eased * 100}vh)`; // 100vh -> 0%
-            }
-            if (value < 0.48) {
-              // 2단계: 화면 중앙에서 멈춤 (9% 구간)
-              return '0%';
-            }
-            if (value < 0.51) {
-              // 3단계: 상단으로 올라감 (3% 구간)
-              const progress = (value - 0.48) / 0.03;
-              const eased = Math.pow(progress, 2); // ease-in quadratic
-              return `calc(0% - ${eased * 100}vh)`; // 0% -> -100vh
-            }
-            return '-100vh'; // 브라우저 최상단
-          }),
-          opacity: useTransform(scrollYProgress, [0.36, 0.38, 0.49, 0.51], [0, 1, 1, 0])
-        }}
-      >
-        <div className="text-2xl font-medium">
-          {isKorean ? (
-            <>
-              바이닐을 촬영하세요.<br />AI가 인식합니다.
-            </>
-          ) : (
-            <>
-          Capture your vinyl.<br />Let AI recognize it.
-            </>
-          )}
-        </div>
-        <div className="text-base font-normal mt-4 leading-relaxed opacity-80">
-          {isKorean ? (
-            <>
-              앨범 재킷에 카메라를 향하기만 하면 됩니다.<br />
-              한 번의 스냅으로 충분합니다.<br />
-              AI가 앨범, 아티스트, 릴리스를 즉시 인식합니다 — 바코드나 타이핑 불필요.<br />
-              커버를 촬영하는 순간부터 컬렉션 구축을 시작하세요.
-            </>
-          ) : (
-            <>
-          Just point your camera at the album jacket.<br />
-          One snap is all it takes.<br />
-          Our AI instantly recognizes the album, artist, and release — no barcodes, no typing.<br />
-          Start building your collection the moment you capture the cover.
-            </>
-          )}
-        </div>
       </motion.div>
     </>
   )

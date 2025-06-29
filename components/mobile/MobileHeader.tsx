@@ -3,6 +3,7 @@
 import { motion, useTransform, MotionValue } from 'framer-motion'
 import { useState } from 'react'
 import BetaServiceSticker from '../BetaServiceSticker'
+import { Button } from '@/components/ui/button'
 
 interface MobileHeaderProps {
   scrollYProgress: MotionValue<number>
@@ -18,6 +19,9 @@ export default function MobileHeader({
   scrollToWaitlist 
 }: MobileHeaderProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [email, setEmail] = useState('')
+  const [message, setMessage] = useState('')
+  const [status, setStatus] = useState('idle') // idle, loading, success, error
 
   return (
     <>
@@ -35,18 +39,91 @@ export default function MobileHeader({
               const progress = (value - 0.96) / 0.02;
               return progress;
             }
-            if (value < 1.0) return 1;
-            return 0;
+            return 1;
           })
         }}
       >
-        <div className="bg-black/60 backdrop-blur-md rounded-2xl px-8 py-6 border border-white/20">
-          <h2 className="text-2xl font-bold mb-2">
-            {isKorean ? '곧 만나요!' : 'See you soon!'}
+        <div className="backdrop-blur-xl bg-white/70 dark:bg-black/60 border border-white/30 shadow-2xl rounded-3xl px-6 py-8 pointer-events-auto w-[400px] mx-auto flex flex-col items-center">
+          <h2 className="text-2xl font-bold mb-2 text-gray-900 dark:text-white drop-shadow-sm">
+            {isKorean ? '웨이트리스트에 참여하세요!' : 'Join the Waitlist!'}
           </h2>
-          <p className="text-gray-300">
-            {isKorean ? 'Kolektt과 함께 음악의 새로운 세계를 탐험해보세요.' : 'Explore the new world of music with Kolektt.'}
+          <p className="text-gray-700 dark:text-gray-200 mb-5 text-base font-medium">
+            {isKorean
+              ? '이메일을 남기면 출시 소식과 얼리액세스 기회를 가장 먼저 받아보실 수 있습니다.'
+              : 'Enter your email to get early access and updates.'}
           </p>
+          <form
+            className="flex flex-col w-full gap-3"
+            onSubmit={async (e) => {
+              e.preventDefault();
+              if (!email.trim()) {
+                setMessage(isKorean ? '이메일을 입력해 주세요.' : 'Please enter your email.');
+                setStatus('error');
+                return;
+              }
+              setStatus('loading');
+              setMessage('');
+              try {
+                const res = await fetch('/api/waitlist', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ email: email.trim() })
+                });
+                const data = await res.json();
+                if (res.ok) {
+                  setMessage(isKorean ? '웨이트리스트에 등록되었습니다!' : 'You have been added to the waitlist!');
+                  setStatus('success');
+                  setEmail(''); // Reset email state
+                } else {
+                  setMessage(data.error || (isKorean ? '등록에 실패했습니다.' : 'Failed to join waitlist.'));
+                  setStatus('error');
+                }
+              } catch (err) {
+                setMessage(isKorean ? '네트워크 오류입니다. 다시 시도해 주세요.' : 'Network error. Please try again.');
+                setStatus('error');
+              } finally {
+                // In this implementation, loading state is handled by status
+              }
+            }}
+            aria-label={isKorean ? '웨이트리스트 폼' : 'Join waitlist form'}
+          >
+            <input
+              type="email"
+              name="email"
+              required
+              autoComplete="email"
+              placeholder={isKorean ? '이메일을 입력하세요' : 'Enter your email'}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="flex-1 rounded-xl px-4 py-3 text-base bg-white/90 dark:bg-black/80 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-400 shadow-inner border border-gray-200 dark:border-gray-700 transition-all"
+              aria-label={isKorean ? '이메일 주소' : 'Email address'}
+            />
+            <Button
+              type="submit"
+              className="w-full h-12 text-base font-bold rounded-xl bg-blue-500 hover:bg-blue-600 active:bg-blue-700 text-white shadow-lg transition-all focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:focus-visible:ring-offset-black disabled:opacity-60 disabled:cursor-not-allowed"
+              disabled={status === 'loading'}
+              aria-busy={status === 'loading'}
+            >
+              {status === 'loading' ? (
+                <span className="flex items-center justify-center gap-2">
+                  <svg className="animate-spin h-5 w-5 text-white" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" /><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z" /></svg>
+                  {isKorean ? '등록 중...' : 'Joining...'}
+                </span>
+              ) : (
+                isKorean ? '등록' : 'Join'
+              )}
+            </Button>
+          </form>
+          {message && (
+            <div className={`mt-4 text-sm flex items-center gap-2 ${status === 'success' ? 'text-green-500' : 'text-red-500'}`} role="alert" aria-live="polite">
+              {status === 'success' ? (
+                <svg className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
+              ) : status === 'error' ? (
+                <svg className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+              ) : null}
+              <span>{message}</span>
+            </div>
+          )}
         </div>
       </motion.div>
 

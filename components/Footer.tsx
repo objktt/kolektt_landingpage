@@ -35,10 +35,10 @@ export function Footer({
   copyright,
 }: FooterProps) {
   return (
-    <footer className="bg-black text-white pb-4 pt-10 lg:pb-5 lg:pt-14 min-h-[300px] relative">
-      <div className="px-4 lg:px-8 max-w-7xl mx-auto">
+            <footer className="bg-black text-white pb-[30px] pt-4 lg:pb-2 lg:pt-5.5 min-h-[120px] relative">
+      <div className="px-[50px] max-w-7xl mx-auto">
         
-        <div className="md:flex md:items-start md:justify-between">
+        <div className="md:flex md:items-start md:justify-between mb-2.5">
           <a
             href="/"
             className="flex items-center gap-x-2 text-white hover:text-white transition-colors"
@@ -64,7 +64,7 @@ export function Footer({
             ))}
           </ul>
         </div>
-        <div className="border-t border-white/30 mt-6 pt-6 md:mt-4 md:pt-8 lg:grid lg:grid-cols-10">
+        <div className="border-t border-white/30 mt-2.5 pt-2.5 md:mt-1.5 md:pt-3.5 lg:grid lg:grid-cols-10">
           <nav className="lg:mt-0 lg:col-[4/11]">
             <ul className="list-none flex flex-wrap -my-1 -mx-2 lg:justify-end">
               {mainLinks.map((link, i) => (
@@ -88,7 +88,7 @@ export function Footer({
               ))}
             </ul>
           </nav>
-          <div className="mt-6 lg:mt-0 lg:col-[4/11]">
+          <div className="mt-2.5 lg:mt-0 lg:col-[4/11]">
             <ul className="list-none flex flex-wrap -my-1 -mx-3 lg:justify-end">
               {legalLinks.map((link, i) => (
                 <li key={i} className="my-1 mx-3 shrink-0">
@@ -111,7 +111,7 @@ export function Footer({
               ))}
             </ul>
           </div>
-          <div className="mt-6 text-sm leading-6 text-white whitespace-nowrap lg:mt-0 lg:row-[1/3] lg:col-[1/4]">
+          <div className="mt-2.5 text-sm leading-6 text-white whitespace-nowrap lg:mt-0 lg:row-[1/3] lg:col-[1/4]">
             <div>{copyright.text}</div>
             {copyright.license && <div className="text-white font-medium">{copyright.license}</div>}
           </div>
