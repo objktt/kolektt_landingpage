@@ -1,6 +1,6 @@
 'use client'
 
-import { motion, useScroll, useTransform } from 'framer-motion'
+import { motion, useScroll, useTransform, useMotionValue } from 'framer-motion'
 import { useRef, useState, useEffect } from 'react'
 import Image from 'next/image'
 import VinylRecord from './VinylRecord'
@@ -90,6 +90,8 @@ export default function TopDownScrollSequence() {
   const [isKorean, setIsKorean] = useState(false)
   const [shouldBlur, setShouldBlur] = useState(true)
   const [isPc, setIsPc] = useState(false)
+
+  const fallbackMotionValue = useMotionValue(0)
 
   // SNAP 섹션용 앨범 커버 리스트
   const snapAlbumCovers = [
@@ -213,42 +215,65 @@ export default function TopDownScrollSequence() {
 
   // Collect 섹션: map 바깥에서 useTransform 배열로 미리 선언
   const collectOpacityArr = vinylRecords.slice(0, 8).map((_, index) =>
-    useTransform(scrollYProgress, [0.50 + index * 0.015, 0.52 + index * 0.015], [0, 1])
+    useTransform(scrollYProgress ?? fallbackMotionValue, [0.50 + index * 0.015, 0.52 + index * 0.015], [0, 1])
   )
   const collectXArr = vinylRecords.slice(0, 8).map((_, index) =>
-    useTransform(scrollYProgress, [0.50 + index * 0.015, 0.52 + index * 0.015], [30, 0])
+    useTransform(scrollYProgress ?? fallbackMotionValue, [0.50 + index * 0.015, 0.52 + index * 0.015], [30, 0])
   )
 
   // Trade 섹션: 가격 옵션 map 바깥에서 useTransform 배열로 미리 선언
   const tradePriceOpacityArr = [0, 1, 2].map((index) =>
-    useTransform(scrollYProgress, [0.83 + index * 0.01, 0.85 + index * 0.01], [0, 1])
+    useTransform(scrollYProgress ?? fallbackMotionValue, [0.83 + index * 0.01, 0.85 + index * 0.01], [0, 1])
   )
   const tradePriceYArr = [0, 1, 2].map((index) =>
-    useTransform(scrollYProgress, [0.83 + index * 0.01, 0.85 + index * 0.01], [10, 0])
+    useTransform(scrollYProgress ?? fallbackMotionValue, [0.83 + index * 0.01, 0.85 + index * 0.01], [10, 0])
   )
 
   // Trade 섹션: More Listings map 바깥에서 useTransform 배열로 미리 선언
   const tradeMoreOpacityArr = [0, 1].map((index) =>
-    useTransform(scrollYProgress, [0.87 + index * 0.02, 0.89 + index * 0.02], [0, 1])
+    useTransform(scrollYProgress ?? fallbackMotionValue, [0.87 + index * 0.02, 0.89 + index * 0.02], [0, 1])
   )
   const tradeMoreXArr = [0, 1].map((index) =>
-    useTransform(scrollYProgress, [0.87 + index * 0.02, 0.89 + index * 0.02], [20, 0])
+    useTransform(scrollYProgress ?? fallbackMotionValue, [0.87 + index * 0.02, 0.89 + index * 0.02], [20, 0])
   )
 
-  // Analyze 섹션: 장르별 원형 차트 useTransform map 바깥에서 선언
+  // Analyze 섹션: 장르별 원형 차트 strokeDasharray 값 미리 계산
+  const genreList = [
+    { genre: 'Rock', percentage: 45, color: '#EF4444' },
+    { genre: 'Jazz', percentage: 25, color: '#3B82F6' },
+    { genre: 'Electronic', percentage: 20, color: '#8B5CF6' },
+    { genre: 'Classical', percentage: 10, color: '#10B981' }
+  ];
+  let cumulativePercentage = 0;
+  const strokeDasharrays = genreList.map((item) => {
+    const dash = `${item.percentage} ${100 - item.percentage}`;
+    cumulativePercentage += item.percentage;
+    return dash;
+  });
   const genreStrokeDashArr = [0, 1, 2, 3].map((index) =>
-    useTransform(scrollYProgress,
+    useTransform(scrollYProgress ?? fallbackMotionValue,
       [0.67 + index * 0.01, 0.71 + index * 0.01],
-      [`0 100`, null] // 두 번째 값은 map 내부에서 strokeDasharray로 대체
+      ['0 100', strokeDasharrays[index]]
     )
   )
 
   // Analyze 섹션: 장르별 레전드 useTransform map 바깥에서 선언
   const genreLegendOpacityArr = [0, 1, 2, 3].map((index) =>
-    useTransform(scrollYProgress, [0.68 + index * 0.01, 0.72 + index * 0.01], [0, 1])
+    useTransform(scrollYProgress ?? fallbackMotionValue, [0.68 + index * 0.01, 0.72 + index * 0.01], [0, 1])
   )
   const genreLegendXArr = [0, 1, 2, 3].map((index) =>
-    useTransform(scrollYProgress, [0.68 + index * 0.01, 0.72 + index * 0.01], [10, 0])
+    useTransform(scrollYProgress ?? fallbackMotionValue, [0.68 + index * 0.01, 0.72 + index * 0.01], [10, 0])
+  )
+
+  // Analyze 섹션: Decade(Bar chart) decadeList 배열 선언
+  const decadeList = [
+    { decade: '70s', height: 60, albums: 12 },
+    { decade: '80s', height: 85, albums: 23 },
+    { decade: '90s', height: 75, albums: 18 },
+    { decade: '00s', height: 40, albums: 8 }
+  ];
+  const decadeBarHeightArr = [0, 1, 2, 3].map((index) =>
+    useTransform(scrollYProgress ?? fallbackMotionValue, [0.68 + index * 0.02, 0.72 + index * 0.02], ['0', `${decadeList[index].height}%`])
   )
 
   return (
@@ -600,38 +625,25 @@ export default function TopDownScrollSequence() {
                           />
                           
                           {/* Genre segments */}
-                          {(() => {
-                            const genres = [
-                              { genre: 'Rock', percentage: 45, color: '#EF4444' },
-                              { genre: 'Jazz', percentage: 25, color: '#3B82F6' },
-                              { genre: 'Electronic', percentage: 20, color: '#8B5CF6' },
-                              { genre: 'Classical', percentage: 10, color: '#10B981' }
-                            ];
-                            let cumulativePercentage = 0;
-                            
-                            return genres.map((item, index) => {
-                              const strokeDasharray = `${item.percentage} ${100 - item.percentage}`;
-                              const strokeDashoffset = 100 - cumulativePercentage;
-                              cumulativePercentage += item.percentage;
-                              
-                              return (
-                                <motion.circle
-                                  key={item.genre}
-                                  cx="21"
-                                  cy="21"
-                                  r="15.915"
-                                  fill="transparent"
-                                  stroke={item.color}
-                                  strokeWidth="3"
-                                  strokeLinecap="round"
-                                  style={{
-                                    strokeDasharray: (genreStrokeDashArr[index] as any).to((v: string | null) => v === null ? strokeDasharray : v),
-                                    strokeDashoffset
-                                  }}
-                                />
-                              );
-                            });
-                          })()}
+                          {genreList.map((item, index) => {
+                            const strokeDashoffset = 100 - genreList.slice(0, index).reduce((acc, cur) => acc + cur.percentage, 0);
+                            return (
+                              <motion.circle
+                                key={item.genre}
+                                cx="21"
+                                cy="21"
+                                r="15.915"
+                                fill="transparent"
+                                stroke={item.color}
+                                strokeWidth="3"
+                                strokeLinecap="round"
+                                style={{
+                                  strokeDasharray: genreStrokeDashArr[index],
+                                  strokeDashoffset
+                                }}
+                              />
+                            );
+                          })}
                         </svg>
                       </div>
                       
@@ -669,23 +681,15 @@ export default function TopDownScrollSequence() {
                   <div className="bg-white/10 backdrop-blur-sm rounded-lg p-3">
                     <p className="text-white text-xs font-medium mb-3">Era Preference</p>
                     <div className="grid grid-cols-4 gap-1">
-                      {[
-                        { decade: '70s', height: 60, albums: 12 },
-                        { decade: '80s', height: 85, albums: 23 },
-                        { decade: '90s', height: 75, albums: 18 },
-                        { decade: '00s', height: 40, albums: 8 }
-                      ].map((item, index) => (
+                      {decadeList.map((item, index) => (
                         <div key={item.decade} className="text-center">
                           <div className="h-16 flex items-end justify-center mb-1">
-                                                         <motion.div
-                               className="w-4 bg-gradient-to-t from-blue-500 to-blue-300 rounded-t"
-                               style={{
-                                 height: useTransform(scrollYProgress, 
-                                   [0.68 + index * 0.02, 0.72 + index * 0.02], 
-                                   [0, `${item.height}%`]
-                                 )
-                               }}
-                             />
+                            <motion.div
+                              className="w-4 bg-gradient-to-t from-blue-500 to-blue-300 rounded-t"
+                              style={{
+                                height: decadeBarHeightArr[index]
+                              }}
+                            />
                           </div>
                           <p className="text-blue-200 text-xs">{item.decade}</p>
                           <p className="text-white text-xs font-medium">{item.albums}</p>
