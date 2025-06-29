@@ -7,6 +7,7 @@ import VinylRecord from 'components/VinylRecord'
 import { vinylRecords, slogans, snapAlbumCovers, fetchCoverArt } from 'lib/mobileData'
 import MobileHeader from 'components/mobile/MobileHeader'
 import dynamic from 'next/dynamic'
+import { Footer } from 'components/Footer'
 
 const SnapSlogan = dynamic(() => import('components/scenes/SloganItem').then(mod => mod.SnapSlogan), { ssr: false })
 const CollectSlogan = dynamic(() => import('components/scenes/CollectSlogan').then(mod => mod.CollectSlogan), { ssr: false })
@@ -21,6 +22,7 @@ export default function MPage() {
   const [randomSnapAlbum, setRandomSnapAlbum] = useState<string>('')
   const [isKorean, setIsKorean] = useState(false)
   const [shouldBlur, setShouldBlur] = useState(true)
+  const [isFooterVisible, setIsFooterVisible] = useState(false)
 
   // 컴포넌트 마운트 시 랜덤 순서와 커버 이미지들 로드
   useEffect(() => {
@@ -66,9 +68,6 @@ export default function MPage() {
   const mergeProgress = useTransform(scrollYProgress, [0.15, 0.25], [0, 1])
   const albumWallOpacity = useTransform(scrollYProgress, [0.15, 0.25], [1, 0])
 
-
-
-
   const scrollToWaitlist = () => {
     const waitlistSection = document.querySelector('[data-section="waitlist"]')
     if (waitlistSection) {
@@ -78,6 +77,23 @@ export default function MPage() {
       })
     }
   }
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollY = window.scrollY || window.pageYOffset
+      const windowHeight = window.innerHeight
+      const bodyHeight = document.body.scrollHeight
+      // 98% 이상 스크롤 시 푸터 노출
+      if (scrollY + windowHeight >= bodyHeight * 0.98) {
+        setIsFooterVisible(true)
+      } else {
+        setIsFooterVisible(false)
+      }
+    }
+    window.addEventListener('scroll', handleScroll)
+    handleScroll()
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
 
   return (
     <div ref={containerRef} className="relative" style={{ height: '5500px' }}>
@@ -777,6 +793,30 @@ export default function MPage() {
           setIsKorean={setIsKorean}
           scrollToWaitlist={scrollToWaitlist}
         />
+
+        {/* Footer와 겹치지 않도록 충분한 여백 */}
+        <div className="pb-[120px]" />
+        {isFooterVisible && (
+          <div className="fixed bottom-0 left-0 w-full z-50">
+            <Footer
+              logo={null}
+              brandName="Kolektt"
+              socialLinks={[]}
+              mainLinks={[
+                { href: '/about', label: 'About' },
+                { href: 'mailto:objktt@gmail.com', label: 'Contact' }
+              ]}
+              legalLinks={[
+                { href: '/privacy', label: 'Privacy Policy' },
+                { href: '/terms', label: 'Terms of Service' }
+              ]}
+              copyright={{
+                text: `© ${new Date().getFullYear()} objktt. All rights reserved.`,
+                license: 'Kolektt - Experience vinyl like never before with AI'
+              }}
+            />
+          </div>
+        )}
 
 
 
