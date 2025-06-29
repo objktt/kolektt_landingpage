@@ -276,6 +276,17 @@ export default function TopDownScrollSequence() {
     useTransform(scrollYProgress ?? fallbackMotionValue, [0.68 + index * 0.02, 0.72 + index * 0.02], ['0', `${decadeList[index].height}%`])
   )
 
+  // Analyze 섹션: Mood Profile bar width useTransform map 바깥에서 선언
+  const moodList = [
+    { mood: 'Energetic', value: 78 },
+    { mood: 'Melancholic', value: 45 },
+    { mood: 'Upbeat', value: 62 },
+    { mood: 'Ambient', value: 33 }
+  ];
+  const moodBarWidthArr = [0, 1, 2, 3].map((index) =>
+    useTransform(scrollYProgress ?? fallbackMotionValue, [0.69 + index * 0.01, 0.73 + index * 0.01], ['0', `${moodList[index].value}%`])
+  )
+
   return (
     <div ref={containerRef} className="relative" style={{ height: '5500px' }}>
       {/* Fixed Header with Business Offer, Language Toggle and Join Waitlist Button */}
@@ -702,25 +713,17 @@ export default function TopDownScrollSequence() {
                   <div className="bg-white/10 backdrop-blur-sm rounded-lg p-3">
                     <p className="text-white text-xs font-medium mb-2">Mood Profile</p>
                     <div className="space-y-1">
-                      {[
-                        { mood: 'Energetic', value: 78 },
-                        { mood: 'Melancholic', value: 45 },
-                        { mood: 'Upbeat', value: 62 },
-                        { mood: 'Ambient', value: 33 }
-                      ].map((item, index) => (
+                      {moodList.map((item, index) => (
                         <div key={item.mood} className="flex items-center justify-between">
                           <span className="text-blue-200 text-xs">{item.mood}</span>
                           <div className="flex items-center space-x-2">
                             <div className="w-12 bg-white/10 rounded-full h-1">
-                                                             <motion.div 
-                                 className="bg-gradient-to-r from-vinyl-400 to-vinyl-500 rounded-full h-1"
-                                 style={{
-                                   width: useTransform(scrollYProgress, 
-                                     [0.69 + index * 0.01, 0.73 + index * 0.01], 
-                                     [0, `${item.value}%`]
-                                   )
-                                 }}
-                               />
+                              <motion.div 
+                                className="bg-gradient-to-r from-vinyl-400 to-vinyl-500 rounded-full h-1"
+                                style={{
+                                  width: moodBarWidthArr[index]
+                                }}
+                              />
                             </div>
                             <span className="text-white text-xs w-6">{item.value}</span>
                           </div>
