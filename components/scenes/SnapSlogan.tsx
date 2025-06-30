@@ -107,11 +107,9 @@ const SnapSlogan: React.FC<SnapSloganProps> = ({ scrollYProgress, isKorean }) =>
         alt="Cat with camera for SNAP feature" 
         width={316.8}
         height={316.8}
-        className="object-contain drop-shadow-2xl will-change-transform"
+        className="object-contain drop-shadow-2xl will-change-transform bg-transparent"
         quality={90}
         loading="lazy"
-        placeholder="blur"
-        blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=="
       />
     </motion.div>
   </>

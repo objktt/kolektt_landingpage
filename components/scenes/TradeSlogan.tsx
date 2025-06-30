@@ -113,11 +113,9 @@ const TradeSlogan: React.FC<TradeSloganProps> = ({ scrollYProgress, isKorean }) 
         alt="Cat with trading interface for TRADE feature" 
         width={330}
         height={330}
-        className="object-contain drop-shadow-2xl will-change-transform"
+        className="object-contain drop-shadow-2xl will-change-transform bg-transparent"
         quality={90}
         loading="lazy"
-        placeholder="blur"
-        blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=="
       />
     </motion.div>
   </>

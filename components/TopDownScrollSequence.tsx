@@ -1111,11 +1111,9 @@ export default function TopDownScrollSequence() {
             alt="Cat with camera for SNAP feature" 
             width={480}
             height={480}
-            className="object-contain drop-shadow-2xl will-change-transform"
+            className="object-contain drop-shadow-2xl will-change-transform bg-transparent"
             quality={90}
             priority={true}
-            placeholder="blur"
-            blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=="
           />
         </motion.div>
 
@@ -1249,11 +1247,9 @@ export default function TopDownScrollSequence() {
             alt="Cat with vinyl collection crate for COLLECT feature" 
             width={500}
             height={500}
-            className="object-contain drop-shadow-2xl will-change-transform"
+            className="object-contain drop-shadow-2xl will-change-transform bg-transparent"
             quality={90}
             loading="lazy"
-            placeholder="blur"
-            blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=="
           />
         </motion.div>
 
@@ -1385,11 +1381,9 @@ export default function TopDownScrollSequence() {
             alt="Cat with analytics for ANALYZE feature" 
             width={430}
             height={430}
-            className="object-contain drop-shadow-2xl will-change-transform lg:scale-x-[-1]"
+            className="object-contain drop-shadow-2xl will-change-transform bg-transparent lg:scale-x-[-1]"
             quality={90}
             loading="lazy"
-            placeholder="blur"
-            blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=="
           />
         </motion.div>
 
@@ -1572,11 +1566,9 @@ export default function TopDownScrollSequence() {
             alt="Cat with trading interface for TRADE feature" 
             width={576}
             height={576}
-            className="object-contain drop-shadow-2xl will-change-transform"
+            className="object-contain drop-shadow-2xl will-change-transform bg-transparent"
             quality={90}
             loading="lazy"
-            placeholder="blur"
-            blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=="
           />
         </motion.div>
 
