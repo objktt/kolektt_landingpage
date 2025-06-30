@@ -2,20 +2,32 @@ import type { Metadata, Viewport } from 'next'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'Kolektt - AI로 바이닐 컬렉션을 스마트하게',
-  description: 'AI로 바이닐 레코드를 스캔하고, 컬렉션을 구축하고, 취향을 분석하고, 다른 사람들과 거래하세요.',
+  title: 'Kolektt - AI Vinyl Collection',
+  description: 'AI로 바이닐 컬렉션을 쉽고 멋지게 관리하세요. 스캔, 정리, 분석, 거래까지 한 번에!',
   keywords: ['바이닐', '레코드', 'AI', '음악', '컬렉션', '거래'],
   authors: [{ name: 'Kolektt Team' }],
   openGraph: {
-    title: 'Kolektt - AI로 바이닐 컬렉션을 스마트하게',
-    description: 'AI로 바이닐 레코드를 스캔하고, 컬렉션을 구축하고, 취향을 분석하고, 다른 사람들과 거래하세요.',
-    type: 'website',
+    title: 'Kolektt - AI Vinyl Collection',
+    description: 'AI로 바이닐 컬렉션을 쉽고 멋지게 관리하세요.',
+    url: 'https://kolektt.kr',
+    siteName: 'Kolektt',
+    images: [
+      {
+        url: 'https://kolektt.kr/assets/meta_img.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'Kolektt 대표 이미지',
+      },
+    ],
     locale: 'ko_KR',
+    type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Kolektt - AI로 바이닐 컬렉션을 스마트하게',
-    description: 'AI로 바이닐 레코드를 스캔하고, 컬렉션을 구축하고, 취향을 분석하고, 다른 사람들과 거래하세요.',
+    site: '@kolektt',
+    title: 'Kolektt - AI Vinyl Collection',
+    description: 'AI로 바이닐 컬렉션을 쉽고 멋지게 관리하세요.',
+    images: ['https://kolektt.kr/assets/meta_img.jpg'],
   },
   robots: 'index, follow',
   icons: {
