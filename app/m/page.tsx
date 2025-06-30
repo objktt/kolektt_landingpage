@@ -4,7 +4,7 @@ import { motion, useScroll, useTransform, useMotionValue } from 'framer-motion'
 import { useRef, useState, useEffect } from 'react'
 import Image from 'next/image'
 import VinylRecord from '@/components/VinylRecord'
-import { vinylRecords, slogans, snapAlbumCovers, fetchCoverArt } from '@/lib/mobileData'
+import { albums } from '@/lib/mobileData'
 import MobileHeader from '@/components/mobile/MobileHeader'
 import dynamic from 'next/dynamic'
 import { Footer } from '@/components/Footer'
@@ -28,28 +28,12 @@ export default function MPage() {
   // 컴포넌트 마운트 시 랜덤 순서와 커버 이미지들 로드
   useEffect(() => {
     // 랜덤하게 맨 위에 올 앨범의 ID 설정 (1부터 시작하므로 +1)
-    const randomIndex = Math.floor(Math.random() * vinylRecords.length)
-    setRandomTopIndex(vinylRecords[randomIndex].id)
+    const randomIndex = Math.floor(Math.random() * albums.length)
+    setRandomTopIndex(albums[randomIndex].id)
     
     // SNAP 섹션용 랜덤 앨범 선택
-    const randomSnapIndex = Math.floor(Math.random() * snapAlbumCovers.length)
-    setRandomSnapAlbum(snapAlbumCovers[randomSnapIndex])
-    
-    const loadCoverImages = () => {
-      const images: {[key: number]: string} = {}
-      
-      vinylRecords.forEach(record => {
-        const imageUrl = fetchCoverArt(record.title, record.artist)
-        if (imageUrl) {
-          images[record.id] = imageUrl
-        }
-      })
-      
-      setCoverImages(images)
-      console.log('Loaded cover images:', images) // 디버깅용 로그 추가
-    }
-    
-    loadCoverImages()
+    const randomSnapIndex = Math.floor(Math.random() * albums.length)
+    setRandomSnapAlbum(albums[randomSnapIndex]?.image || '')
   }, [])
   
   const { scrollYProgress } = useScroll({
@@ -231,36 +215,29 @@ export default function MPage() {
           className="absolute z-40 text-white text-center"
           style={{
             left: '50%',
-            top: 'calc(50% + 150px)', // 레코드 밑에 위치
+            top: 'calc(50% + 150px)',
             x: '-50%',
             opacity: useTransform(scrollYProgress, (value) => {
-              // 레코드가 모이고 난 후부터 iPhone이 나타나기 전까지 (25%-30%)
-              if (value < 0.25) return 0; // 레코드가 모이기 전에는 숨김
-              if (value < 0.26) {
-                // 1% 구간에서 페이드 인
-                const progress = (value - 0.25) / 0.01;
-                return progress;
-              }
-              if (value < 0.29) {
-                // 3% 구간 동안 표시
-                return 1;
-              }
-              if (value < 0.30) {
-                // 1% 구간에서 페이드 아웃 (iPhone이 나타나기 전에)
-                const progress = (value - 0.29) / 0.01;
-                return 1 - progress;
-              }
+              if (value < 0.25) return 0;
+              if (value < 0.265) return (value - 0.25) / 0.015;
+              if (value < 0.295) return 1;
+              if (value < 0.34) return 1 - (value - 0.295) / 0.015;
               return 0;
             })
           }}
         >
           <div className="bg-black/60 backdrop-blur-md rounded-2xl px-6 py-4 border border-white/20">
             <h3 className="text-xl font-bold text-white mb-1">
-              {vinylRecords.find(record => record.id === randomTopIndex)?.title}
+              {albums.find(record => record.id === randomTopIndex)?.title}
             </h3>
-            <p className="text-lg text-gray-300">
-              {vinylRecords.find(record => record.id === randomTopIndex)?.artist}
-            </p>
+            <div className="flex items-center justify-center space-x-2">
+              <span className="text-lg text-gray-300">
+                {albums.find(record => record.id === randomTopIndex)?.artist}
+              </span>
+              <span className="text-sm text-blue-200 font-semibold">
+                {albums.find(record => record.id === randomTopIndex)?.year}
+              </span>
+            </div>
           </div>
         </motion.div>
 
@@ -272,11 +249,11 @@ export default function MPage() {
             opacity: scrollYProgress.get() < 0.50 ? 1 : 0
           }}
         >
-          {scrollYProgress.get() < 0.50 && vinylRecords.map((record) => (
+          {scrollYProgress.get() < 0.50 && albums.map((record) => (
             <VinylRecord
               key={record.id}
               record={record}
-              coverImage={coverImages[record.id] || ''}
+              coverImage={record.image || ''}
               mergeProgress={mergeProgress}
               scrollYProgress={scrollYProgress}
               randomTopIndex={randomTopIndex}
@@ -388,7 +365,7 @@ export default function MPage() {
                   }}
                 >
                   <p className="text-white/80 text-xs font-medium">Your Collection</p>
-                  {vinylRecords.slice(0, 8).map((record, index) => (
+                  {albums.slice(0, 8).map((record, index) => (
                     <motion.div
                       key={`collect-${record.id}`}
                       className="bg-white/10 backdrop-blur-sm rounded-lg p-3 flex items-center space-x-3"
@@ -399,20 +376,15 @@ export default function MPage() {
                     >
                       {/* Album cover thumbnail */}
                       <div className="w-10 h-10 rounded-lg overflow-hidden bg-white/20 flex-shrink-0 relative">
-                        {coverImages[record.id] ? (
+                        {record.image ? (
                           <Image 
-                            src={coverImages[record.id]} 
+                            src={record.image}
                             alt={record.title}
                             fill
                             className="object-cover will-change-transform"
                             sizes="40px"
                             quality={75}
                             loading="lazy"
-                            placeholder="blur"
-                            blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
-                            onError={(e) => {
-                              console.warn(`Failed to load collection image: ${coverImages[record.id]}`)
-                            }}
                           />
                         ) : (
                           <div 
@@ -421,17 +393,20 @@ export default function MPage() {
                           />
                         )}
                       </div>
-                      
                       {/* Album info */}
                       <div className="flex-1 min-w-0">
                         <h4 className="text-white text-xs font-semibold truncate">
                           {record.title}
                         </h4>
-                        <p className="text-blue-200 text-xs truncate">
-                          {record.artist}
-                        </p>
+                        <div className="flex items-center space-x-1">
+                          <span className="text-blue-200 text-xs truncate">
+                            {record.artist}
+                          </span>
+                          <span className="text-xs text-blue-100 font-semibold">
+                            {record.year}
+                          </span>
+                        </div>
                       </div>
-                      
                       {/* Status indicator */}
                       <div className="flex-shrink-0">
                         <div className="w-2 h-2 bg-green-400 rounded-full" />
@@ -640,10 +615,10 @@ export default function MPage() {
                         <motion.div 
                           className="w-48 h-48 rounded-lg overflow-hidden shadow-2xl"
                         >
-                          {coverImages[randomTopIndex] ? (
+                          {randomSnapAlbum && (
                             <Image 
-                              src={coverImages[randomTopIndex]} 
-                              alt={vinylRecords.find(record => record.id === randomTopIndex)?.title || 'Album cover'}
+                              src={randomSnapAlbum} 
+                              alt="Random Snap Album"
                               width={192}
                               height={192}
                               className="w-full h-full object-cover will-change-transform"
@@ -651,11 +626,6 @@ export default function MPage() {
                               priority={true}
                               placeholder="blur"
                               blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
-                            />
-                          ) : (
-                            <div 
-                              className="w-full h-full"
-                              style={{ backgroundColor: vinylRecords.find(record => record.id === randomTopIndex)?.color }}
                             />
                           )}
                         </motion.div>

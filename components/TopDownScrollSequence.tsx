@@ -6,80 +6,85 @@ import Image from 'next/image'
 import VinylRecord from './VinylRecord'
 import BetaServiceSticker from './BetaServiceSticker'
 import AlbumCover from './AlbumCover'
+import { albums } from '../lib/albums'
 
 // 역사상 가장 아이코닉한 앨범 커버들 (UpVenue 기사 참조)
 const vinylRecords = [
-  { id: 1, x: 15, y: 20, rotation: -25, color: '#3B82F6', title: 'Abbey Road', artist: 'The Beatles' },
-  { id: 2, x: 75, y: 15, rotation: 45, color: '#8B5CF6', title: 'Dark Side of the Moon', artist: 'Pink Floyd' },
-  { id: 3, x: 25, y: 70, rotation: -15, color: '#EF4444', title: 'Nevermind', artist: 'Nirvana' },
-  { id: 4, x: 85, y: 65, rotation: 30, color: '#06B6D4', title: 'Rumours', artist: 'Fleetwood Mac' },
-  { id: 5, x: 45, y: 25, rotation: -35, color: '#0036ff', title: 'The Velvet Underground & Nico', artist: 'The Velvet Underground' },
-  { id: 6, x: 65, y: 80, rotation: 20, color: '#10B981', title: '조용필 1집', artist: '조용필' },
-  { id: 7, x: 10, y: 85, rotation: -10, color: '#1F2937', title: 'Master of Puppets', artist: 'Metallica' },
-  { id: 8, x: 90, y: 30, rotation: 40, color: '#DC2626', title: 'Maggot Brain', artist: 'Funkadelic' },
-  { id: 9, x: 5, y: 50, rotation: 15, color: '#EC4899', title: 'Unknown Pleasures', artist: 'Joy Division' },
-  { id: 10, x: 95, y: 55, rotation: -30, color: '#8B5A2B', title: 'London Calling', artist: 'The Clash' },
-  { id: 11, x: 35, y: 10, rotation: 25, color: '#6366F1', title: 'The Rise and Fall of Ziggy Stardust', artist: 'David Bowie' },
-  { id: 12, x: 55, y: 90, rotation: -20, color: '#002edb', title: 'Pet Sounds', artist: 'The Beach Boys' },
-  { id: 13, x: 20, y: 40, rotation: 35, color: '#84CC16', title: 'Music for the Jilted Generation', artist: 'The Prodigy' },
-  { id: 14, x: 80, y: 45, rotation: -40, color: '#06B6D4', title: 'It\'s Blitz!', artist: 'Yeah Yeah Yeahs' },
-  { id: 15, x: 40, y: 60, rotation: 50, color: '#A855F7', title: 'The Wall', artist: 'Pink Floyd' },
-  { id: 16, x: 70, y: 25, rotation: -5, color: '#EF4444', title: 'Led Zeppelin IV', artist: 'Led Zeppelin' },
-  { id: 17, x: 60, y: 35, rotation: 15, color: '#059669', title: 'Never Mind The Bollocks Here\'s The Sex Pistols', artist: 'Sex Pistols' },
-  { id: 18, x: 30, y: 75, rotation: -30, color: '#7C3AED', title: 'Thriller', artist: 'Michael Jackson' },
-  { id: 19, x: 85, y: 20, rotation: 25, color: '#60a5fa', title: '1984', artist: 'Van Halen' },
-  { id: 20, x: 12, y: 35, rotation: -20, color: '#10B981', title: 'Hotel California', artist: 'Eagles' },
-  { id: 21, x: 88, y: 70, rotation: 35, color: '#DC2626', title: 'Purple Rain', artist: 'Prince' },
-  { id: 22, x: 45, y: 8, rotation: -15, color: '#06B6D4', title: '1집', artist: '신중현과 엽전들' },
-  { id: 23, x: 75, y: 88, rotation: 40, color: '#A855F7', title: 'What\'s Going On', artist: 'Marvin Gaye' },
-  { id: 24, x: 18, y: 65, rotation: 20, color: '#EF4444', title: 'Born to Die', artist: 'Lana Del Rey' },
-  { id: 25, x: 92, y: 40, rotation: -35, color: '#84CC16', title: 'OK Computer', artist: 'Radiohead' },
-  { id: 26, x: 38, y: 82, rotation: 30, color: '#6366F1', title: 'The Chronic', artist: 'Dr. Dre' },
-  { id: 27, x: 82, y: 12, rotation: -10, color: '#0025b8', title: 'Appetite for Destruction', artist: 'Guns N\' Roses' },
-  { id: 28, x: 25, y: 55, rotation: 45, color: '#10B981', title: 'Disintegration', artist: 'The Cure' },
-  { id: 29, x: 68, y: 72, rotation: -25, color: '#DC2626', title: 'Doggystyle', artist: 'Snoop Dogg' },
-  { id: 30, x: 52, y: 18, rotation: 15, color: '#7C3AED', title: '산울림 1집', artist: '산울림' },
+  { id: 1, x: 15, y: 20, rotation: -25, color: '#3B82F6', artist: 'Tyler, The Creator', title: 'Flower Boy', year: 2017, image: '/albums/album_art/tyler-the-creator-flower-boy-2017.webp' },
+  { id: 2, x: 75, y: 15, rotation: 45, color: '#8B5CF6', artist: 'Thelonious Monk', title: 'Underground', year: 1968, image: '/albums/album_art/thelonious-monk-underground-1968.webp' },
+  { id: 3, x: 25, y: 70, rotation: -15, color: '#EF4444', artist: 'The Who', title: 'Tommy', year: 1969, image: '/albums/album_art/the-who-tommy-1969.webp' },
+  { id: 4, x: 85, y: 65, rotation: 30, color: '#06B6D4', artist: 'The White Stripes', title: 'Elephant', year: 2003, image: '/albums/album_art/the-white-stripes-elephant-2003.webp' },
+  { id: 5, x: 45, y: 25, rotation: -35, color: '#0036ff', artist: 'The Velvet Underground', title: 'The Velvet Underground & Nico', year: 1967, image: '/albums/album_art/the-velvet-underground-the-velvet-underground-nico-1967.webp' },
+  { id: 6, x: 65, y: 80, rotation: 20, color: '#10B981', artist: 'The Prodigy', title: 'Invaders Must Die', year: 2009, image: '/albums/album_art/the-prodigy-invaders-must-die-2009.webp' },
+  { id: 7, x: 10, y: 85, rotation: -10, color: '#1F2937', artist: 'The London Symphony Orchestra', title: 'Tommy', year: 1972, image: '/albums/album_art/the-london-symphony-orchestra-tommy-1972.webp' },
+  { id: 8, x: 90, y: 30, rotation: 40, color: '#DC2626', artist: 'The Beatles', title: "Sgt. Pepper's Lonely Hearts Club Band", year: 1967, image: '/albums/album_art/the-beatles-sgt-pepper-s-lonely-hearts-club-band-1967.webp' },
+  { id: 9, x: 5, y: 50, rotation: 15, color: '#EC4899', artist: 'Tame Impala', title: 'Currents', year: 2015, image: '/albums/album_art/tame-impala-currents-2015.webp' },
+  { id: 10, x: 95, y: 55, rotation: -30, color: '#8B5A2B', artist: 'Stan Getz:João Gilberto', title: 'Getz:Gilberto', year: 1964, image: '/albums/album_art/stan-getz-jo-ao-gilberto-getz-gilberto-1964.webp' },
+  { id: 11, x: 35, y: 10, rotation: 25, color: '#6366F1', artist: 'Red Hot Chili Peppers', title: 'Californication', year: 1999, image: '/albums/album_art/red-hot-chili-peppers-californication-1999.webp' },
+  { id: 12, x: 55, y: 90, rotation: -20, color: '#002edb', artist: 'Pink Floyd', title: 'The Dark Side of the Moon', year: 1973, image: '/albums/album_art/pink-floyd-the-dark-side-of-the-moon-1973.webp' },
+  { id: 13, x: 20, y: 40, rotation: 35, color: '#84CC16', artist: 'Nirvana', title: 'Nevermind', year: 1991, image: '/albums/album_art/nirvana-nevermind-1991.webp' },
+  { id: 14, x: 80, y: 45, rotation: -40, color: '#06B6D4', artist: 'Nick Drake', title: 'Pink Moon', year: 1973, image: '/albums/album_art/nick-drake-pink-moon-1973.webp' },
+  { id: 15, x: 40, y: 60, rotation: 50, color: '#A855F7', artist: 'Michael Jackson', title: 'Dangerous', year: 1991, image: '/albums/album_art/michael-jackson-dangerous-1991.webp' },
+  { id: 16, x: 70, y: 25, rotation: -5, color: '#EF4444', artist: 'Metallica', title: 'Master of Puppets', year: 1986, image: '/albums/album_art/metallica-master-of-puppets-1986.webp' },
+  { id: 17, x: 60, y: 35, rotation: 15, color: '#059669', artist: 'Kraftwerk', title: 'Computer World', year: 1981, image: '/albums/album_art/kraftwerk-computer-world-1981.webp' },
+  { id: 18, x: 30, y: 75, rotation: -30, color: '#7C3AED', artist: 'King Crimson', title: 'In the Court of the Crimson King', year: 1969, image: '/albums/album_art/king-crimson-in-the-court-of-the-crimson-king-1969.webp' },
+  { id: 19, x: 85, y: 20, rotation: 25, color: '#60a5fa', artist: 'Kendrick Lamar', title: 'To Pimp a Butterfly', year: 2015, image: '/albums/album_art/kendrick-lamar-to-pimp-a-butterfly-2015.webp' },
+  { id: 20, x: 12, y: 35, rotation: -20, color: '#10B981', artist: 'Justice', title: '† (Cross)', year: 2007, image: '/albums/album_art/justice-cross-2007.webp' },
+  { id: 21, x: 88, y: 70, rotation: 35, color: '#DC2626', artist: 'Joy Division', title: 'Unknown Pleasures', year: 1979, image: '/albums/album_art/joy-division-unknown-pleasures-1979.webp' },
+  { id: 22, x: 45, y: 8, rotation: -15, color: '#06B6D4', artist: 'Grace Jones', title: 'Nightclubbing', year: 1981, image: '/albums/album_art/grace-jones-nightclubbing-1981.webp' },
+  { id: 23, x: 75, y: 88, rotation: 40, color: '#A855F7', artist: 'Dinosaur Jr.', title: 'Give a Glimpse of What Yer Not', year: 2016, image: '/albums/album_art/dinosaur-jr-give-a-glimpse-of-what-yer-not-2016.webp' },
+  { id: 24, x: 18, y: 65, rotation: 20, color: '#EF4444', artist: 'David Bowie', title: 'Aladdin Sane', year: 1973, image: '/albums/album_art/david-bowie-aladdin-sane-1973.webp' },
+  { id: 25, x: 92, y: 40, rotation: -35, color: '#84CC16', artist: 'Daft Punk', title: 'Random Access Memories', year: 2013, image: '/albums/album_art/daft-punk-random-access-memories-2013.webp' },
+  { id: 26, x: 38, y: 82, rotation: 30, color: '#6366F1', artist: 'Chicago', title: 'Chicago XIV', year: 1979, image: '/albums/album_art/chicago-chicago-xiv-1979.webp' },
+  { id: 27, x: 82, y: 12, rotation: -10, color: '#0025b8', artist: 'Björk', title: 'Post', year: 1995, image: '/albums/album_art/bj-ork-post-1995.webp' },
+  { id: 28, x: 25, y: 55, rotation: 45, color: '#10B981', artist: 'Arcade Fire', title: 'The Suburbs', year: 2010, image: '/albums/album_art/arcade-fire-the-suburbs-2010.webp' },
+  { id: 29, x: 68, y: 72, rotation: -25, color: '#DC2626', artist: 'Animal Collective', title: 'Merriweather Post Pavilion', year: 2009, image: '/albums/album_art/animal-collective-merriweather-post-pavilion-2009.webp' },
+  { id: 30, x: 52, y: 18, rotation: 15, color: '#7C3AED', artist: 'Alice Cooper', title: 'Raise Your fist and Yell', year: 1982, image: '/albums/album_art/alice-cooper-raise-your-fist-and-yell-1982.webp' },
 ]
 
 const slogans = ['SNAP', 'COLLECT', 'ANALYZE', 'TRADE']
 
-// 로컬 앨범 커버 이미지 경로 (public/albums/ 폴더) - 아티스트_앨범명 형식 (숫자 제거)
-const albumCoverUrls: {[key: string]: string} = {
-  'Abbey Road': '/albums/the-beatles_abbey-road.webp',
-  'Dark Side of the Moon': '/albums/pink-floyd_dark-side-of-the-moon.webp',
-  'Nevermind': '/albums/nirvana_nevermind.webp',
-  'Rumours': '/albums/fleetwood-mac_rumours.webp',
-  'The Velvet Underground & Nico': '/albums/the-velvet-underground_nico.webp',
-  '조용필 1집': '/albums/bruce-springsteen_born-to-run.webp',
-  'Master of Puppets': '/albums/metallica_master-of-puppets.webp',
-  'Maggot Brain': '/albums/funkadelic_maggot-brain.webp',
-  'Unknown Pleasures': '/albums/joy-division_unknown-pleasures.webp',
-  'London Calling': '/albums/the-clash_london-calling.webp',
-  'The Rise and Fall of Ziggy Stardust': '/albums/david-bowie_ziggy-stardust.webp',
-  'Pet Sounds': '/albums/the-beach-boys_pet-sounds.webp',
-  'Music for the Jilted Generation': '/albums/the-prodigy_music-for-the-jilted-generation.webp',
-  'It\'s Blitz!': '/albums/yeah-yeah-yeahs_its-blitz.webp',
-  'The Wall': '/albums/pink-floyd_the-wall.webp',
-  'Led Zeppelin IV': '/albums/led-zeppelin_iv.webp',
-  'Never Mind The Bollocks Here\'s The Sex Pistols': '/albums/sex-pistols_never-mind-the-bollocks.webp',
-  'Thriller': '/albums/michael-jackson_thriller.webp',
-  '1984': '/albums/van-halen_1984.webp',
-  'Hotel California': '/albums/eagles_hotel-california.webp',
-  'Purple Rain': '/albums/prince_purple-rain.webp',
-  '1집': '/albums/bob-dylan_blonde-on-blonde.webp',
-  'What\'s Going On': '/albums/marvin-gaye_whats-going-on.webp',
-  'Born to Die': '/albums/lana-del-rey_born-to-die.webp',
-  'OK Computer': '/albums/radiohead_ok-computer.webp',
-  'The Chronic': '/albums/dr-dre_the-chronic.webp',
-  'Appetite for Destruction': '/albums/guns-n-roses_appetite-for-destruction.webp',
-  'Disintegration': '/albums/the-cure_disintegration.webp',
-  'Doggystyle': '/albums/snoop-dogg_doggystyle.webp',
-  '산울림 1집': '/albums/sanullim_1.webp'
+// vinylRecords 자동 매칭: title, artist를 albums와 일치시키는 함수
+function normalizeVinylRecords(records: Array<{id: number, x: number, y: number, rotation: number, color: string, title: string, artist: string}>): Array<any> {
+  return records.map((record) => {
+    let found = albums.find(
+      a => a.title.trim().toLowerCase() === record.title.trim().toLowerCase() &&
+           a.artist.trim().toLowerCase() === record.artist.trim().toLowerCase()
+    );
+    if (!found) {
+      found = albums.find(
+        a => a.title.trim().toLowerCase().includes(record.title.trim().toLowerCase()) ||
+             record.title.trim().toLowerCase().includes(a.title.trim().toLowerCase())
+      );
+    }
+    if (!found) {
+      found = albums.find(
+        a => a.artist.trim().toLowerCase().includes(record.artist.trim().toLowerCase()) ||
+             record.artist.trim().toLowerCase().includes(a.artist.trim().toLowerCase())
+      );
+    }
+    if (!found) {
+      found = albums.find(
+        a => a.title.replace(/[^a-z0-9]/gi, '').toLowerCase().includes(record.title.replace(/[^a-z0-9]/gi, '').toLowerCase()) &&
+             a.artist.replace(/[^a-z0-9]/gi, '').toLowerCase().includes(record.artist.replace(/[^a-z0-9]/gi, '').toLowerCase())
+      );
+    }
+    if (found) {
+      return { ...record, title: found.title, artist: found.artist, year: found.year, image: found.image }
+    }
+    return record
+  })
 }
 
-// 로컬 앨범 커버 이미지 가져오기
-const fetchCoverArt = (title: string, artist: string) => {
-  return albumCoverUrls[title] || null
+const normalizedVinylRecords = normalizeVinylRecords(vinylRecords)
+
+// getAlbumImage는 albums에서 title, artist 완전 일치로만 찾음
+const getAlbumImage = (title: string, artist: string) => {
+  const found = albums.find(
+    a => a.title.trim().toLowerCase() === title.trim().toLowerCase() &&
+         a.artist.trim().toLowerCase() === artist.trim().toLowerCase()
+  );
+  return found ? found.image : null;
 }
 
 export default function TopDownScrollSequence() {
@@ -160,16 +165,13 @@ export default function TopDownScrollSequence() {
     
     const loadCoverImages = () => {
       const images: {[key: number]: string} = {}
-      
-      vinylRecords.forEach(record => {
-        const imageUrl = fetchCoverArt(record.title, record.artist)
+      normalizedVinylRecords.forEach((record) => {
+        const imageUrl = getAlbumImage(record.title, record.artist)
         if (imageUrl) {
           images[record.id] = imageUrl
         }
       })
-      
       setCoverImages(images)
-      console.log('Loaded cover images:', images) // 디버깅용 로그 추가
     }
     
     loadCoverImages()
@@ -476,9 +478,14 @@ export default function TopDownScrollSequence() {
             <h3 className="text-xl font-bold text-white mb-1">
               {vinylRecords.find(record => record.id === randomTopIndex)?.title}
             </h3>
-            <p className="text-lg text-gray-300">
-              {vinylRecords.find(record => record.id === randomTopIndex)?.artist}
-            </p>
+            <div className="flex items-center justify-center space-x-2">
+              <span className="text-lg text-gray-300">
+                {vinylRecords.find(record => record.id === randomTopIndex)?.artist}
+              </span>
+              <span className="text-sm text-blue-200 font-semibold">
+                {vinylRecords.find(record => record.id === randomTopIndex)?.year}
+              </span>
+            </div>
           </div>
         </motion.div>
 
@@ -487,7 +494,7 @@ export default function TopDownScrollSequence() {
           <VinylRecord
             key={record.id}
             record={record}
-            coverImage={coverImages[record.id]}
+            coverImage={record.image}
             mergeProgress={mergeProgress}
             setMergeProgress={mergeProgress.set}
             scrollYProgress={scrollYProgress}
@@ -601,7 +608,7 @@ export default function TopDownScrollSequence() {
                   }}
                 >
                   <p className="text-white/80 text-xs font-medium">Your Collection</p>
-                  {vinylRecords.slice(0, 8).map((record, index) => (
+                  {normalizedVinylRecords.slice(0, 8).map((record, index) => (
                     <motion.div
                       key={`collect-${record.id}`}
                       className="bg-white/10 backdrop-blur-sm rounded-lg p-3 flex items-center space-x-3"
@@ -612,10 +619,10 @@ export default function TopDownScrollSequence() {
                     >
                       {/* Album cover thumbnail */}
                       <div className="w-10 h-10 rounded-lg overflow-hidden bg-white/20 flex-shrink-0 relative">
-                        {coverImages[record.id] ? (
+                        {record.image ? (
                           <AlbumCover
-                            src={coverImages[record.id]}
-                            thumb={`/albums/thumbs/${coverImages[record.id]?.split('/').pop()}`}
+                            src={record.image}
+                            thumb={`/albums/thumbs/${record.image?.split('/').pop()}`}
                             alt={record.title}
                             sizes="40px"
                             priority={false}
@@ -634,9 +641,14 @@ export default function TopDownScrollSequence() {
                         <h4 className="text-white text-xs font-semibold truncate">
                           {record.title}
                         </h4>
-                        <p className="text-blue-200 text-xs truncate">
-                          {record.artist}
-                        </p>
+                        <div className="flex items-center space-x-1">
+                          <span className="text-blue-200 text-xs truncate">
+                            {record.artist}
+                          </span>
+                          <span className="text-xs text-blue-100 font-semibold">
+                            {record.year}
+                          </span>
+                        </div>
                       </div>
                       
                       {/* Status indicator */}
@@ -827,7 +839,7 @@ export default function TopDownScrollSequence() {
                           {coverImages[randomTopIndex] ? (
                             <Image 
                               src={coverImages[randomTopIndex]} 
-                              alt={vinylRecords.find(record => record.id === randomTopIndex)?.title || 'Album cover'}
+                              alt={normalizedVinylRecords.find(record => record.id === randomTopIndex)?.title || 'Album cover'}
                               width={192}
                               height={192}
                               className="w-full h-full object-cover will-change-transform"
@@ -839,7 +851,7 @@ export default function TopDownScrollSequence() {
                           ) : (
                             <div 
                               className="w-full h-full"
-                              style={{ backgroundColor: vinylRecords.find(record => record.id === randomTopIndex)?.color }}
+                              style={{ backgroundColor: normalizedVinylRecords.find(record => record.id === randomTopIndex)?.color }}
                             />
                           )}
                         </motion.div>
