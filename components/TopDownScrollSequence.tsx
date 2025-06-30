@@ -1,10 +1,11 @@
 'use client'
 
-import { motion, useScroll, useTransform, useMotionValue } from 'framer-motion'
+import { motion, useScroll, useTransform, useMotionValue, useMotionTemplate } from 'framer-motion'
 import { useRef, useState, useEffect, useMemo } from 'react'
 import Image from 'next/image'
 import VinylRecord from './VinylRecord'
 import BetaServiceSticker from './BetaServiceSticker'
+import AlbumCover from './AlbumCover'
 
 // 역사상 가장 아이코닉한 앨범 커버들 (UpVenue 기사 참조)
 const vinylRecords = [
@@ -189,10 +190,21 @@ export default function TopDownScrollSequence() {
 
   // 각 섹션별 진행도
   const scatterProgress = useTransform(scrollYProgress, [0, 0.15], [0, 1])
-  const mergeProgress = useTransform(scrollYProgress, [0.15, 0.25], [0, 1])
+  const mergeProgress = useMotionValue(0)
   const phoneEnterProgress = useTransform(scrollYProgress, [0.25, 0.3], [0, 1])
   const sloganProgress = useTransform(scrollYProgress, [0.3, 0.6], [0, 1])
   const phoneExitProgress = useTransform(scrollYProgress, [0.95, 1.0], [0, 1])
+
+  // 스크롤 연동: mergeProgress를 스크롤에 따라 set (드래그로도 set 가능하게)
+  useEffect(() => {
+    const unsubscribe = scrollYProgress.on('change', (v) => {
+      // 0.15~0.25 구간만 mergeProgress 0~1로 매핑
+      if (v < 0.15) mergeProgress.set(0);
+      else if (v > 0.25) mergeProgress.set(1);
+      else mergeProgress.set((v - 0.15) / 0.1);
+    });
+    return unsubscribe;
+  }, [scrollYProgress, mergeProgress]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -213,41 +225,49 @@ export default function TopDownScrollSequence() {
     }
   }
 
-  // Collect 섹션: map 바깥에서 useTransform 배열로 선언
-  const collectOpacityArr = [];
-  const collectXArr = [];
-  for (let i = 0; i < 8; i++) {
-    collectOpacityArr.push(
-      useTransform(scrollYProgress ?? fallbackMotionValue, [0.50 + i * 0.015, 0.52 + i * 0.015], [0, 1])
-    );
-    collectXArr.push(
-      useTransform(scrollYProgress ?? fallbackMotionValue, [0.50 + i * 0.015, 0.52 + i * 0.015], [30, 0])
-    );
-  }
+  // Collect 섹션: collectOpacityArr, collectXArr도 직접 나열 방식으로 선언 (반복문 사용 금지)
+  const collectOpacityArr = [
+    useTransform(scrollYProgress ?? fallbackMotionValue, [0.50 + 0 * 0.015, 0.52 + 0 * 0.015], [0, 1]),
+    useTransform(scrollYProgress ?? fallbackMotionValue, [0.50 + 1 * 0.015, 0.52 + 1 * 0.015], [0, 1]),
+    useTransform(scrollYProgress ?? fallbackMotionValue, [0.50 + 2 * 0.015, 0.52 + 2 * 0.015], [0, 1]),
+    useTransform(scrollYProgress ?? fallbackMotionValue, [0.50 + 3 * 0.015, 0.52 + 3 * 0.015], [0, 1]),
+    useTransform(scrollYProgress ?? fallbackMotionValue, [0.50 + 4 * 0.015, 0.52 + 4 * 0.015], [0, 1]),
+    useTransform(scrollYProgress ?? fallbackMotionValue, [0.50 + 5 * 0.015, 0.52 + 5 * 0.015], [0, 1]),
+    useTransform(scrollYProgress ?? fallbackMotionValue, [0.50 + 6 * 0.015, 0.52 + 6 * 0.015], [0, 1]),
+    useTransform(scrollYProgress ?? fallbackMotionValue, [0.50 + 7 * 0.015, 0.52 + 7 * 0.015], [0, 1]),
+  ];
+  const collectXArr = [
+    useTransform(scrollYProgress ?? fallbackMotionValue, [0.50 + 0 * 0.015, 0.52 + 0 * 0.015], [30, 0]),
+    useTransform(scrollYProgress ?? fallbackMotionValue, [0.50 + 1 * 0.015, 0.52 + 1 * 0.015], [30, 0]),
+    useTransform(scrollYProgress ?? fallbackMotionValue, [0.50 + 2 * 0.015, 0.52 + 2 * 0.015], [30, 0]),
+    useTransform(scrollYProgress ?? fallbackMotionValue, [0.50 + 3 * 0.015, 0.52 + 3 * 0.015], [30, 0]),
+    useTransform(scrollYProgress ?? fallbackMotionValue, [0.50 + 4 * 0.015, 0.52 + 4 * 0.015], [30, 0]),
+    useTransform(scrollYProgress ?? fallbackMotionValue, [0.50 + 5 * 0.015, 0.52 + 5 * 0.015], [30, 0]),
+    useTransform(scrollYProgress ?? fallbackMotionValue, [0.50 + 6 * 0.015, 0.52 + 6 * 0.015], [30, 0]),
+    useTransform(scrollYProgress ?? fallbackMotionValue, [0.50 + 7 * 0.015, 0.52 + 7 * 0.015], [30, 0]),
+  ];
 
-  // Trade 섹션: 가격 옵션 map 바깥에서 useTransform 배열로 선언
-  const tradePriceOpacityArr = [];
-  const tradePriceYArr = [];
-  for (let i = 0; i < 3; i++) {
-    tradePriceOpacityArr.push(
-      useTransform(scrollYProgress ?? fallbackMotionValue, [0.83 + i * 0.01, 0.85 + i * 0.01], [0, 1])
-    );
-    tradePriceYArr.push(
-      useTransform(scrollYProgress ?? fallbackMotionValue, [0.83 + i * 0.01, 0.85 + i * 0.01], [10, 0])
-    );
-  }
+  // Trade 섹션: tradePriceOpacityArr, tradePriceYArr 직접 나열 방식으로 선언 (반복문 사용 금지)
+  const tradePriceOpacityArr = [
+    useTransform(scrollYProgress ?? fallbackMotionValue, [0.83 + 0 * 0.01, 0.85 + 0 * 0.01], [0, 1]),
+    useTransform(scrollYProgress ?? fallbackMotionValue, [0.83 + 1 * 0.01, 0.85 + 1 * 0.01], [0, 1]),
+    useTransform(scrollYProgress ?? fallbackMotionValue, [0.83 + 2 * 0.01, 0.85 + 2 * 0.01], [0, 1]),
+  ];
+  const tradePriceYArr = [
+    useTransform(scrollYProgress ?? fallbackMotionValue, [0.83 + 0 * 0.01, 0.85 + 0 * 0.01], [10, 0]),
+    useTransform(scrollYProgress ?? fallbackMotionValue, [0.83 + 1 * 0.01, 0.85 + 1 * 0.01], [10, 0]),
+    useTransform(scrollYProgress ?? fallbackMotionValue, [0.83 + 2 * 0.01, 0.85 + 2 * 0.01], [10, 0]),
+  ];
 
   // Trade 섹션: More Listings map 바깥에서 useTransform 배열로 선언
-  const tradeMoreOpacityArr = [];
-  const tradeMoreXArr = [];
-  for (let i = 0; i < 2; i++) {
-    tradeMoreOpacityArr.push(
-      useTransform(scrollYProgress ?? fallbackMotionValue, [0.87 + i * 0.02, 0.89 + i * 0.02], [0, 1])
-    );
-    tradeMoreXArr.push(
-      useTransform(scrollYProgress ?? fallbackMotionValue, [0.87 + i * 0.02, 0.89 + i * 0.02], [20, 0])
-    );
-  }
+  const tradeMoreOpacityArr = [
+    useTransform(scrollYProgress ?? fallbackMotionValue, [0.87 + 0 * 0.02, 0.89 + 0 * 0.02], [0, 1]),
+    useTransform(scrollYProgress ?? fallbackMotionValue, [0.87 + 1 * 0.02, 0.89 + 1 * 0.02], [0, 1]),
+  ];
+  const tradeMoreXArr = [
+    useTransform(scrollYProgress ?? fallbackMotionValue, [0.87 + 0 * 0.02, 0.89 + 0 * 0.02], [20, 0]),
+    useTransform(scrollYProgress ?? fallbackMotionValue, [0.87 + 1 * 0.02, 0.89 + 1 * 0.02], [20, 0]),
+  ];
 
   // Analyze 섹션: 장르별 원형 차트 strokeDasharray 값 미리 계산
   const genreList = [
@@ -262,27 +282,26 @@ export default function TopDownScrollSequence() {
     cumulativePercentage += item.percentage;
     return dash;
   });
-  const genreStrokeDashArr = [];
-  for (let i = 0; i < 4; i++) {
-    genreStrokeDashArr.push(
-      useTransform(scrollYProgress ?? fallbackMotionValue,
-        [0.67 + i * 0.01, 0.71 + i * 0.01],
-        ['0 100', strokeDasharrays[i]]
-      )
-    );
-  }
 
-  // Analyze 섹션: 장르별 레전드 useTransform map 바깥에서 선언
-  const genreLegendOpacityArr = [];
-  const genreLegendXArr = [];
-  for (let i = 0; i < 4; i++) {
-    genreLegendOpacityArr.push(
-      useTransform(scrollYProgress ?? fallbackMotionValue, [0.68 + i * 0.01, 0.72 + i * 0.01], [0, 1])
-    );
-    genreLegendXArr.push(
-      useTransform(scrollYProgress ?? fallbackMotionValue, [0.68 + i * 0.01, 0.72 + i * 0.01], [10, 0])
-    );
-  }
+  // Analyze 섹션: genreStrokeDashArr, genreLegendOpacityArr, genreLegendXArr 직접 나열 방식으로 선언 (반복문 사용 금지)
+  const genreStrokeDashArr = [
+    useTransform(scrollYProgress ?? fallbackMotionValue, [0.67 + 0 * 0.01, 0.71 + 0 * 0.01], ['0 100', strokeDasharrays[0]]),
+    useTransform(scrollYProgress ?? fallbackMotionValue, [0.67 + 1 * 0.01, 0.71 + 1 * 0.01], ['0 100', strokeDasharrays[1]]),
+    useTransform(scrollYProgress ?? fallbackMotionValue, [0.67 + 2 * 0.01, 0.71 + 2 * 0.01], ['0 100', strokeDasharrays[2]]),
+    useTransform(scrollYProgress ?? fallbackMotionValue, [0.67 + 3 * 0.01, 0.71 + 3 * 0.01], ['0 100', strokeDasharrays[3]]),
+  ];
+  const genreLegendOpacityArr = [
+    useTransform(scrollYProgress ?? fallbackMotionValue, [0.68 + 0 * 0.01, 0.72 + 0 * 0.01], [0, 1]),
+    useTransform(scrollYProgress ?? fallbackMotionValue, [0.68 + 1 * 0.01, 0.72 + 1 * 0.01], [0, 1]),
+    useTransform(scrollYProgress ?? fallbackMotionValue, [0.68 + 2 * 0.01, 0.72 + 2 * 0.01], [0, 1]),
+    useTransform(scrollYProgress ?? fallbackMotionValue, [0.68 + 3 * 0.01, 0.72 + 3 * 0.01], [0, 1]),
+  ];
+  const genreLegendXArr = [
+    useTransform(scrollYProgress ?? fallbackMotionValue, [0.68 + 0 * 0.01, 0.72 + 0 * 0.01], [10, 0]),
+    useTransform(scrollYProgress ?? fallbackMotionValue, [0.68 + 1 * 0.01, 0.72 + 1 * 0.01], [10, 0]),
+    useTransform(scrollYProgress ?? fallbackMotionValue, [0.68 + 2 * 0.01, 0.72 + 2 * 0.01], [10, 0]),
+    useTransform(scrollYProgress ?? fallbackMotionValue, [0.68 + 3 * 0.01, 0.72 + 3 * 0.01], [10, 0]),
+  ];
 
   // Analyze 섹션: Decade(Bar chart) 배열 선언 및 useTransform map 바깥에서 선언
   const decadeList = [
@@ -291,26 +310,27 @@ export default function TopDownScrollSequence() {
     { decade: '90s', height: 75, albums: 18 },
     { decade: '00s', height: 40, albums: 8 }
   ];
-  const decadeBarHeightArr = [];
-  for (let i = 0; i < 4; i++) {
-    decadeBarHeightArr.push(
-      useTransform(scrollYProgress ?? fallbackMotionValue, [0.68 + i * 0.02, 0.72 + i * 0.02], ['0', `${decadeList[i].height}%`])
-    );
-  }
-
-  // Analyze 섹션: Mood Profile bar width useTransform map 바깥에서 선언
+  // Analyze 섹션: moodList를 먼저 선언해야 아래에서 참조 가능
   const moodList = [
     { mood: 'Energetic', value: 78 },
     { mood: 'Melancholic', value: 45 },
     { mood: 'Upbeat', value: 62 },
     { mood: 'Ambient', value: 33 }
   ];
-  const moodBarWidthArr = [];
-  for (let i = 0; i < 4; i++) {
-    moodBarWidthArr.push(
-      useTransform(scrollYProgress ?? fallbackMotionValue, [0.69 + i * 0.01, 0.73 + i * 0.01], ['0', `${moodList[i].value}%`])
-    );
-  }
+
+  // Analyze 섹션: decadeBarHeightArr, moodBarWidthArr 직접 나열 방식으로 선언 (반복문 사용 금지)
+  const decadeBarHeightArr = [
+    useTransform(scrollYProgress ?? fallbackMotionValue, [0.68 + 0 * 0.02, 0.72 + 0 * 0.02], ['0', `${decadeList[0].height}%`]),
+    useTransform(scrollYProgress ?? fallbackMotionValue, [0.68 + 1 * 0.02, 0.72 + 1 * 0.02], ['0', `${decadeList[1].height}%`]),
+    useTransform(scrollYProgress ?? fallbackMotionValue, [0.68 + 2 * 0.02, 0.72 + 2 * 0.02], ['0', `${decadeList[2].height}%`]),
+    useTransform(scrollYProgress ?? fallbackMotionValue, [0.68 + 3 * 0.02, 0.72 + 3 * 0.02], ['0', `${decadeList[3].height}%`]),
+  ];
+  const moodBarWidthArr = [
+    useTransform(scrollYProgress ?? fallbackMotionValue, [0.69 + 0 * 0.01, 0.73 + 0 * 0.01], ['0', `${moodList[0].value}%`]),
+    useTransform(scrollYProgress ?? fallbackMotionValue, [0.69 + 1 * 0.01, 0.73 + 1 * 0.01], ['0', `${moodList[1].value}%`]),
+    useTransform(scrollYProgress ?? fallbackMotionValue, [0.69 + 2 * 0.01, 0.73 + 2 * 0.01], ['0', `${moodList[2].value}%`]),
+    useTransform(scrollYProgress ?? fallbackMotionValue, [0.69 + 3 * 0.01, 0.73 + 3 * 0.01], ['0', `${moodList[3].value}%`]),
+  ];
 
   return (
     <div ref={containerRef} className="relative" style={{ height: '5500px' }}>
@@ -345,7 +365,7 @@ export default function TopDownScrollSequence() {
           {/* Language Toggle Button */}
           <motion.button
             onClick={() => setIsKorean(!isKorean)}
-            className="px-5 py-2.5 bg-transparent border-2 border-white/80 text-white text-sm font-semibold rounded-full hover:border-vinyl-400 hover:text-vinyl-400 hover:bg-white/5 focus:outline-none focus:ring-4 focus:ring-white/20 transition-all duration-200 backdrop-blur-sm"
+            className="w-32 px-5 py-2.5 bg-transparent border-2 border-white/80 text-white text-sm font-semibold rounded-full hover:border-vinyl-400 hover:text-vinyl-400 hover:bg-white/5 focus:outline-none focus:ring-4 focus:ring-white/20 transition-all duration-200 backdrop-blur-sm"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             initial={{ opacity: 0, y: -20 }}
@@ -418,7 +438,7 @@ export default function TopDownScrollSequence() {
 
         {/* Black overlay container above all elements */}
         <motion.div
-          className="absolute inset-0 bg-black/60 z-[45] pointer-events-none"
+          className="absolute inset-0 bg-black/60 z-[45] pointer-events-none backdrop-blur-md"
           style={{
             opacity: useTransform(scrollYProgress, [0, 0.3], [1, 0])
           }}
@@ -463,14 +483,14 @@ export default function TopDownScrollSequence() {
         </motion.div>
 
         {/* Scattered vinyl records */}
-        {vinylRecords.map((record) => (
+        {scrollYProgress.get() < 0.50 && vinylRecords.map((record) => (
           <VinylRecord
             key={record.id}
             record={record}
             coverImage={coverImages[record.id]}
             mergeProgress={mergeProgress}
+            setMergeProgress={mergeProgress.set}
             scrollYProgress={scrollYProgress}
-            shouldBlur={shouldBlur}
             randomTopIndex={randomTopIndex}
           />
         ))}
@@ -593,19 +613,13 @@ export default function TopDownScrollSequence() {
                       {/* Album cover thumbnail */}
                       <div className="w-10 h-10 rounded-lg overflow-hidden bg-white/20 flex-shrink-0 relative">
                         {coverImages[record.id] ? (
-                          <Image 
-                            src={coverImages[record.id]} 
+                          <AlbumCover
+                            src={coverImages[record.id]}
+                            thumb={`/albums/thumbs/${coverImages[record.id]?.split('/').pop()}`}
                             alt={record.title}
-                            fill
-                            className="object-cover will-change-transform"
                             sizes="40px"
-                            quality={75}
+                            priority={false}
                             loading="lazy"
-                            placeholder="blur"
-                            blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
-                            onError={(e) => {
-                              console.warn(`Failed to load collection image: ${coverImages[record.id]}`)
-                            }}
                           />
                         ) : (
                           <div 
@@ -767,19 +781,19 @@ export default function TopDownScrollSequence() {
                   }}
                 >
                   {/* Main feature area */}
-                  <div className="bg-black rounded-lg h-[500px] flex items-center justify-center">
+                  <div className="bg-black rounded-2xl h-[445px] flex items-center justify-center">
                     {/* Camera Preview Container */}
-                    <div className="relative w-full h-full bg-black rounded-lg overflow-hidden">
+                    <div className="relative w-full h-full bg-black rounded-3xl overflow-hidden">
                       
                       {/* Camera Frame Lines */}
                       <motion.div 
-                        className="absolute inset-0 border-2 border-white/40 rounded-lg"
+                        className="absolute inset-0 border-2 border-white/40 rounded-3xl"
                         style={{
                           opacity: useTransform(scrollYProgress, [0.36, 0.38], [0, 1])
                         }}
                       />
                       <motion.div 
-                        className="absolute inset-0 border border-white/25 rounded-lg"
+                        className="absolute inset-0 border border-white/25 rounded-2xl"
                         style={{
                           opacity: useTransform(scrollYProgress, [0.37, 0.39], [0, 1])
                         }}
@@ -809,9 +823,6 @@ export default function TopDownScrollSequence() {
                       >
                         <motion.div 
                           className="w-48 h-48 rounded-lg overflow-hidden shadow-2xl"
-                          style={{
-                            filter: useTransform(scrollYProgress, [0.40, 0.42, 0.44, 0.46], ['blur(8px)', 'blur(8px)', 'blur(2px)', 'blur(0px)'])
-                          }}
                         >
                           {coverImages[randomTopIndex] ? (
                             <Image 
@@ -1098,8 +1109,8 @@ export default function TopDownScrollSequence() {
           <Image 
             src="/assets/cat_snap_01.png" 
             alt="Cat with camera for SNAP feature" 
-            width={600}
-            height={600}
+            width={480}
+            height={480}
             className="object-contain drop-shadow-2xl will-change-transform"
             quality={90}
             priority={true}
@@ -1153,14 +1164,16 @@ export default function TopDownScrollSequence() {
               <>
                 앨범 재킷에 카메라를 향하기만 하면 됩니다.<br />
                 한 번의 스냅으로 충분합니다.<br />
-                AI가 앨범, 아티스트, 릴리스를 즉시 인식합니다 — 바코드나 타이핑 불필요.<br />
+                AI가 앨범, 아티스트, 릴리스를 즉시 인식합니다.<br />
+                바코드나 타이핑 불필요.<br />
                 커버를 촬영하는 순간부터 컬렉션 구축을 시작하세요.
               </>
             ) : (
               <>
             Just point your camera at the album jacket.<br />
             One snap is all it takes.<br />
-            Our AI instantly recognizes the album, artist, and release — no barcodes, no typing.<br />
+            Our AI instantly recognizes the album, artist, and release <br />
+            No barcodes, no typing.<br />
             Start building your collection the moment you capture the cover.
               </>
             )}
@@ -1368,11 +1381,11 @@ export default function TopDownScrollSequence() {
           }}
         >
           <Image 
-            src="/assets/cat.png" 
+            src="/assets/cat_analyze_02.png" 
             alt="Cat with analytics for ANALYZE feature" 
             width={430}
             height={430}
-            className="object-contain drop-shadow-2xl will-change-transform"
+            className="object-contain drop-shadow-2xl will-change-transform lg:scale-x-[-1]"
             quality={90}
             loading="lazy"
             placeholder="blur"
@@ -1578,7 +1591,7 @@ export default function TopDownScrollSequence() {
             {isKorean ? (
               <>
                 레코드로 연결되고,<br />
-                연결로 창조합니다.
+                연결로 이야기를 만듭니다.
               </>
             ) : (
               <>
@@ -1659,7 +1672,7 @@ export default function TopDownScrollSequence() {
               }}
             >
               <div className="text-white/90 font-medium text-xl" style={{ fontFamily: 'Inter, system-ui, -apple-system, sans-serif' }}>
-                {isKorean ? '레코드로 연결되고, 연결로 창조합니다.' : 'Through records, we connect. Through connection, we create.'}
+                {isKorean ? '레코드로 연결되고,연결로 이야기를 만듭니다.' : 'Through records, we connect. Through connection, we create.'}
               </div>
             </motion.div>
           </div>

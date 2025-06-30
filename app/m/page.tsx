@@ -1,18 +1,18 @@
 'use client'
 
-import { motion, useScroll, useTransform } from 'framer-motion'
+import { motion, useScroll, useTransform, useMotionValue } from 'framer-motion'
 import { useRef, useState, useEffect } from 'react'
 import Image from 'next/image'
-import VinylRecord from 'components/VinylRecord'
-import { vinylRecords, slogans, snapAlbumCovers, fetchCoverArt } from 'lib/mobileData'
-import MobileHeader from 'components/mobile/MobileHeader'
+import VinylRecord from '@/components/VinylRecord'
+import { vinylRecords, slogans, snapAlbumCovers, fetchCoverArt } from '@/lib/mobileData'
+import MobileHeader from '@/components/mobile/MobileHeader'
 import dynamic from 'next/dynamic'
-import { Footer } from 'components/Footer'
+import { Footer } from '@/components/Footer'
 
-const SnapSlogan = dynamic(() => import('@/components/scenes/SloganItem').then(mod => mod.SnapSlogan), { ssr: false })
-const CollectSlogan = dynamic(() => import('@/components/scenes/CollectSlogan').then(mod => mod.CollectSlogan), { ssr: false })
-const AnalyzeSlogan = dynamic(() => import('@/components/scenes/AnalyzeSlogan').then(mod => mod.AnalyzeSlogan), { ssr: false })
-const TradeSlogan = dynamic(() => import('@/components/scenes/TradeSlogan').then(mod => mod.TradeSlogan), { ssr: false })
+const SnapSlogan = dynamic(() => import('@/components/scenes/SnapSlogan'), { ssr: false })
+const CollectSlogan = dynamic(() => import('@/components/scenes/CollectSlogan'), { ssr: false })
+const AnalyzeSlogan = dynamic(() => import('@/components/scenes/AnalyzeSlogan'), { ssr: false })
+const TradeSlogan = dynamic(() => import('@/components/scenes/TradeSlogan'), { ssr: false })
 
 export default function MPage() {
   const containerRef = useRef<HTMLDivElement>(null)
@@ -23,6 +23,7 @@ export default function MPage() {
   const [isKorean, setIsKorean] = useState(false)
   const [shouldBlur, setShouldBlur] = useState(true)
   const [isFooterVisible, setIsFooterVisible] = useState(false)
+  const mergeProgress = useMotionValue(0);
 
   // 컴포넌트 마운트 시 랜덤 순서와 커버 이미지들 로드
   useEffect(() => {
@@ -56,16 +57,93 @@ export default function MPage() {
     offset: ['start start', 'end end']
   })
 
+  // Collect 섹션: useTransform 배열을 컴포넌트 최상단에서 직접 선언
+  const collectOpacityArr = [
+    useTransform(scrollYProgress, [0.50 + 0 * 0.015, 0.52 + 0 * 0.015], [0, 1]),
+    useTransform(scrollYProgress, [0.50 + 1 * 0.015, 0.52 + 1 * 0.015], [0, 1]),
+    useTransform(scrollYProgress, [0.50 + 2 * 0.015, 0.52 + 2 * 0.015], [0, 1]),
+    useTransform(scrollYProgress, [0.50 + 3 * 0.015, 0.52 + 3 * 0.015], [0, 1]),
+    useTransform(scrollYProgress, [0.50 + 4 * 0.015, 0.52 + 4 * 0.015], [0, 1]),
+    useTransform(scrollYProgress, [0.50 + 5 * 0.015, 0.52 + 5 * 0.015], [0, 1]),
+    useTransform(scrollYProgress, [0.50 + 6 * 0.015, 0.52 + 6 * 0.015], [0, 1]),
+    useTransform(scrollYProgress, [0.50 + 7 * 0.015, 0.52 + 7 * 0.015], [0, 1]),
+  ];
+  const collectXArr = [
+    useTransform(scrollYProgress, [0.50 + 0 * 0.015, 0.52 + 0 * 0.015], [30, 0]),
+    useTransform(scrollYProgress, [0.50 + 1 * 0.015, 0.52 + 1 * 0.015], [30, 0]),
+    useTransform(scrollYProgress, [0.50 + 2 * 0.015, 0.52 + 2 * 0.015], [30, 0]),
+    useTransform(scrollYProgress, [0.50 + 3 * 0.015, 0.52 + 3 * 0.015], [30, 0]),
+    useTransform(scrollYProgress, [0.50 + 4 * 0.015, 0.52 + 4 * 0.015], [30, 0]),
+    useTransform(scrollYProgress, [0.50 + 5 * 0.015, 0.52 + 5 * 0.015], [30, 0]),
+    useTransform(scrollYProgress, [0.50 + 6 * 0.015, 0.52 + 6 * 0.015], [30, 0]),
+    useTransform(scrollYProgress, [0.50 + 7 * 0.015, 0.52 + 7 * 0.015], [30, 0]),
+  ];
+
+  // ANALYZE 섹션: useTransform 배열을 컴포넌트 최상단에서 직접 선언
+  const genreStrokeDasharrayArr = [
+    useTransform(scrollYProgress, [0.67, 0.71], ['0 100', '45 55']),
+    useTransform(scrollYProgress, [0.68, 0.72], ['0 100', '25 75']),
+    useTransform(scrollYProgress, [0.69, 0.73], ['0 100', '20 80']),
+    useTransform(scrollYProgress, [0.70, 0.74], ['0 100', '10 90']),
+  ];
+  const genreLegendOpacityArr = [
+    useTransform(scrollYProgress, [0.68, 0.72], [0, 1]),
+    useTransform(scrollYProgress, [0.69, 0.73], [0, 1]),
+    useTransform(scrollYProgress, [0.70, 0.74], [0, 1]),
+    useTransform(scrollYProgress, [0.71, 0.75], [0, 1]),
+  ];
+  const genreLegendXArr = [
+    useTransform(scrollYProgress, [0.68, 0.72], [10, 0]),
+    useTransform(scrollYProgress, [0.69, 0.73], [10, 0]),
+    useTransform(scrollYProgress, [0.70, 0.74], [10, 0]),
+    useTransform(scrollYProgress, [0.71, 0.75], [10, 0]),
+  ];
+  // Decade(4개)
+  const decadeHeightArr = [
+    useTransform(scrollYProgress, [0.68, 0.72], [0, '60%']),
+    useTransform(scrollYProgress, [0.70, 0.74], [0, '85%']),
+    useTransform(scrollYProgress, [0.72, 0.76], [0, '75%']),
+    useTransform(scrollYProgress, [0.74, 0.78], [0, '40%']),
+  ];
+  // Mood(4개)
+  const moodWidthArr = [
+    useTransform(scrollYProgress, [0.69, 0.73], [0, '78%']),
+    useTransform(scrollYProgress, [0.70, 0.74], [0, '45%']),
+    useTransform(scrollYProgress, [0.71, 0.75], [0, '62%']),
+    useTransform(scrollYProgress, [0.72, 0.76], [0, '33%']),
+  ];
+
+  // TRADE 섹션: useTransform 배열을 컴포넌트 최상단에서 직접 선언
+  // Price range selection (3개)
+  const tradePriceOpacityArr = [
+    useTransform(scrollYProgress, [0.83, 0.85], [0, 1]),
+    useTransform(scrollYProgress, [0.84, 0.86], [0, 1]),
+    useTransform(scrollYProgress, [0.85, 0.87], [0, 1]),
+  ];
+  const tradePriceYArr = [
+    useTransform(scrollYProgress, [0.83, 0.85], [10, 0]),
+    useTransform(scrollYProgress, [0.84, 0.86], [10, 0]),
+    useTransform(scrollYProgress, [0.85, 0.87], [10, 0]),
+  ];
+  // Other listings (2개)
+  const tradeMoreOpacityArr = [
+    useTransform(scrollYProgress, [0.87, 0.89], [0, 1]),
+    useTransform(scrollYProgress, [0.89, 0.91], [0, 1]),
+  ];
+  const tradeMoreXArr = [
+    useTransform(scrollYProgress, [0.87, 0.89], [20, 0]),
+    useTransform(scrollYProgress, [0.89, 0.91], [20, 0]),
+  ];
+
   // 스크롤 진행도에 따라 블러 상태 업데이트
   useEffect(() => {
-    const unsubscribe = scrollYProgress.onChange((latest) => {
+    const unsubscribe = scrollYProgress.on('change', (latest) => {
       setShouldBlur(latest < 0.1)
     })
     return unsubscribe
   }, [scrollYProgress])
 
   // 각 섹션별 진행도
-  const mergeProgress = useTransform(scrollYProgress, [0.15, 0.25], [0, 1])
   const albumWallOpacity = useTransform(scrollYProgress, [0.15, 0.25], [1, 0])
 
   const scrollToWaitlist = () => {
@@ -94,6 +172,15 @@ export default function MPage() {
     handleScroll()
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
+
+  useEffect(() => {
+    const unsubscribe = scrollYProgress.on('change', (v) => {
+      if (v < 0.15) mergeProgress.set(0);
+      else if (v > 0.25) mergeProgress.set(1);
+      else mergeProgress.set((v - 0.15) / 0.1);
+    });
+    return unsubscribe;
+  }, [scrollYProgress, mergeProgress]);
 
   return (
     <div ref={containerRef} className="relative" style={{ height: '5500px' }}>
@@ -192,10 +279,9 @@ export default function MPage() {
             <VinylRecord
               key={record.id}
               record={record}
-              coverImage={coverImages[record.id] || ''} // 로드된 커버 이미지 전달
+              coverImage={coverImages[record.id] || ''}
               mergeProgress={mergeProgress}
               scrollYProgress={scrollYProgress}
-              shouldBlur={shouldBlur}
               randomTopIndex={randomTopIndex}
             />
           ))}
@@ -310,14 +396,8 @@ export default function MPage() {
                       key={`collect-${record.id}`}
                       className="bg-white/10 backdrop-blur-sm rounded-lg p-3 flex items-center space-x-3"
                       style={{
-                        opacity: useTransform(scrollYProgress, 
-                          [0.50 + index * 0.015, 0.52 + index * 0.015], 
-                          [0, 1]
-                        ),
-                        x: useTransform(scrollYProgress, 
-                          [0.50 + index * 0.015, 0.52 + index * 0.015], 
-                          [30, 0]
-                        )
+                        opacity: collectOpacityArr[index],
+                        x: collectXArr[index]
                       }}
                     >
                       {/* Album cover thumbnail */}
@@ -416,10 +496,7 @@ export default function MPage() {
                                   strokeWidth="3"
                                   strokeLinecap="round"
                                   style={{
-                                    strokeDasharray: useTransform(scrollYProgress,
-                                      [0.67 + index * 0.01, 0.71 + index * 0.01],
-                                      [`0 100`, strokeDasharray]
-                                    ),
+                                    strokeDasharray: genreStrokeDasharrayArr[index],
                                     strokeDashoffset
                                   }}
                                 />
@@ -441,14 +518,8 @@ export default function MPage() {
                             key={item.genre} 
                             className="flex items-center justify-between"
                             style={{
-                              opacity: useTransform(scrollYProgress, 
-                                [0.68 + index * 0.01, 0.72 + index * 0.01], 
-                                [0, 1]
-                              ),
-                              x: useTransform(scrollYProgress, 
-                                [0.68 + index * 0.01, 0.72 + index * 0.01], 
-                                [10, 0]
-                              )
+                              opacity: genreLegendOpacityArr[index],
+                              x: genreLegendXArr[index]
                             }}
                           >
                             <div className="flex items-center space-x-1">
@@ -477,13 +548,10 @@ export default function MPage() {
                       ].map((item, index) => (
                         <div key={item.decade} className="text-center">
                           <div className="h-16 flex items-end justify-center mb-1">
-                                                         <motion.div
+                             <motion.div
                                className="w-4 bg-gradient-to-t from-blue-500 to-blue-300 rounded-t"
                                style={{
-                                 height: useTransform(scrollYProgress, 
-                                   [0.68 + index * 0.02, 0.72 + index * 0.02], 
-                                   [0, `${item.height}%`]
-                                 )
+                                 height: decadeHeightArr[index]
                                }}
                              />
                           </div>
@@ -508,13 +576,10 @@ export default function MPage() {
                           <span className="text-blue-200 text-xs">{item.mood}</span>
                           <div className="flex items-center space-x-2">
                             <div className="w-12 bg-white/10 rounded-full h-1">
-                                                             <motion.div 
+                               <motion.div 
                                  className="bg-gradient-to-r from-vinyl-400 to-vinyl-500 rounded-full h-1"
                                  style={{
-                                   width: useTransform(scrollYProgress, 
-                                     [0.69 + index * 0.01, 0.73 + index * 0.01], 
-                                     [0, `${item.value}%`]
-                                   )
+                                   width: moodWidthArr[index]
                                  }}
                                />
                             </div>
@@ -577,9 +642,6 @@ export default function MPage() {
                       >
                         <motion.div 
                           className="w-48 h-48 rounded-lg overflow-hidden shadow-2xl"
-                          style={{
-                            filter: useTransform(scrollYProgress, [0.40, 0.42, 0.44, 0.46], ['blur(8px)', 'blur(8px)', 'blur(2px)', 'blur(0px)'])
-                          }}
                         >
                           {coverImages[randomTopIndex] ? (
                             <Image 
@@ -668,14 +730,8 @@ export default function MPage() {
                             key={option.price}
                             className={`${option.color} border rounded-lg p-2 text-center cursor-pointer transition-all`}
                             style={{
-                              opacity: useTransform(scrollYProgress, 
-                                [0.83 + index * 0.01, 0.85 + index * 0.01], 
-                                [0, 1]
-                              ),
-                              y: useTransform(scrollYProgress, 
-                                [0.83 + index * 0.01, 0.85 + index * 0.01], 
-                                [10, 0]
-                              )
+                              opacity: tradePriceOpacityArr[index],
+                              y: tradePriceYArr[index]
                             }}
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
@@ -715,14 +771,8 @@ export default function MPage() {
                         key={item.title}
                         className="bg-white/5 rounded-lg p-3 flex items-center justify-between"
                         style={{
-                          opacity: useTransform(scrollYProgress, 
-                            [0.87 + index * 0.02, 0.89 + index * 0.02], 
-                            [0, 1]
-                          ),
-                          x: useTransform(scrollYProgress, 
-                            [0.87 + index * 0.02, 0.89 + index * 0.02], 
-                            [20, 0]
-                          )
+                          opacity: tradeMoreOpacityArr[index],
+                          x: tradeMoreXArr[index]
                         }}
                       >
                                                   <div className="flex items-center space-x-3">

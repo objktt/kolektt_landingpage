@@ -158,4 +158,6 @@ export function SnapSlogan({ scrollYProgress, isKorean }: SnapSloganProps) {
       </motion.div>
     </>
   )
-} 
+}
+
+export default SnapSlogan 

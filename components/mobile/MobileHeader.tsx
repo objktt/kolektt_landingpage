@@ -295,7 +295,7 @@ export default function MobileHeader({
             setIsKorean(!isKorean)
             setIsMenuOpen(false)
           }}
-          className="w-full px-6 py-4 text-left text-white hover:bg-white/10 transition-colors duration-200 border-b border-white/10"
+          className="w-32 px-6 py-4 text-left text-white hover:bg-white/10 transition-colors duration-200 border-b border-white/10"
           whileHover={{ x: 4 }}
         >
           <div className="flex items-center space-x-3">

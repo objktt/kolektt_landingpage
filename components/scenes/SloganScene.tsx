@@ -2,7 +2,10 @@
 
 import { motion, useScroll } from 'framer-motion'
 import { useRef } from 'react'
-import SloganItem from './SloganItem'
+import SnapSlogan from './SnapSlogan'
+import CollectSlogan from './CollectSlogan'
+import AnalyzeSlogan from './AnalyzeSlogan'
+import TradeSlogan from './TradeSlogan'
 
 const slogans = [
   { 
@@ -64,16 +67,11 @@ export default function SloganScene() {
         </motion.div>
       </div>
 
-      {/* 스크롤되는 슬로건들 */}
-      {slogans.map((slogan, index) => (
-        <SloganItem
-          key={slogan.word}
-          slogan={slogan}
-          index={index}
-          scrollYProgress={scrollYProgress}
-          totalSlogans={slogans.length}
-        />
-      ))}
+      {/* 각 슬로건별 개별 컴포넌트 렌더링 */}
+      <SnapSlogan scrollYProgress={scrollYProgress} isKorean={true} />
+      <CollectSlogan scrollYProgress={scrollYProgress} isKorean={true} />
+      <AnalyzeSlogan scrollYProgress={scrollYProgress} isKorean={true} />
+      <TradeSlogan scrollYProgress={scrollYProgress} isKorean={true} />
     </div>
   )
 } 

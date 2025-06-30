@@ -1,8 +1,8 @@
 'use client'
 
-import { motion, useTransform, MotionValue } from 'framer-motion'
-import { memo } from 'react'
-import Image from 'next/image'
+import { motion, useTransform, MotionValue, useMotionValueEvent } from 'framer-motion'
+import { memo, useState, useRef, useEffect } from 'react'
+import AlbumCover from './AlbumCover'
 
 interface VinylRecordProps {
   record: {
@@ -17,8 +17,10 @@ interface VinylRecordProps {
   coverImage: string | undefined
   mergeProgress: MotionValue<number>
   scrollYProgress: MotionValue<number>
-  shouldBlur: boolean
   randomTopIndex: number
+  setMergeProgress?: (v: number) => void
+  forceToCenter?: boolean
+  setForceToCenter?: (v: boolean) => void
 }
 
 const VinylRecord = memo(({ 
@@ -26,8 +28,10 @@ const VinylRecord = memo(({
   coverImage, 
   mergeProgress, 
   scrollYProgress, 
-  shouldBlur, 
-  randomTopIndex 
+  randomTopIndex,
+  setMergeProgress,
+  forceToCenter,
+  setForceToCenter
 }: VinylRecordProps) => {
   const recordX = useTransform(
     mergeProgress,
@@ -66,35 +70,104 @@ const VinylRecord = memo(({
     [1, 1, record.id === randomTopIndex ? 1 : 0]
   )
 
+  // mergeProgress가 1이 되는 순간을 state로 관리
+  const [isMerged, setIsMerged] = useState(false);
+  useMotionValueEvent(mergeProgress, 'change', (v) => {
+    setIsMerged(v === 1);
+  });
+
+  // 드래그 상태 관리
+  const [isDragging, setIsDragging] = useState(false);
+  // 드래그로 merge 트리거된 앨범만 중앙 이동
+  const [dragEndPos, setDragEndPos] = useState<{x: number, y: number} | null>(null);
+  const motionDivRef = useRef<HTMLDivElement>(null);
+
+  // mergeProgress가 0보다 크면(모이기 시작하면) 맨 위 앨범은 항상 원본만 보이게
+  const [isMergingOrMerged, setIsMergingOrMerged] = useState(false);
+  useMotionValueEvent(mergeProgress, 'change', (v) => {
+    setIsMergingOrMerged(v > 0);
+  });
+
+  // 드래그 종료 시 중앙 판별 및 merge 트리거
+  // 드롭 위치 기억, merge 트리거 시 해당 앨범만 중앙 이동
+  const handleDragEnd = (event: any, info: any) => {
+    setIsDragging(false);
+    const centerX = window.innerWidth / 2;
+    const centerY = window.innerHeight / 2;
+    const dx = Math.abs(info.point.x - centerX);
+    const dy = Math.abs(info.point.y - centerY);
+    const hasParent = motionDivRef.current && motionDivRef.current.parentElement;
+    if (setMergeProgress) {
+      if (dx < 100 && dy < 100 && hasParent) {
+        // 부모 기준 좌표로 변환
+        const parentRect = motionDivRef.current.parentElement.getBoundingClientRect();
+        const localX = info.point.x - parentRect.left;
+        const localY = info.point.y - parentRect.top;
+        if (setDragEndPos) setDragEndPos({ x: localX, y: localY });
+        if (setForceToCenter) setForceToCenter(true);
+        setMergeProgress?.(1);
+      } else {
+        // 중앙 근처가 아니면 원래 위치로 복귀
+        if (setForceToCenter) setForceToCenter(false);
+        if (setDragEndPos) setDragEndPos(null);
+        setMergeProgress?.(0);
+      }
+    }
+  };
+
+  // merge가 끝나면 forceToCenter 해제
+  useEffect(() => {
+    if (forceToCenter && mergeProgress.get() === 1 && setForceToCenter) {
+      const timeout = setTimeout(() => setForceToCenter(false), 600); // 애니메이션 후 해제
+      return () => clearTimeout(timeout);
+    }
+  }, [forceToCenter, mergeProgress, setForceToCenter]);
+
+  // 드롭된 앨범만 드롭 위치에서 중앙으로 이동
+  let left = undefined;
+  let top = undefined;
+  let x = '-50%';
+  let y = '-50%';
+  let animate = {};
+  if (forceToCenter && dragEndPos) {
+    left = dragEndPos.x + 'px';
+    top = dragEndPos.y + 'px';
+    x = '';
+    y = '';
+    animate = {
+      left: '50%',
+      top: '50%',
+      x: '-50%',
+      y: '-50%',
+      transition: { duration: 0.6, ease: 'easeInOut' }
+    };
+  }
+
   return (
     <motion.div
-      className="absolute w-52 h-52 md:w-64 md:h-64 rounded-lg cursor-pointer vinyl-animation will-change-transform"
+      ref={motionDivRef}
+      className="absolute w-52 h-52 md:w-64 md:h-64 rounded-lg cursor-pointer vinyl-animation z-[50]"
       style={{
-        left: recordX,
-        top: recordY,
-        x: '-50%',
-        y: '-50%',
+        left: left ?? recordX,
+        top: top ?? recordY,
+        x,
+        y,
         rotate: recordRotation,
         scale: recordScale,
         opacity: useTransform([recordOpacity, mergeOpacity], ([scroll, merge]) => (scroll as number) * (merge as number)),
         backgroundColor: record.color,
         zIndex: record.id === randomTopIndex ? 30 : 20 - record.id,
-        boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-        transformStyle: 'preserve-3d'
+        boxShadow: 'none',
       }}
       initial={{ 
         scale: 0, 
         opacity: 0,
-        filter: 'blur(4px)'
       }}
       animate={{ 
         scale: 1, 
         opacity: 1,
-        filter: shouldBlur ? 'blur(4px)' : 'blur(0px)',
-        rotateX: 0,
-        rotateY: 0,
-        z: 0,
-        boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)'
+        boxShadow: 'none',
+        ...animate
       }}
       transition={{ 
         delay: record.id * 0.1, 
@@ -103,45 +176,20 @@ const VinylRecord = memo(({
         stiffness: 1200,
         damping: 60
       }}
-      whileHover={{
-        scale: 1.1,
-        rotateX: 15,
-        rotateY: 10,
-        z: 50,
-        zIndex: 50,
-        boxShadow: '0 20px 40px rgba(0, 0, 0, 0.3)',
-        filter: 'blur(0px)',
-        transition: {
-          type: "spring",
-          stiffness: 800,
-          damping: 30,
-          duration: 0.08
-        }
-      }}
-      whileTap={{
-        scale: 0.95,
-        rotateX: 5,
-        rotateY: 5
-      }}
     >
       {/* Album Cover Image */}
       {coverImage ? (
         <div className="absolute inset-0 rounded-lg overflow-hidden">
-          <Image 
-            src={coverImage} 
+          {/* 블랙 오버레이: AlbumCover보다 먼저 렌더링, z-10 */}
+          <div className="absolute inset-0 rounded-lg bg-black/40 z-10 pointer-events-none" />
+          {/* 원본 이미지: 항상 z-50 */}
+          <AlbumCover
+            src={coverImage}
             alt={`${record.title} by ${record.artist}`}
-            fill
-            className="object-cover will-change-transform"
-            sizes="(max-width: 768px) 208px, (max-width: 1024px) 256px, 256px"
-            priority={record.id <= 10} // 처음 10개만 우선 로딩
-            loading={record.id <= 10 ? "eager" : "lazy"}
-            quality={85} // 품질 최적화
-            placeholder="blur"
-            blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
-            onError={(e) => {
-              console.warn(`Failed to load vinyl record image: ${coverImage}`)
-              // 에러 시 fallback 처리
-            }}
+            className="w-full h-full z-[50]"
+            sizes="(min-width: 768px) 256px, 208px"
+            priority={true}
+            loading="eager"
           />
         </div>
       ) : (

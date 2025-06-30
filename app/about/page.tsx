@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { useState, useEffect } from 'react'
 
 export default function AboutPage() {
-  const [language, setLanguage] = useState('ko')
+  const [language, setLanguage] = useState<'ko' | 'en'>('ko')
 
   useEffect(() => {
     // URL 파라미터에서 언어 확인
@@ -63,8 +63,7 @@ export default function AboutPage() {
        businessItems: [
          '레코드샵 파트너십 - 재고 관리 및 고객 추천 시스템 연동',
          '음반 레이블 협력 - 신작 홍보 및 컬렉터 타겟팅',
-         '디스트리뷰터 연계 - 유통망 확장 및 데이터 분석',
-         'API 제공 - 기존 시스템과의 통합 솔루션'
+         '디스트리뷰터 연계 - 유통망 확장 및 데이터 분석'
        ],
        businessContact: '비즈니스 문의: ',
        privacyPolicy: '개인정보 처리방침',
@@ -108,8 +107,7 @@ export default function AboutPage() {
        businessItems: [
          'Record Shop Partnership - Inventory management and customer recommendation system integration',
          'Music Label Collaboration - New release promotion and collector targeting',
-         'Distributor Connection - Distribution network expansion and data analytics',
-         'API Integration - Custom solutions for existing systems'
+         'Distributor Connection - Distribution network expansion and data analytics'
        ],
        businessContact: 'Business Inquiry: ',
        privacyPolicy: 'Privacy Policy',
