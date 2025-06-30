@@ -38,11 +38,11 @@ const SnapSlogan: React.FC<SnapSloganProps> = ({ scrollYProgress, isKorean }) =>
       }}
       aria-label={isKorean ? 'SNAP 슬로건 및 설명' : 'SNAP slogan and description'}
     >
-      <div className="relative w-[250px] left-[100px]">
+      <div className="relative w-[300px] left-[100px]">
         <div className="absolute inset-0 bg-black/40 rounded-3xl -z-10" />
-        <div className="border border-white/0 rounded-3xl shadow-2xl px-8 py-8 text-white w-full text-right"
+        <div className="backdrop-blur-md bg-black/20 border border-white/20 rounded-3xl shadow-2xl px-8 py-8 text-white w-full text-right"
              style={{boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.25)'}}>
-          <div className="text-5xl font-bold mb-6 drop-shadow-lg leading-tight">SNAP</div>
+          <div className="text-5xl font-bold mb-6 drop-shadow-lg leading-tight">Snap</div>
           <div className="text-lg font-medium mb-2 leading-tight">
             {isKorean ? (
               <>AI로 레코드를 스캔하세요.</>
@@ -76,9 +76,9 @@ const SnapSlogan: React.FC<SnapSloganProps> = ({ scrollYProgress, isKorean }) =>
       className="absolute z-50"
       style={{
         left: 'calc(50% - 50px)',
-        top: 'calc(50% + 280px)',
-        width: 330,
-        height: 330,
+        top: 'calc(50% + 250px)',
+        width: 316.8,
+        height: 316.8,
         x: useTransform(scrollYProgress, (value) => {
           // SNAP 구간: 35%-50%
           if (value < 0.35) return '100vw';
@@ -105,8 +105,8 @@ const SnapSlogan: React.FC<SnapSloganProps> = ({ scrollYProgress, isKorean }) =>
       <Image 
         src="/assets/cat_snap_01.png" 
         alt="Cat with camera for SNAP feature" 
-        width={264}
-        height={264}
+        width={316.8}
+        height={316.8}
         className="object-contain drop-shadow-2xl will-change-transform"
         quality={90}
         loading="lazy"

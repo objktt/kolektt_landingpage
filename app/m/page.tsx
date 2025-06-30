@@ -143,9 +143,6 @@ export default function MPage() {
     return unsubscribe
   }, [scrollYProgress])
 
-  // 각 섹션별 진행도
-  const albumWallOpacity = useTransform(scrollYProgress, [0.15, 0.25], [1, 0])
-
   const scrollToWaitlist = () => {
     const waitlistSection = document.querySelector('[data-section="waitlist"]')
     if (waitlistSection) {
@@ -223,7 +220,7 @@ export default function MPage() {
 
         {/* Black overlay container above all elements */}
         <motion.div
-          className="absolute inset-0 bg-black/60 z-[45] pointer-events-none"
+          className="absolute inset-0 bg-black/60 z-[45] pointer-events-none backdrop-blur-md"
           style={{
             opacity: useTransform(scrollYProgress, [0, 0.3], [1, 0])
           }}
@@ -272,10 +269,10 @@ export default function MPage() {
           className="absolute inset-0 flex items-center justify-center" 
           style={{ 
             perspective: '1000px',
-            opacity: albumWallOpacity
+            opacity: scrollYProgress.get() < 0.50 ? 1 : 0
           }}
         >
-          {vinylRecords.map((record) => (
+          {scrollYProgress.get() < 0.50 && vinylRecords.map((record) => (
             <VinylRecord
               key={record.id}
               record={record}

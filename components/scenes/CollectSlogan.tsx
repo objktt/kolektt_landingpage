@@ -42,7 +42,7 @@ const CollectSlogan: React.FC<CollectSloganProps> = ({ scrollYProgress, isKorean
         <div className="absolute inset-0 bg-black/40 rounded-3xl -z-10" />
         <div className="backdrop-blur-md bg-black/20 border border-white/20 rounded-3xl shadow-2xl px-8 py-8 text-white w-full text-right"
              style={{boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.25)'}}>
-          <div className="text-5xl font-bold mb-6 drop-shadow-lg leading-tight">COLLECT</div>
+          <div className="text-5xl font-bold mb-6 drop-shadow-lg leading-tight">Collect</div>
           <div className="text-lg font-medium mb-2 leading-tight">
             {isKorean ? (
               <>모든 스캔이 컬렉션이 됩니다.</>

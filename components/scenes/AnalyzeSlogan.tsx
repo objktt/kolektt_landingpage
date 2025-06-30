@@ -42,7 +42,7 @@ const AnalyzeSlogan: React.FC<AnalyzeSloganProps> = ({ scrollYProgress, isKorean
         <div className="absolute inset-0 bg-black/40 rounded-3xl -z-10" />
         <div className="backdrop-blur-md bg-black/20 border border-white/20 rounded-3xl shadow-2xl px-8 py-8 text-white w-full text-right"
              style={{boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.25)'}}>
-          <div className="text-5xl font-bold mb-6 drop-shadow-lg leading-tight">ANALYZE</div>
+          <div className="text-5xl font-bold mb-6 drop-shadow-lg leading-tight">Analyze</div>
           <div className="text-lg font-medium mb-2 leading-tight">
             {isKorean ? (
               <>컬렉션을 데이터로 분석하세요.</>
@@ -103,7 +103,7 @@ const AnalyzeSlogan: React.FC<AnalyzeSloganProps> = ({ scrollYProgress, isKorean
       }}
     >
       <Image 
-        src="/assets/cat_02.png" 
+        src="/assets/cat_analyze_02.png" 
         alt="Cat with analytics for ANALYZE feature" 
         width={330}
         height={330}
