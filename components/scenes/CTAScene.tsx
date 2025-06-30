@@ -135,7 +135,7 @@ export default function CTAScene() {
               viewport={{ once: true }}
             >
               <span className="text-gradient bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 bg-clip-text text-transparent">
-                Join our Waitlist
+                Join Our Waitlist
               </span>
             </motion.h2>
 
@@ -187,7 +187,7 @@ export default function CTAScene() {
                       </div>
                     ) : (
                       <div className="flex items-center space-x-2">
-                        <span>Join Waitlist</span>
+                        <span>Join Our Waitlist</span>
                         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                         </svg>

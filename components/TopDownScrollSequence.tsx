@@ -334,7 +334,7 @@ export default function TopDownScrollSequence() {
 
   return (
     <div ref={containerRef} className="relative" style={{ height: '5500px' }}>
-      {/* Fixed Header with Business Offer, Language Toggle and Join Waitlist Button */}
+      {/* Fixed Header with Business Offer, Language Toggle and Join Our Waitlist Button */}
       <motion.div 
         className="fixed top-0 left-0 right-0 z-[100] p-6"
         style={{
@@ -380,7 +380,7 @@ export default function TopDownScrollSequence() {
             </div>
           </motion.button>
 
-          {/* Join Waitlist Button */}
+          {/* Join Our Waitlist Button */}
         <motion.button
           onClick={scrollToWaitlist}
           className="px-5 py-2.5 bg-transparent border-2 border-white/80 text-white text-sm font-semibold rounded-full hover:border-vinyl-400 hover:text-vinyl-400 hover:bg-white/5 focus:outline-none focus:ring-4 focus:ring-white/20 transition-all duration-200 backdrop-blur-sm"
@@ -391,7 +391,7 @@ export default function TopDownScrollSequence() {
           transition={{ duration: 0.5, delay: 0.5 }}
         >
           <div className="flex items-center space-x-2">
-            <span>Join our waitlist</span>
+            <span>Join Our Waitlist</span>
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
             </svg>
