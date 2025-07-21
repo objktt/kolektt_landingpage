@@ -1,3 +1,6 @@
+'use client'
+
+import { useState } from 'react';
 import Link from 'next/link';
 import { Metadata } from 'next';
 
@@ -7,13 +10,181 @@ export const metadata: Metadata = {
 };
 
 export default function DeleteAccountPage() {
+  const [isKorean, setIsKorean] = useState(true);
+
+  const toggleLanguage = () => {
+    setIsKorean(!isKorean);
+  };
+
+  if (!isKorean) {
+    return (
+      <div className="min-h-screen bg-black text-white">
+        <header className="border-b border-white/10">
+          <div className="container mx-auto px-6 py-4 flex justify-between items-center">
+            <Link href="/" className="text-2xl font-bold text-white hover:text-blue-400 transition-colors">
+              Kolektt
+            </Link>
+            <button 
+              onClick={toggleLanguage}
+              className="text-blue-400 hover:text-blue-300 transition-colors"
+            >
+              한국어
+            </button>
+          </div>
+        </header>
+
+        <main className="container mx-auto px-6 py-12 max-w-4xl">
+          <h1 className="text-4xl font-bold mb-8">Account Deletion Guidance</h1>
+          <p className="text-gray-400 mb-4">Last updated: {new Date().toLocaleDateString()}</p>
+          <p className="text-gray-300 mb-8">
+            Thank you for using Kolektt services. If you wish to delete your account, please refer to the guidelines below.
+          </p>
+
+          <div className="space-y-8">
+            <section>
+              <div className="bg-red-900/20 border border-red-500/30 rounded-lg p-6 mb-8">
+                <h3 className="text-xl font-bold text-red-400 mb-3">⚠️ Important Notice</h3>
+                <p className="text-gray-300 mb-2">
+                  <strong>Account deletion is irreversible.</strong> Deleted data cannot be recovered, so please decide carefully.
+                </p>
+                <p className="text-gray-400">
+                  You can re-register with the same email, but previous data will not be restored.
+                </p>
+              </div>
+            </section>
+
+            <section>
+              <h2 className="text-2xl font-semibold mb-4">Data to be Deleted</h2>
+              <div className="space-y-4 text-gray-300">
+                <p>The following data will be permanently deleted when your account is deleted:</p>
+                <ul className="list-disc list-inside space-y-2 ml-4">
+                  <li>Personal profile information (name, email, profile picture, etc.)</li>
+                  <li>All album collection data</li>
+                  <li>Wishlist</li>
+                  <li>App settings and usage history</li>
+                  <li>Uploaded images and reviews</li>
+                  <li>Interaction history with other users</li>
+                  <li>Subscription information and payment records</li>
+                </ul>
+              </div>
+            </section>
+
+            <section>
+              <h2 className="text-2xl font-semibold mb-4">How to Delete Your Account</h2>
+              
+              <div className="bg-gray-900/50 border border-gray-700 rounded-lg p-6 mb-6">
+                <h3 className="text-lg font-medium text-white mb-3">Method 1: Delete in App</h3>
+                <ol className="list-decimal list-inside space-y-2 ml-4 text-gray-300">
+                  <li>Run the Kolektt app</li>
+                  <li>Navigate to the profile tab</li>
+                  <li>Select the settings menu</li>
+                  <li>Choose &apos;Privacy Settings&apos;</li>
+                  <li>Select &apos;Delete Account&apos; in the &apos;Data Management&apos; section</li>
+                  <li>Complete the deletion process as instructed</li>
+                </ol>
+              </div>
+
+              <div className="bg-gray-900/50 border border-gray-700 rounded-lg p-6 mb-6">
+                <h3 className="text-lg font-medium text-white mb-3">Method 2: Request by Email</h3>
+                <ol className="list-decimal list-inside space-y-2 ml-4 text-gray-300">
+                  <li>Send a deletion request from your registered email address</li>
+                  <li>Include &quot;[Account Deletion Request]&quot; in the subject</li>
+                  <li>The email must be sent from the same email you used to sign up for identity verification</li>
+                  <li>Your account will be deleted within 7 days of request submission</li>
+                </ol>
+              </div>
+            </section>
+
+            <section>
+              <h2 className="text-2xl font-semibold mb-4">Processing Time</h2>
+              <div className="space-y-4 text-gray-300">
+                <ul className="list-disc list-inside space-y-2 ml-4">
+                  <li>In-app deletion: Immediate processing</li>
+                  <li>Email request: Processed within 7 days of submission</li>
+                  <li>A confirmation email will be sent to you upon completion</li>
+                </ul>
+              </div>
+            </section>
+
+            <section>
+              <h2 className="text-2xl font-semibold mb-4">Considerations Before Deletion</h2>
+              <div className="bg-blue-900/20 border border-blue-500/30 rounded-lg p-6">
+                <ul className="list-disc list-inside space-y-2 ml-4 text-gray-300">
+                  <li>If you want to temporarily stop using the service, just log out</li>
+                  <li>If you want to backup your precious collection data, please save a screenshot in advance</li>
+                  <li>If you are subscribed to a service, please cancel your subscription first</li>
+                </ul>
+              </div>
+            </section>
+
+            <section>
+              <h2 className="text-2xl font-semibold mb-4">Handling of Personal Information</h2>
+              <div className="space-y-4 text-gray-300">
+                <p>
+                  Even after the account is deleted, some information may be retained in accordance with relevant laws:
+                </p>
+                <ul className="list-disc list-inside space-y-2 ml-4">
+                  <li>E-Commerce Law: Payment/refund-related records 5 years</li>
+                  <li>Telecommunications Secret Protection Law: Service usage records 3 months</li>
+                  <li>Personal Information Protection Law: Complaint handling related records 3 years</li>
+                </ul>
+                <p>
+                  Retained information is used only within the scope of the purpose of the relevant laws and will be destroyed immediately after the retention period elapses.
+                </p>
+              </div>
+            </section>
+
+            <section>
+              <h2 className="text-2xl font-semibold mb-4">Contact and Support</h2>
+              <div className="bg-green-900/20 border border-green-500/30 rounded-lg p-6">
+                <h3 className="text-lg font-medium text-white mb-3">📧 Account Deletion Requests and Inquiries</h3>
+                <ul className="space-y-2 text-gray-300">
+                  <li><strong>Email:</strong> <a href="mailto:hello@kolektt.kr" className="text-blue-400 hover:text-blue-300 underline">hello@kolektt.kr</a></li>
+                  <li><strong>Processing Time:</strong> 10:00 am - 6:00 pm weekdays (excluding weekends/holidays)</li>
+                  <li><strong>Response Time:</strong> Within 1-2 business days</li>
+                </ul>
+              </div>
+            </section>
+          </div>
+
+          {/* Back to Home */}
+          <div className="mt-12 pt-8 border-t border-white/10">
+            <Link 
+              href="/" 
+              className="inline-flex items-center text-blue-400 hover:text-blue-300 transition-colors">
+              ← Back to Home
+            </Link>
+          </div>
+        </main>
+
+        {/* Footer */}
+        <footer className="border-t border-white/10 mt-16">
+          <div className="container mx-auto px-6 py-8">
+            <p className="text-center text-gray-400">
+              © {new Date().getFullYear()} objktt. All rights reserved.
+            </p>
+            <p className="text-center text-gray-500 text-sm mt-2">
+              Kolektt is a product of objktt
+            </p>
+          </div>
+        </footer>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-black text-white">
       <header className="border-b border-white/10">
-        <div className="container mx-auto px-6 py-4">
+        <div className="container mx-auto px-6 py-4 flex justify-between items-center">
           <Link href="/" className="text-2xl font-bold text-white hover:text-blue-400 transition-colors">
             Kolektt
           </Link>
+          <button 
+            onClick={toggleLanguage}
+            className="text-blue-400 hover:text-blue-300 transition-colors"
+          >
+            English
+          </button>
         </div>
       </header>
 
@@ -124,7 +295,7 @@ export default function DeleteAccountPage() {
             <div className="bg-green-900/20 border border-green-500/30 rounded-lg p-6">
               <h3 className="text-lg font-medium text-white mb-3">📧 계정 삭제 요청 및 문의</h3>
               <ul className="space-y-2 text-gray-300">
-                <li><strong>이메일:</strong> <a href="mailto:support@kolektt.com" className="text-blue-400 hover:text-blue-300 underline">support@kolektt.com</a></li>
+                <li><strong>이메일:</strong> <a href="mailto:hello@kolektt.kr" className="text-blue-400 hover:text-blue-300 underline">hello@kolektt.kr</a></li>
                 <li><strong>처리시간:</strong> 평일 10:00 - 18:00 (주말/공휴일 제외)</li>
                 <li><strong>응답시간:</strong> 영업일 기준 1-2일 이내</li>
               </ul>
@@ -156,4 +327,3 @@ export default function DeleteAccountPage() {
     </div>
   );
 }
-
