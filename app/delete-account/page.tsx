@@ -62,8 +62,8 @@ export default function DeleteAccountPage() {
                 <li>Kolektt 앱을 실행합니다</li>
                 <li>프로필 탭으로 이동합니다</li>
                 <li>설정 메뉴를 선택합니다</li>
-                <li>'개인정보 보호 설정'을 선택합니다</li>
-                <li>'데이터 관리' 섹션에서 '계정 삭제'를 선택합니다</li>
+                <li>&apos;개인정보 보호 설정&apos;을 선택합니다</li>
+                <li>&apos;데이터 관리&apos; 섹션에서 &apos;계정 삭제&apos;를 선택합니다</li>
                 <li>안내에 따라 삭제 절차를 완료합니다</li>
               </ol>
             </div>
@@ -72,7 +72,7 @@ export default function DeleteAccountPage() {
               <h3 className="text-lg font-medium text-white mb-3">방법 2: 이메일로 요청</h3>
               <ol className="list-decimal list-inside space-y-2 ml-4 text-gray-300">
                 <li>등록된 이메일 주소로 삭제 요청을 보냅니다</li>
-                <li>제목에 "[계정삭제요청]"을 포함하여 작성합니다</li>
+                <li>제목에 &quot;[계정삭제요청]&quot;을 포함하여 작성합니다</li>
                 <li>본인 확인을 위해 가입 시 사용한 이메일로 발송해야 합니다</li>
                 <li>요청 후 7일 이내에 계정이 삭제됩니다</li>
               </ol>
