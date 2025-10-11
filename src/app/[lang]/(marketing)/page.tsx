@@ -476,7 +476,7 @@ export default function IndexPage({
                 <div className="w-full lg:w-1/2 lg:order-first">
                   <div className="text-center flex justify-center items-center relative">
                     <div className="w-[347px] relative">
-                      <Iphone15Pro videoSrc="/videos/collect.MP4" />
+                      <Iphone15Pro videoSrc="/videos/collect.mp4" />
 
                       {/* Feature Cards - Responsive Layout */}
 
