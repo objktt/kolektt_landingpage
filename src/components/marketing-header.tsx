@@ -92,7 +92,7 @@ export default function MarketingHeader({ lang }: MarketingHeaderProps) {
                   </li>
                   <li className="nav-item">
                     <Link
-                      className={`nav-link ${isActive("/bpm-collect") ? "active" : ""}`}
+                      className={`nav-link relative pb-2 after:content-[''] after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:w-0 after:h-[3px] after:bg-black after:rounded-full after:transition-all after:duration-300 hover:after:w-full ${isActive("/bpm-collect") ? "active after:!w-full" : ""}`}
                       href={`/${lang}/bpm-collect`}
                     >
                       BPM Collect
@@ -100,7 +100,7 @@ export default function MarketingHeader({ lang }: MarketingHeaderProps) {
                   </li>
                   <li className="nav-item">
                     <Link
-                      className={`nav-link ${isActive("/hub") ? "active" : ""}`}
+                      className={`nav-link relative pb-2 after:content-[''] after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:w-0 after:h-[3px] after:bg-black after:rounded-full after:transition-all after:duration-300 hover:after:w-full ${isActive("/hub") ? "active after:!w-full" : ""}`}
                       href={`/${lang}/hub`}
                     >
                       Kolektt Hub
@@ -108,7 +108,7 @@ export default function MarketingHeader({ lang }: MarketingHeaderProps) {
                   </li>
                   <li className="nav-item">
                     <Link
-                      className={`nav-link ${isActive("/about") ? "active" : ""}`}
+                      className={`nav-link relative pb-2 after:content-[''] after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:w-0 after:h-[3px] after:bg-black after:rounded-full after:transition-all after:duration-300 hover:after:w-full ${isActive("/about") ? "active after:!w-full" : ""}`}
                       href={`/${lang}/about`}
                     >
                       About

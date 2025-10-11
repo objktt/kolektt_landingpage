@@ -11,73 +11,95 @@ type Plan = "monthly" | "annually";
 type PLAN = {
   id: string;
   title: string;
-  desc: string;
+  desc: { ko: string; en: string };
   monthlyPrice: number;
   annuallyPrice: number;
   badge?: string;
-  buttonText: string;
-  features: string[];
+  buttonText: { ko: string; en: string };
+  features: { ko: string; en: string }[];
   link: string;
 };
 
 export const PLANS: PLAN[] = [
   {
-    id: "collector",
-    title: "Collector",
-    desc: "Perfect for individual vinyl collectors who want to organize and track their collection with smart recognition technology.",
+    id: "free",
+    title: "Free",
+    desc: {
+      ko: "개인 입문자: 기본 컬렉션, 커뮤니티 열람",
+      en: "Individual Starter: Basic collection, community access"
+    },
     monthlyPrice: 0,
     annuallyPrice: 0,
-    buttonText: "Start Collecting",
+    buttonText: {
+      ko: "무료로 시작하기",
+      en: "Start for Free"
+    },
     features: [
-      "Smart album recognition via camera",
-      "Basic collection management",
-      "Up to 500 albums",
-      "Community support",
-      "Collection analytics",
-      "Mobile app access",
+      { ko: "카메라 기반 스마트 앨범 인식", en: "Camera-based smart album recognition" },
+      { ko: "기본 컬렉션 관리", en: "Basic collection management" },
+      { ko: "최대 50장까지 등록", en: "Up to 50 records" },
+      { ko: "커뮤니티 열람 권한", en: "Community access" },
+      { ko: "컬렉션 분석", en: "Collection analytics" },
+      { ko: "모바일 앱 접근", en: "Mobile app access" },
     ],
     link: "#",
   },
   {
-    id: "trader",
-    title: "Trader",
-    desc: "Designed for serious collectors and traders who want full access to our marketplace and advanced tools.",
-    monthlyPrice: 9,
-    annuallyPrice: 90,
-    buttonText: "Start Trading",
+    id: "pro",
+    title: "Pro",
+    desc: {
+      ko: "음악 애호가 / 크리에이터: AI 자산 관리, 무제한 등록",
+      en: "Music Lover / Creator: AI asset management, unlimited records"
+    },
+    monthlyPrice: 4.99,
+    annuallyPrice: 49.99,
+    buttonText: {
+      ko: "Pro로 업그레이드",
+      en: "Upgrade to Pro"
+    },
     features: [
-      "Everything in Collector plan",
-      "Unlimited album collection",
-      "Access to trading marketplace",
-      "AI investment advisor",
-      "Advanced pricing analytics",
-      "Priority customer support",
-      "Verified seller badge",
+      { ko: "Free 플랜의 모든 기능", en: "All Free plan features" },
+      { ko: "무제한 앨범 컬렉션", en: "Unlimited album collection" },
+      { ko: "거래 마켓플레이스 접근", en: "Trading marketplace access" },
+      { ko: "AI 투자 자문", en: "AI investment insights" },
+      { ko: "고급 가격 분석", en: "Advanced price analytics" },
+      { ko: "우선 고객 지원", en: "Priority customer support" },
+      { ko: "인증된 판매자 배지", en: "Verified seller badge" },
     ],
     link: "#",
   },
   {
     id: "enterprise",
     title: "Enterprise",
-    desc: "For record stores, distributors, and businesses who need advanced features, custom integrations, and dedicated support.",
+    desc: {
+      ko: "레코드샵 / 브랜드: 재고 관리 SaaS, 다중 계정",
+      en: "Record Shop / Brand: Inventory SaaS, multi-account"
+    },
     monthlyPrice: 29,
     annuallyPrice: 290,
-    buttonText: "Contact Sales",
+    buttonText: {
+      ko: "영업팀 문의",
+      en: "Contact Sales"
+    },
     features: [
-      "Everything in Trader plan",
-      "Custom API integrations",
-      "White-label solutions",
-      "Advanced analytics dashboard",
-      "Dedicated account manager",
-      "Custom branding options",
-      "Priority technical support",
-      "Volume discounts available",
+      { ko: "Pro 플랜의 모든 기능", en: "All Pro plan features" },
+      { ko: "재고 관리 SaaS", en: "Inventory management SaaS" },
+      { ko: "다중 사용자 계정", en: "Multi-user accounts" },
+      { ko: "맞춤형 API 통합", en: "Custom API integration" },
+      { ko: "화이트 라벨 솔루션", en: "White-label solution" },
+      { ko: "고급 분석 대시보드", en: "Advanced analytics dashboard" },
+      { ko: "전담 계정 매니저", en: "Dedicated account manager" },
+      { ko: "우선 기술 지원", en: "Priority technical support" },
     ],
     link: "#",
   },
 ];
 
-export default function KolekttPricing() {
+type KolekttPricingProps = {
+  lang?: string;
+};
+
+export default function KolekttPricing({ lang = 'en' }: KolekttPricingProps) {
   const [billPlan, setBillPlan] = useState<Plan>("monthly");
 
   const handleSwitch = () => {
@@ -89,11 +111,16 @@ export default function KolekttPricing() {
       <div className="flex flex-col items-center justify-center max-w-2xl mx-auto">
         <div className="flex flex-col items-center text-center max-w-2xl mx-auto">
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mt-6 text-white">
-            Simple, transparent pricing
+            {lang === 'ko' ? '당신의 그루브를 선택하세요.' : 'Choose your groove.'}
           </h2>
           <p className="text-base md:text-lg text-center text-gray-300 mt-6">
-            Start for free and upgrade when you're ready to unlock the full
-            power of vinyl collecting and trading.
+            {lang === 'ko' ? (
+              <>무료로 시작하고 준비가 되면 업그레이드하여<br />
+              바이닐 컬렉팅과 거래의 모든 기능을 잠금 해제하세요.</>
+            ) : (
+              <>Start for free and upgrade when ready<br />
+              to unlock all features of vinyl collecting and trading.</>
+            )}
           </p>
         </div>
         <div className="flex items-center justify-center space-x-4 mt-8">
@@ -103,7 +130,7 @@ export default function KolekttPricing() {
               billPlan === "monthly" ? "text-white" : "text-gray-400",
             )}
           >
-            Monthly
+            {lang === 'ko' ? '월간' : 'Monthly'}
           </span>
           <button
             onClick={handleSwitch}
@@ -123,9 +150,11 @@ export default function KolekttPricing() {
               billPlan === "annually" ? "text-white" : "text-gray-400",
             )}
           >
-            Annually
+            {lang === 'ko' ? '연간' : 'Annually'}
             {billPlan === "annually" && (
-              <span className="ml-2 text-sm text-green-400">(Save 17%)</span>
+              <span className="ml-2 text-sm text-green-400">
+                {lang === 'ko' ? '(17% 절약)' : '(Save 17%)'}
+              </span>
             )}
           </span>
         </div>
@@ -133,14 +162,14 @@ export default function KolekttPricing() {
 
       <div className="grid w-full grid-cols-1 md:grid-cols-2 lg:grid-cols-3 pt-8 lg:pt-12 gap-6 lg:gap-8 max-w-6xl mx-auto">
         {PLANS.map((plan) => (
-          <PricingPlan key={plan.id} plan={plan} billPlan={billPlan} />
+          <PricingPlan key={plan.id} plan={plan} billPlan={billPlan} lang={lang} />
         ))}
       </div>
     </div>
   );
 }
 
-const PricingPlan = ({ plan, billPlan }: { plan: PLAN; billPlan: Plan }) => {
+const PricingPlan = ({ plan, billPlan, lang = 'en' }: { plan: PLAN; billPlan: Plan; lang?: string }) => {
   const price = billPlan === "monthly" ? plan.monthlyPrice : plan.annuallyPrice;
 
   return (
@@ -172,12 +201,14 @@ const PricingPlan = ({ plan, billPlan }: { plan: PLAN; billPlan: Plan }) => {
             </motion.span>
           </AnimatePresence>
         </h3>
-        <p className="text-sm md:text-base text-gray-600 mt-2">{plan.desc}</p>
+        <p className="text-sm md:text-base text-gray-600 mt-2">
+          {lang === 'ko' ? plan.desc.ko : plan.desc.en}
+        </p>
       </div>
 
       <div className="flex flex-col items-start w-full px-4 py-2 md:px-8">
-        <Button size="lg" className="w-full bg-black hover:bg-gray-800">
-          {plan.buttonText}
+        <Button size="lg" className="w-full bg-black hover:bg-gray-800 text-white">
+          {lang === 'ko' ? plan.buttonText.ko : plan.buttonText.en}
         </Button>
         <div className="h-8 overflow-hidden w-full mx-auto">
           <AnimatePresence mode="wait">
@@ -190,10 +221,10 @@ const PricingPlan = ({ plan, billPlan }: { plan: PLAN; billPlan: Plan }) => {
               className="text-sm text-center text-gray-500 mt-3 mx-auto block"
             >
               {price === 0
-                ? "No credit card required"
+                ? (lang === 'ko' ? '신용카드 불필요' : 'No credit card required')
                 : billPlan === "monthly"
-                  ? "Billed monthly"
-                  : "Billed annually"}
+                  ? (lang === 'ko' ? '월간 결제' : 'Billed monthly')
+                  : (lang === 'ko' ? '연간 결제' : 'Billed annually')}
             </motion.span>
           </AnimatePresence>
         </div>
@@ -201,14 +232,16 @@ const PricingPlan = ({ plan, billPlan }: { plan: PLAN; billPlan: Plan }) => {
 
       <div className="flex flex-col items-start w-full p-4 md:p-8 pt-0 gap-y-3">
         <span className="text-base text-gray-900 font-semibold mb-2">
-          What's included:
+          {lang === 'ko' ? '포함된 기능:' : 'Included features:'}
         </span>
         {plan.features.map((feature, index) => (
           <div key={index} className="flex items-start justify-start gap-3">
             <div className="flex items-center justify-center mt-0.5">
               <CheckIcon className="size-5 text-green-500" />
             </div>
-            <span className="text-gray-700 text-sm">{feature}</span>
+            <span className="text-gray-700 text-sm">
+              {lang === 'ko' ? feature.ko : feature.en}
+            </span>
           </div>
         ))}
       </div>

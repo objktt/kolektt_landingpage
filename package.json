@@ -17,6 +17,7 @@
     "clsx": "^2.1.1",
     "date-fns": "^4.1.0",
     "framer-motion": "^12.23.22",
+    "googleapis": "^161.0.0",
     "lottie-react": "^2.4.1",
     "lucide-react": "^0.544.0",
     "negotiator": "^1.0.0",

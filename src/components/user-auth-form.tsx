@@ -11,6 +11,7 @@ import { cn } from "@/components/ui";
 import { buttonVariants } from "@/components/ui/button";
 import * as Icons from "@/components/ui/icons";
 import { Input } from "@/components/ui/input";
+import { CircularLoader } from "@/components/ui/circular-loader";
 import { Label } from "@/components/ui/label";
 import { toast } from "@/components/ui/use-toast";
 
@@ -99,7 +100,7 @@ export function UserAuthForm({
           </div>
           <button className={cn(buttonVariants())} disabled={isLoading}>
             {isLoading && (
-              <Icons.Spinner className="mr-2 h-4 w-4 animate-spin" />
+              <CircularLoader size="sm" text="• " spinDuration={1} className="mr-2" />
             )}
             {dict.signin_email}
             {/* Sign In with Email */}
@@ -129,7 +130,7 @@ export function UserAuthForm({
         disabled={isLoading || isGitHubLoading}
       >
         {isGitHubLoading ? (
-          <Icons.Spinner className="mr-2 h-4 w-4 animate-spin" />
+          <CircularLoader size="sm" text="• " spinDuration={1} className="mr-2" />
         ) : (
           <Icons.GitHub className="mr-2 h-4 w-4" />
         )}{" "}

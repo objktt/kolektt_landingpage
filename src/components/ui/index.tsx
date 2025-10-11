@@ -9,6 +9,7 @@ export { MinimalistHeroRight } from './src/minimalist-hero-right';
 export { ShapeConnectAnimation } from './src/shape-connect-animation';
 export { ShapeConnectAnimation01 } from './src/shape-connect-animation-01';
 export { ShapeConnectAnimation02 } from './src/shape-connect-animation-02';
+export { CircularLoader } from './circular-loader';
 
 export const Skeleton = ({ className = '', ...props }: any) => (
   <div

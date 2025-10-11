@@ -14,6 +14,7 @@ import {
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
 import { Button } from "@/components/ui/button";
+import { useToast } from "@/components/ui/toast";
 import type { Locale } from "@/config/i18n-config";
 
 interface ModernHeaderProps {
@@ -22,6 +23,7 @@ interface ModernHeaderProps {
 
 export default function ModernHeader({ lang }: ModernHeaderProps) {
   const pathname = usePathname();
+  const { showToast } = useToast();
 
   // 현재 경로에 따라 활성 상태 확인
   const isActive = (path: string) => {
@@ -30,6 +32,14 @@ export default function ModernHeader({ lang }: ModernHeaderProps) {
     }
     return (
       pathname === `/${lang}${path}` || pathname.startsWith(`/${lang}${path}`)
+    );
+  };
+
+  const handleHubClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    showToast(
+      lang === 'ko' ? '곧 출시 예정입니다! 🎉' : 'Coming Soon! 🎉',
+      'info'
     );
   };
 
@@ -62,13 +72,13 @@ export default function ModernHeader({ lang }: ModernHeaderProps) {
                           BPM Collect
                         </div>
                         <p className="text-sm leading-tight text-muted-foreground">
-                          Smart platform for analog collectors with AI
+                          Smart platform for Record Collectors with AI
                           recognition
                         </p>
                       </Link>
                     </NavigationMenuLink>
                   </li>
-                  <ListItem href={`/${lang}/hub`} title="Kolektt Hub">
+                  <ListItem href="#" title="Kolektt Hub" onClick={handleHubClick}>
                     Manage and trade your collection
                   </ListItem>
                   <ListItem href={`/${lang}/about`} title="About">
@@ -93,16 +103,16 @@ export default function ModernHeader({ lang }: ModernHeaderProps) {
             </NavigationMenuItem>
 
             <NavigationMenuItem>
-              <Link href={`/${lang}/hub`} legacyBehavior passHref>
-                <NavigationMenuLink
-                  className={cn(
-                    navigationMenuTriggerStyle(),
-                    isActive("/hub") && "bg-accent text-accent-foreground",
-                  )}
-                >
-                  Kolektt Hub
-                </NavigationMenuLink>
-              </Link>
+              <NavigationMenuLink
+                className={cn(
+                  navigationMenuTriggerStyle(),
+                  "cursor-pointer",
+                  isActive("/hub") && "bg-accent text-accent-foreground",
+                )}
+                onClick={handleHubClick}
+              >
+                Kolektt Hub
+              </NavigationMenuLink>
             </NavigationMenuItem>
 
             <NavigationMenuItem>
@@ -122,8 +132,8 @@ export default function ModernHeader({ lang }: ModernHeaderProps) {
 
         {/* Right side - Enter Hub button */}
         <div className="flex flex-1 items-center justify-end space-x-2">
-          <Button asChild>
-            <Link href={`/${lang}/hub`}>Enter Hub</Link>
+          <Button onClick={handleHubClick}>
+            Enter Kolektt Hub
           </Button>
         </div>
       </div>

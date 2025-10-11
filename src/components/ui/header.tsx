@@ -50,7 +50,7 @@ function KolekttHeader({ lang }: HeaderProps) {
                           BPM Collect
                         </div>
                         <p className="text-sm leading-tight text-muted-foreground">
-                          Smart platform for analog collectors with AI
+                          Smart platform for Record Collectors with AI
                           recognition
                         </p>
                       </Link>

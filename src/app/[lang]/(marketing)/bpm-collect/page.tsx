@@ -6,7 +6,8 @@ import BPMCalculator from "@/components/BPMCalculator";
 import UltraSimpleSelector from "@/components/UltraSimpleSelector";
 // import ParticleBackground from "@/components/ui/particle-background";
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useState, use } from "react";
+import { useToast } from "@/components/ui/toast";
 import {
   MusicNote,
   MagnifyingGlass,
@@ -17,12 +18,12 @@ import {
 export default function BpmCollectPage({
   params,
 }: {
-  params: {
+  params: Promise<{
     lang: Locale;
-  };
+  }>;
 }) {
-  // Unused variable warning suppressed
-  void params;
+  const { lang } = use(params);
+  const { showToast } = useToast();
   const [currentBpm, setCurrentBpm] = useState(0);
   const [hasStarted, setHasStarted] = useState(false); // Track if user has started tapping
 
@@ -39,6 +40,13 @@ export default function BpmCollectPage({
     if (bpm === 0) {
       setHasStarted(false);
     }
+  };
+
+  const handleGooglePlayClick = () => {
+    showToast(
+      lang === 'ko' ? 'Google Play 버전 곧 출시 예정입니다! 🚀' : 'Coming Soon to Google Play! 🚀',
+      'info'
+    );
   };
 
   return (
@@ -72,9 +80,11 @@ export default function BpmCollectPage({
                         enthusiasts.
                       </p>
                       <div className="flex flex-col md:flex-row justify-center lg:justify-start items-center lg:items-start gap-5 mt-4">
-                        <button
-                          type="button"
-                          className="flex items-center text-white bg-black hover:bg-gray-800 transition-colors px-6 py-3 rounded-lg border-none min-w-[200px]"
+                        <a
+                          href="https://apps.apple.com/kr/app/bpm-collect/id6751521767?l=en-GB"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center text-white bg-black hover:bg-gray-800 transition-colors px-6 py-3 rounded-lg border-none min-w-[200px] cursor-pointer"
                         >
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -96,11 +106,12 @@ export default function BpmCollectPage({
                               App Store
                             </span>
                           </div>
-                        </button>
+                        </a>
 
                         <button
                           type="button"
-                          className="flex items-center text-white bg-black hover:bg-gray-800 transition-colors px-6 py-3 rounded-lg border-none min-w-[200px]"
+                          onClick={handleGooglePlayClick}
+                          className="flex items-center text-white bg-black hover:bg-gray-800 transition-colors px-6 py-3 rounded-lg border-none min-w-[200px] cursor-pointer"
                         >
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -617,7 +628,7 @@ export default function BpmCollectPage({
                 >
                   {/* App Store Button */}
                   <a
-                    href="https://apps.apple.com/app/bpm-collect"
+                    href="https://apps.apple.com/kr/app/bpm-collect/id6751521767?l=en-GB"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-center text-white bg-black hover:bg-gray-800 transition-colors px-6 py-3 rounded-lg border-none min-w-[200px]"
@@ -645,11 +656,10 @@ export default function BpmCollectPage({
                   </a>
 
                   {/* Google Play Store Button */}
-                  <a
-                    href="https://play.google.com/store/apps/details?id=com.kolektt.bpmcollect"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center text-white bg-black hover:bg-gray-800 transition-colors px-6 py-3 rounded-lg border-none min-w-[200px]"
+                  <button
+                    type="button"
+                    onClick={handleGooglePlayClick}
+                    className="flex items-center text-white bg-black hover:bg-gray-800 transition-colors px-6 py-3 rounded-lg border-none min-w-[200px] cursor-pointer"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -687,7 +697,7 @@ export default function BpmCollectPage({
                         Google Play
                       </span>
                     </div>
-                  </a>
+                  </button>
                 </motion.div>
               </div>
             </div>

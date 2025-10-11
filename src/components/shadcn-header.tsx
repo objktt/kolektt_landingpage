@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { useRouter, usePathname } from "next/navigation";
 import { Menu, X, Globe, ChevronDown } from "lucide-react";
 
@@ -86,6 +87,7 @@ export function ShadcnHeader({ lang }: ShadcnHeaderProps) {
     e.preventDefault();
   };
 
+
   return (
     <>
       {/* Force X button to be black */}
@@ -111,36 +113,46 @@ export function ShadcnHeader({ lang }: ShadcnHeaderProps) {
               <div className="flex h-16 items-center justify-between px-4 sm:px-6 lg:px-8">
                 {/* Logo */}
                 <Link href={`/${lang}`} className="flex items-center space-x-2">
-                  <span className="font-black text-2xl text-gray-900 hover:text-gray-700 transition-colors">
-                    Kolektt
-                  </span>
+                  <Image
+                    src="/images/logo/kolektt_logo.svg"
+                    alt="Kolektt Logo"
+                    width={84}
+                    height={22}
+                    className="h-[22px] w-auto"
+                    priority
+                  />
                 </Link>
 
                 {/* Desktop Navigation - Centered */}
                 <nav className="hidden md:flex items-center space-x-6 absolute left-1/2 transform -translate-x-1/2">
                   <Link
                     href={`/${lang}/bpm-collect`}
-                    className="text-gray-700 hover:text-gray-900 hover:bg-gray-100/80 px-3 py-2 text-base font-bold rounded-md transition-all"
+                    className={`relative text-gray-700 hover:text-gray-900 px-0 py-2 pb-1 text-base font-bold transition-all after:content-[''] after:absolute after:bottom-0 after:left-0 after:h-[2px] after:bg-black after:rounded-full after:transition-all after:duration-300 hover:after:w-full ${
+                      pathname.includes('/bpm-collect') ? 'after:w-full' : 'after:w-0'
+                    }`}
                   >
                     BPM Collect
                   </Link>
 
-                  <div className="relative group">
-                    <button
+                  <div className="relative group inline-block">
+                    <a
+                      href="#"
                       onClick={handleHubClick}
-                      className="text-gray-700 hover:text-gray-900 hover:bg-gray-100/80 px-3 py-2 text-base font-bold rounded-md transition-all cursor-not-allowed"
+                      className="relative text-gray-500 cursor-not-allowed px-0 py-2 pb-1 text-base font-bold transition-all"
                     >
                       Kolektt Hub
-                    </button>
-                    <div className="absolute top-full left-1/2 transform -translate-x-1/2 mt-2 px-3 py-2 bg-gray-900 text-white text-xs rounded-lg whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50 shadow-lg">
-                      {lang === "ko" ? "준비중입니다" : "Coming Soon"}
-                      <div className="absolute -top-1 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-gray-900 rotate-45"></div>
+                    </a>
+                    <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 bg-gray-700 text-white text-xs rounded-lg whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50">
+                      {lang === 'ko' ? '준비중입니다' : 'Coming Soon'}
+                      <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-2 h-2 bg-gray-700 rotate-45 -mt-1"></div>
                     </div>
                   </div>
 
                   <Link
                     href={`/${lang}/about`}
-                    className="text-gray-700 hover:text-gray-900 hover:bg-gray-100/80 px-3 py-2 text-base font-bold rounded-md transition-all"
+                    className={`relative text-gray-700 hover:text-gray-900 px-0 py-2 pb-1 text-base font-bold transition-all after:content-[''] after:absolute after:bottom-0 after:left-0 after:h-[2px] after:bg-black after:rounded-full after:transition-all after:duration-300 hover:after:w-full ${
+                      pathname.includes('/about') ? 'after:w-full' : 'after:w-0'
+                    }`}
                   >
                     About
                   </Link>
@@ -163,18 +175,20 @@ export function ShadcnHeader({ lang }: ShadcnHeaderProps) {
                     {isLanguageMenuOpen && (
                       <div className="absolute right-0 top-full mt-2 w-32 bg-white border border-gray-200 rounded-lg shadow-lg py-1 z-50">
                         <button
-                          onClick={() => changeLanguage('ko')}
-                          className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-50 transition-colors ${
-                            lang === 'ko' ? 'bg-blue-50 text-blue-600 font-medium' : 'text-gray-700'
-                          }`}
+                        onClick={() => changeLanguage('ko')}
+                        className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-50 transition-colors ${
+                          lang === 'ko' ? 'font-medium' : 'text-gray-700'
+                        }`}
+                        style={lang === 'ko' ? { backgroundColor: '#E8EAFF', color: '#1520FF' } : {}}
                         >
                           한국어 (KO)
                         </button>
                         <button
-                          onClick={() => changeLanguage('en')}
-                          className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-50 transition-colors ${
-                            lang === 'en' ? 'bg-blue-50 text-blue-600 font-medium' : 'text-gray-700'
-                          }`}
+                        onClick={() => changeLanguage('en')}
+                        className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-50 transition-colors ${
+                          lang === 'en' ? 'font-medium' : 'text-gray-700'
+                        }`}
+                        style={lang === 'en' ? { backgroundColor: '#E8EAFF', color: '#1520FF' } : {}}
                         >
                           English (EN)
                         </button>
@@ -182,16 +196,18 @@ export function ShadcnHeader({ lang }: ShadcnHeaderProps) {
                     )}
                   </div>
 
-                  <div className="relative group hidden md:block">
+                  <div className="relative group inline-block">
                     <Button
-                      className="bg-blue-600 hover:bg-blue-700 text-white shadow-sm cursor-not-allowed"
                       onClick={handleHubClick}
+                      className="text-white shadow-sm cursor-not-allowed opacity-50"
+                      style={{ backgroundColor: '#1520FF' }}
+                      disabled
                     >
                       Enter Kolektt Hub
                     </Button>
-                    <div className="absolute top-full left-1/2 transform -translate-x-1/2 mt-2 px-3 py-2 bg-gray-900 text-white text-xs rounded-lg whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50 shadow-lg">
-                      {lang === "ko" ? "준비중입니다" : "Coming Soon"}
-                      <div className="absolute -top-1 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-gray-900 rotate-45"></div>
+                    <div className="absolute bottom-full right-0 mb-2 px-3 py-2 bg-gray-700 text-white text-xs rounded-lg whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50">
+                      {lang === 'ko' ? '준비중입니다' : 'Coming Soon'}
+                      <div className="absolute top-full right-4 w-2 h-2 bg-gray-700 rotate-45 -mt-1"></div>
                     </div>
                   </div>
 
@@ -227,16 +243,18 @@ export function ShadcnHeader({ lang }: ShadcnHeaderProps) {
                   >
                     BPM Collect
                   </Link>
-                  <div className="relative">
-                    <button
-                      onClick={(e) => { handleHubClick(e); closeMobileMenu(); }}
-                      className="text-base font-medium text-gray-900 hover:bg-gray-50 px-3 py-3 rounded-lg transition-all text-left w-full flex items-center justify-between cursor-not-allowed"
+                  <div className="relative group inline-block w-full">
+                    <a
+                      href="#"
+                      className="text-base font-medium text-gray-500 cursor-not-allowed px-3 py-3 rounded-lg transition-all block"
+                      onClick={(e) => { handleHubClick(e); }}
                     >
-                      <span>Kolektt Hub</span>
-                      <span className="text-xs bg-gray-200 text-gray-600 px-2 py-1 rounded-full">
-                        {lang === "ko" ? "준비중" : "Coming Soon"}
-                      </span>
-                    </button>
+                      Kolektt Hub
+                    </a>
+                    <div className="absolute left-full top-1/2 transform -translate-y-1/2 ml-2 px-3 py-2 bg-gray-700 text-white text-xs rounded-lg whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50">
+                      {lang === 'ko' ? '준비중입니다' : 'Coming Soon'}
+                      <div className="absolute right-full top-1/2 transform -translate-y-1/2 w-2 h-2 bg-gray-700 rotate-45 mr-1"></div>
+                    </div>
                   </div>
                   <Link
                     href={`/${lang}/about`}
@@ -257,9 +275,10 @@ export function ShadcnHeader({ lang }: ShadcnHeaderProps) {
                         onClick={() => { changeLanguage('ko'); closeMobileMenu(); }}
                         className={`px-3 py-2 rounded-lg text-sm font-medium transition-all ${
                           lang === 'ko' 
-                            ? 'bg-blue-50 text-blue-600 border border-blue-200' 
+                            ? 'border' 
                             : 'text-gray-700 hover:bg-gray-50 border border-gray-200'
                         }`}
+                        style={lang === 'ko' ? { backgroundColor: '#E8EAFF', color: '#1520FF', borderColor: '#1520FF' } : {}}
                       >
                         한국어 (KO)
                       </button>
@@ -267,9 +286,10 @@ export function ShadcnHeader({ lang }: ShadcnHeaderProps) {
                         onClick={() => { changeLanguage('en'); closeMobileMenu(); }}
                         className={`px-3 py-2 rounded-lg text-sm font-medium transition-all ${
                           lang === 'en' 
-                            ? 'bg-blue-50 text-blue-600 border border-blue-200' 
+                            ? 'border' 
                             : 'text-gray-700 hover:bg-gray-50 border border-gray-200'
                         }`}
+                        style={lang === 'en' ? { backgroundColor: '#E8EAFF', color: '#1520FF', borderColor: '#1520FF' } : {}}
                       >
                         English (EN)
                       </button>
@@ -277,15 +297,18 @@ export function ShadcnHeader({ lang }: ShadcnHeaderProps) {
                   </div>
                   
                   <div className="pt-4 border-t border-gray-200 mt-4">
-                    <div className="relative">
+                    <div className="relative group">
                       <Button
-                        className="w-full bg-blue-600 hover:bg-blue-700 text-white cursor-not-allowed"
-                        onClick={(e) => { handleHubClick(e); closeMobileMenu(); }}
+                        onClick={(e) => { handleHubClick(e); }}
+                        className="w-full text-white cursor-not-allowed opacity-50"
+                        style={{ backgroundColor: '#1520FF' }}
+                        disabled
                       >
                         Enter Kolektt Hub
                       </Button>
-                      <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 px-3 py-1 bg-gray-900 text-white text-xs rounded whitespace-nowrap">
-                        {lang === "ko" ? "준비중입니다" : "Coming Soon"}
+                      <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 bg-gray-700 text-white text-xs rounded-lg whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50">
+                        {lang === 'ko' ? '준비중입니다' : 'Coming Soon'}
+                        <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-2 h-2 bg-gray-700 rotate-45 -mt-1"></div>
                       </div>
                     </div>
                   </div>

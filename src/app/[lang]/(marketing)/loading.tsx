@@ -1,0 +1,25 @@
+import { CircularLoader } from "@/components/ui/circular-loader";
+
+export default function Loading() {
+  return (
+    <div className="flex w-full h-screen items-center justify-center bg-white">
+      <div className="flex flex-col items-center gap-6">
+        <CircularLoader 
+          size="lg" 
+          text="KOLEKTT • LOADING • " 
+          spinDuration={3} 
+          className="drop-shadow-lg"
+          noSSR={true}
+        />
+        <div className="text-center">
+          <p className="text-sm text-gray-500 animate-pulse">Loading your collection platform...</p>
+          <div className="mt-2 flex items-center justify-center gap-1">
+            <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
+            <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{animationDelay: '0.1s'}}></div>
+            <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{animationDelay: '0.2s'}}></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}

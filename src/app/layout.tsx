@@ -9,7 +9,7 @@ const plusJakartaSans = Plus_Jakarta_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Kolektt - Smart Platform for Analog Collectors",
+  title: "Kolektt - Smart Platform for Record Collectors",
   description: "Easily collect, manage, and trade your vinyl collection with camera-based automatic recognition, metadata collection, and investment insights.",
 };
 
@@ -22,6 +22,7 @@ export default function RootLayout({
     <html lang="en">
       <body
         className={`${plusJakartaSans.variable} font-sans antialiased`}
+        suppressHydrationWarning={true}
       >
         {children}
       </body>

@@ -20,6 +20,7 @@ import {
 import * as Icons from "@/components/ui/icons";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { CircularLoader } from "@/components/ui/circular-loader";
 import { toast } from "@/components/ui/use-toast";
 
 import { userNameSchema } from "@/lib/validations/user";
@@ -106,7 +107,7 @@ export function UserNameForm({ user, className, ...props }: UserNameFormProps) {
             disabled={isSaving}
           >
             {isSaving && (
-              <Icons.Spinner className="mr-2 h-4 w-4 animate-spin" />
+              <CircularLoader size="sm" text="• " spinDuration={1} className="mr-2" />
             )}
             <span>Save</span>
           </button>

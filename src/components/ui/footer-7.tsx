@@ -1,6 +1,9 @@
-import React from "react";
+"use client";
+
+import React, { useState } from "react";
 import { FaFacebook, FaInstagram, FaTwitter } from "react-icons/fa";
 import Link from "next/link";
+import Image from "next/image";
 
 interface Footer7Props {
   logo?: {
@@ -27,17 +30,17 @@ interface Footer7Props {
   lang?: string;
 }
 
-const defaultSections = [
+const getDefaultSections = (lang: string) => [
   {
-    title: "Links",
+    title: lang === 'ko' ? '링크' : 'Links',
     links: [
       { name: "BPM Collect", href: "/bpm-collect" },
       { name: "Kolektt Hub", href: "/hub" },
-      { name: "About", href: "/about" },
+      { name: lang === 'ko' ? '소개' : 'About', href: "/about" },
     ],
   },
   {
-    title: "Contact",
+    title: lang === 'ko' ? '연락처' : 'Contact',
     links: [
       { name: "hello@kolektt.kr", href: "mailto:hello@kolektt.kr" },
     ],
@@ -50,9 +53,9 @@ const defaultSocialLinks = [
   { icon: <FaTwitter className="size-5" />, href: "#", label: "Twitter" },
 ];
 
-const defaultLegalLinks = [
-  { name: "Privacy Policy", href: "#" },
-  { name: "Terms of Service", href: "#" },
+const getDefaultLegalLinks = (lang: string) => [
+  { name: lang === 'ko' ? '개인정보 처리방침' : 'Privacy Policy', href: "/privacy-policy" },
+  { name: lang === 'ko' ? '서비스 이용약관' : 'Terms of Service', href: "/terms-of-service" },
 ];
 
 export const Footer7 = ({
@@ -62,13 +65,60 @@ export const Footer7 = ({
     alt: "Kolektt Logo",
     title: "Kolektt",
   },
-  sections = defaultSections,
-  description = "Smart platform for analog collectors. Easily collect, manage, and trade your collection with camera-based automatic recognition, metadata collection, and investment insights.",
+  sections,
+  description,
   socialLinks = defaultSocialLinks,
-  copyright = "© 2025 Objktt Studio. All rights reserved.",
-  legalLinks = defaultLegalLinks,
+  copyright,
+  legalLinks,
   lang = "en",
 }: Footer7Props) => {
+  // Set defaults based on language
+  const defaultSections = sections || getDefaultSections(lang);
+  const defaultDescription = description || (lang === 'ko' 
+    ? '레코드 컬렉터를 위한 스마트 플랫폼. 카메라 기반 자동 인식, 메타데이터 수집, 투자 인사이트로 컬렉션을 쉽게 수집, 관리, 거래하세요.'
+    : 'Smart platform for Record Collectors. Easily collect, manage, and trade your collection with camera-based automatic recognition, metadata collection, and investment insights.');
+  const defaultCopyright = copyright || (lang === 'ko'
+    ? '© 2025 Objktt Studio. 모든 권리 보유.'
+    : '© 2025 Objktt Studio. All rights reserved.');
+  const defaultLegalLinks = legalLinks || getDefaultLegalLinks(lang);
+  const [email, setEmail] = useState('');
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email) return;
+
+    setIsLoading(true);
+    setError('');
+    
+    try {
+      const response = await fetch('/api/waitlist', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setIsSubmitted(true);
+        setEmail('');
+        // 3초 후 다시 폼 표시
+        setTimeout(() => setIsSubmitted(false), 3000);
+      } else {
+        setError(lang === 'ko' ? '유효한 이메일을 입력해주세요.' : 'Please enter a valid email.');
+      }
+    } catch (error) {
+      console.error('Network error:', error);
+      setError(lang === 'ko' ? '네트워크 오류가 발생했습니다.' : 'Network error occurred.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
   return (
     <section className="py-16 md:py-24 bg-black">
       <div className="mx-auto px-6 md:px-10 lg:px-16 max-w-7xl">
@@ -77,30 +127,63 @@ export const Footer7 = ({
             {/* Logo */}
             <div className="flex items-center gap-3">
               <Link href={`/${lang}`}>
-                <span className="text-2xl font-black text-white hover:text-gray-300 transition-colors">
-                  {logo.title}
-                </span>
+                <Image
+                  src="/images/logo/kolektt_logo.svg"
+                  alt="Kolektt Logo"
+                  width={98}
+                  height={28}
+                  className="h-7 w-auto brightness-0 invert hover:opacity-80 transition-opacity"
+                />
               </Link>
             </div>
             <p className="text-base text-gray-300 leading-relaxed">
-              {description}
+              {defaultDescription}
             </p>
 
             {/* Newsletter Signup */}
             <div className="w-full max-w-sm">
               <h4 className="text-sm font-semibold text-white mb-3">
-                Subscribe to our Newsletter
+                {lang === 'ko' ? '뉴스레터 구독' : 'Subscribe to our Newsletter'}
               </h4>
-              <div className="flex">
-                <input
-                  type="email"
-                  placeholder="Enter your email"
-                  className="flex-1 px-4 py-2 text-sm border border-gray-600 bg-gray-800 text-white placeholder-gray-400 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                />
-                <button className="px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-r-lg hover:bg-blue-700 transition-colors">
-                  Subscribe
-                </button>
-              </div>
+              {!isSubmitted ? (
+                <form onSubmit={handleSubmit}>
+                  <div className="flex">
+                    <input
+                      type="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      placeholder={lang === 'ko' ? '이메일을 입력하세요' : 'Enter your email'}
+                      className="flex-1 px-4 py-2 text-sm border border-gray-600 bg-gray-800 text-white placeholder-gray-400 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      required
+                      disabled={isLoading}
+                    />
+                    <button 
+                      type="submit"
+                      disabled={isLoading}
+                      className="px-4 py-2 text-white text-sm font-medium rounded-r-lg transition-colors disabled:opacity-50"
+                      style={{ backgroundColor: '#1520FF' }}
+                      onMouseEnter={(e) => !isLoading && (e.currentTarget.style.backgroundColor = '#0D16CC')}
+                      onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#1520FF'}
+                    >
+                      {isLoading ? (
+                        lang === 'ko' ? '전송중...' : 'Sending...'
+                      ) : (
+                        lang === 'ko' ? '구독' : 'Subscribe'
+                      )}
+                    </button>
+                  </div>
+                  {error && (
+                    <p className="text-xs text-red-400 mt-2">{error}</p>
+                  )}
+                </form>
+              ) : (
+                <div className="flex items-center gap-2 text-green-400 text-sm py-2">
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
+                  <span>{lang === 'ko' ? '구독 완료!' : 'Subscribed!'}</span>
+                </div>
+              )}
             </div>
 
             {/* Social Links */}
@@ -117,7 +200,7 @@ export const Footer7 = ({
 
           {/* Navigation Links */}
           <div className="flex gap-16 lg:gap-20">
-            {sections.map((section, sectionIdx) => (
+            {defaultSections.map((section, sectionIdx) => (
               <div key={sectionIdx}>
                 <h3 className="mb-4 text-sm font-semibold text-white uppercase tracking-wider">
                   {section.title}
@@ -125,7 +208,17 @@ export const Footer7 = ({
                 <ul className="space-y-3">
                   {section.links.map((link, linkIdx) => (
                     <li key={linkIdx}>
-                      {link.href.startsWith("mailto:") ||
+                      {link.href === "/hub" ? (
+                        <div className="relative group inline-block">
+                          <span className="text-sm text-gray-500 cursor-not-allowed">
+                            {link.name}
+                          </span>
+                          <div className="absolute bottom-full left-0 mb-2 px-3 py-2 bg-gray-700 text-white text-xs rounded-lg whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50">
+                            {lang === "ko" ? "준비중입니다" : "Coming Soon"}
+                            <div className="absolute top-full left-4 w-2 h-2 bg-gray-700 rotate-45 -mt-1"></div>
+                          </div>
+                        </div>
+                      ) : link.href.startsWith("mailto:") ||
                       link.href.startsWith("http") ||
                       link.href === "#" ? (
                         <a
@@ -152,16 +245,16 @@ export const Footer7 = ({
 
         {/* Bottom Bar */}
         <div className="mt-16 flex flex-col justify-between gap-4 border-t border-gray-700 pt-8 text-sm text-gray-400 md:flex-row md:items-center">
-          <p>{copyright}</p>
+          <p>{defaultCopyright}</p>
           <ul className="flex flex-col gap-4 sm:flex-row sm:gap-6">
-            {legalLinks.map((link, idx) => (
+            {defaultLegalLinks.map((link, idx) => (
               <li key={idx}>
-                <a
-                  href={link.href}
+                <Link
+                  href={`/${lang}${link.href}`}
                   className="hover:text-white transition-colors"
                 >
                   {link.name}
-                </a>
+                </Link>
               </li>
             ))}
           </ul>

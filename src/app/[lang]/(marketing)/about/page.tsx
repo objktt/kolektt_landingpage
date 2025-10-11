@@ -177,14 +177,14 @@ export default function AboutPage({
           </div>
           <div className="grid md:grid-cols-3 gap-8 lg:gap-12">
             {/* Kolektt App Card */}
-            <div className="bg-white/10 backdrop-blur-lg rounded-3xl p-8 hover:bg-white/20 transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-blue-500/20 border border-white/20">
-              <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center mb-6">
+            <div className="bg-white/10 backdrop-blur-lg rounded-3xl p-8 hover:bg-white/20 transition-all duration-300 hover:scale-105 hover:shadow-2xl border border-white/20" style={{ boxShadow: 'var(--hover-shadow, 0 25px 50px -12px rgba(21, 32, 255, 0.2))' }}>
+              <div className="w-16 h-16 rounded-2xl flex items-center justify-center mb-6" style={{ background: 'linear-gradient(to bottom right, #1520FF, #0D16CC)' }}>
                 <span className="text-2xl">📱</span>
               </div>
               <h3 className="text-2xl font-bold mb-3 text-white">
                 Kolektt App
               </h3>
-              <p className="text-blue-400 mb-4 font-medium text-sm uppercase tracking-wide">
+              <p className="mb-4 font-medium text-sm uppercase tracking-wide" style={{ color: '#6B7AFF' }}>
                 {t.forIndividual}
               </p>
               <p className="text-gray-300 mb-6 leading-relaxed">
@@ -192,7 +192,8 @@ export default function AboutPage({
               </p>
               <Link
                 href={`/${lang}`}
-                className="inline-flex items-center text-blue-400 font-semibold hover:text-blue-300 transition-colors group"
+                className="inline-flex items-center font-semibold transition-colors group"
+                style={{ color: '#6B7AFF' }}
               >
                 {t.learnMore}
                 <span className="ml-2 group-hover:translate-x-1 transition-transform">
@@ -202,14 +203,14 @@ export default function AboutPage({
             </div>
 
             {/* BPM Collect Card */}
-            <div className="bg-white/10 backdrop-blur-lg rounded-3xl p-8 hover:bg-white/20 transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-green-500/20 border border-white/20">
-              <div className="w-16 h-16 bg-gradient-to-br from-green-500 to-green-600 rounded-2xl flex items-center justify-center mb-6">
+            <div className="bg-white/10 backdrop-blur-lg rounded-3xl p-8 hover:bg-white/20 transition-all duration-300 hover:scale-105 hover:shadow-2xl border border-white/20" style={{ boxShadow: 'var(--hover-shadow, 0 25px 50px -12px rgba(21, 32, 255, 0.2))' }}>
+              <div className="w-16 h-16 rounded-2xl flex items-center justify-center mb-6" style={{ background: 'linear-gradient(to bottom right, #1520FF, #0D16CC)' }}>
                 <span className="text-2xl">🎵</span>
               </div>
               <h3 className="text-2xl font-bold mb-3 text-white">
                 BPM Collect
               </h3>
-              <p className="text-green-400 mb-4 font-medium text-sm uppercase tracking-wide">
+              <p className="mb-4 font-medium text-sm uppercase tracking-wide" style={{ color: '#6B7AFF' }}>
                 {t.forDJs}
               </p>
               <p className="text-gray-300 mb-6 leading-relaxed">
@@ -217,7 +218,8 @@ export default function AboutPage({
               </p>
               <Link
                 href={`/${lang}/bpm-collect`}
-                className="inline-flex items-center text-green-400 font-semibold hover:text-green-300 transition-colors group"
+                className="inline-flex items-center font-semibold transition-colors group"
+                style={{ color: '#6B7AFF' }}
               >
                 {t.learnMore}
                 <span className="ml-2 group-hover:translate-x-1 transition-transform">
@@ -227,14 +229,14 @@ export default function AboutPage({
             </div>
 
             {/* Kolektt Hub Card */}
-            <div className="bg-white/10 backdrop-blur-lg rounded-3xl p-8 hover:bg-white/20 transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-purple-500/20 border border-white/20">
-              <div className="w-16 h-16 bg-gradient-to-br from-purple-500 to-purple-600 rounded-2xl flex items-center justify-center mb-6">
+            <div className="bg-white/10 backdrop-blur-lg rounded-3xl p-8 hover:bg-white/20 transition-all duration-300 hover:scale-105 hover:shadow-2xl border border-white/20" style={{ boxShadow: 'var(--hover-shadow, 0 25px 50px -12px rgba(21, 32, 255, 0.2))' }}>
+              <div className="w-16 h-16 rounded-2xl flex items-center justify-center mb-6" style={{ background: 'linear-gradient(to bottom right, #1520FF, #0D16CC)' }}>
                 <span className="text-2xl">🏪</span>
               </div>
               <h3 className="text-2xl font-bold mb-3 text-white">
                 Kolektt Hub
               </h3>
-              <p className="text-purple-400 mb-4 font-medium text-sm uppercase tracking-wide">
+              <p className="mb-4 font-medium text-sm uppercase tracking-wide" style={{ color: '#6B7AFF' }}>
                 {t.forStoreOwners}
               </p>
               <p className="text-gray-300 mb-6 leading-relaxed">
@@ -242,7 +244,8 @@ export default function AboutPage({
               </p>
               <Link
                 href={`/${lang}/hub`}
-                className="inline-flex items-center text-purple-400 font-semibold hover:text-purple-300 transition-colors group"
+                className="inline-flex items-center font-semibold transition-colors group"
+                style={{ color: '#6B7AFF' }}
               >
                 {t.learnMore}
                 <span className="ml-2 group-hover:translate-x-1 transition-transform">
