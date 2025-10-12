@@ -31,6 +31,7 @@ const BentoCard = ({
   description,
   href,
   cta,
+  onCardClick,
 }: {
   name: string;
   className: string;
@@ -39,6 +40,7 @@ const BentoCard = ({
   description: string;
   href: string;
   cta: string;
+  onCardClick?: (e: React.MouseEvent) => void;
 }) => (
   <div
     key={name}
@@ -65,12 +67,24 @@ const BentoCard = ({
         "pointer-events-none absolute bottom-0 flex w-full translate-y-10 transform-gpu flex-row items-center p-4 opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100",
       )}
     >
-      <Button variant="ghost" asChild size="sm" className="pointer-events-auto text-white hover:text-white">
-        <a href={href}>
+      {onCardClick ? (
+        <Button 
+          variant="ghost" 
+          size="sm" 
+          className="pointer-events-auto text-white hover:text-white"
+          onClick={onCardClick}
+        >
           {cta}
           <ArrowRightIcon className="ml-2 h-4 w-4" />
-        </a>
-      </Button>
+        </Button>
+      ) : (
+        <Button variant="ghost" asChild size="sm" className="pointer-events-auto text-white hover:text-white">
+          <a href={href}>
+            {cta}
+            <ArrowRightIcon className="ml-2 h-4 w-4" />
+          </a>
+        </Button>
+      )}
     </div>
     <div className="pointer-events-none absolute inset-0 transform-gpu transition-all duration-300 group-hover:bg-black/[.03] group-hover:dark:bg-neutral-800/10" />
   </div>

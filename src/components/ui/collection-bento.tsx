@@ -1,7 +1,10 @@
+"use client";
+
 import { MusicIcon, Users2Icon } from "lucide-react";
 import Image from "next/image";
 
 import { BentoCard, BentoGrid } from "@/components/ui/bento-grid";
+import { useToast } from "@/components/ui/src/use-toast";
 import type { Locale } from "@/config/i18n-config";
 
 const getFeatures = (lang: Locale) => [
@@ -65,6 +68,19 @@ interface CollectionBentoProps {
 
 function CollectionBento({ lang }: CollectionBentoProps) {
   const features = getFeatures(lang);
+  const { toast } = useToast();
+  
+  const handleCardClick = (e: React.MouseEvent, featureName: string, href: string) => {
+    if (featureName === "Kolektt Hub") {
+      e.preventDefault();
+      toast({
+        title: lang === 'ko' ? '준비중입니다' : 'Coming Soon',
+        description: lang === 'ko' ? 'Kolektt Hub는 곧 출시될 예정입니다.' : 'Kolektt Hub will be available soon.',
+      });
+    } else {
+      window.location.href = `/${lang}${href}`;
+    }
+  };
   
   return (
     <BentoGrid className="grid-cols-1 lg:grid-cols-2 auto-rows-[24rem]">
@@ -73,6 +89,7 @@ function CollectionBento({ lang }: CollectionBentoProps) {
           key={feature.name}
           {...feature}
           href={`/${lang}${feature.href}`}
+          onCardClick={(e) => handleCardClick(e, feature.name, feature.href)}
         />
       ))}
     </BentoGrid>
