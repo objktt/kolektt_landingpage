@@ -214,11 +214,11 @@ export default function IndexPage({
 
                       {/* Feature Cards - Responsive Layout */}
 
-                      {/* Mobile: Zigzag Cards */}
+                      {/* Mobile: Cards Below Mockup */}
                       <div className="lg:hidden">
-                        {/* Top Left Card */}
+                        {/* Card 1 */}
                         <motion.div
-                          className="absolute left-[-40px] top-[calc(10%+50px)]"
+                          className="absolute left-0 top-[calc(100%+20px)] w-full"
                           animate={{ y: [-8, 8, -8] }}
                           transition={{
                             duration: 4,
@@ -226,7 +226,7 @@ export default function IndexPage({
                             ease: "easeInOut",
                           }}
                         >
-                          <div className="bg-white/95 backdrop-blur-sm rounded-lg p-3 shadow-lg max-w-[140px] text-left">
+                          <div className="bg-white/95 backdrop-blur-sm rounded-lg p-3 shadow-lg text-left">
                             <div className="flex items-center gap-2 mb-2">
                               <Camera
                                 size={32}
@@ -243,9 +243,9 @@ export default function IndexPage({
                           </div>
                         </motion.div>
 
-                        {/* Top Right Card */}
+                        {/* Card 2 */}
                         <motion.div
-                          className="absolute right-[-40px] top-[calc(25%+50px)]"
+                          className="absolute left-0 top-[calc(100%+110px)] w-full"
                           animate={{ y: [8, -8, 8] }}
                           transition={{
                             duration: 3.5,
@@ -253,7 +253,7 @@ export default function IndexPage({
                             ease: "easeInOut",
                           }}
                         >
-                          <div className="bg-white/95 backdrop-blur-sm rounded-lg p-3 shadow-lg max-w-[140px] text-left">
+                          <div className="bg-white/95 backdrop-blur-sm rounded-lg p-3 shadow-lg text-left">
                             <div className="flex items-center gap-2 mb-2">
                               <Robot
                                 size={32}
@@ -270,9 +270,9 @@ export default function IndexPage({
                           </div>
                         </motion.div>
 
-                        {/* Bottom Left Card */}
+                        {/* Card 3 */}
                         <motion.div
-                          className="absolute left-[-40px] top-[calc(40%+50px)]"
+                          className="absolute left-0 top-[calc(100%+200px)] w-full"
                           animate={{ y: [-6, 10, -6] }}
                           transition={{
                             duration: 4.5,
@@ -280,7 +280,7 @@ export default function IndexPage({
                             ease: "easeInOut",
                           }}
                         >
-                          <div className="bg-white/95 backdrop-blur-sm rounded-lg p-3 shadow-lg max-w-[140px] text-left">
+                          <div className="bg-white/95 backdrop-blur-sm rounded-lg p-3 shadow-lg text-left">
                             <div className="flex items-center gap-2 mb-2">
                               <Lightning
                                 size={32}
@@ -297,9 +297,9 @@ export default function IndexPage({
                           </div>
                         </motion.div>
 
-                        {/* Bottom Right Card */}
+                        {/* Card 4 */}
                         <motion.div
-                          className="absolute right-[-40px] top-[calc(55%+50px)]"
+                          className="absolute left-0 top-[calc(100%+290px)] w-full"
                           animate={{ y: [10, -6, 10] }}
                           transition={{
                             duration: 3.8,
@@ -307,7 +307,7 @@ export default function IndexPage({
                             ease: "easeInOut",
                           }}
                         >
-                          <div className="bg-white/95 backdrop-blur-sm rounded-lg p-3 shadow-lg max-w-[140px] text-left">
+                          <div className="bg-white/95 backdrop-blur-sm rounded-lg p-3 shadow-lg text-left">
                             <div className="flex items-center gap-2 mb-2">
                               <Target
                                 size={32}
@@ -480,11 +480,11 @@ export default function IndexPage({
 
                       {/* Feature Cards - Responsive Layout */}
 
-                      {/* Mobile: Zigzag Cards */}
+                      {/* Mobile: Cards Below Mockup */}
                       <div className="lg:hidden">
-                        {/* Top Left Card */}
+                        {/* Card 1 */}
                         <motion.div
-                          className="absolute left-[-40px] top-[calc(10%+50px)]"
+                          className="absolute left-0 top-[calc(100%+20px)] w-full"
                           animate={{ y: [-9, 11, -9] }}
                           transition={{
                             duration: 4.3,
@@ -492,7 +492,7 @@ export default function IndexPage({
                             ease: "easeInOut",
                           }}
                         >
-                          <div className="bg-white/95 backdrop-blur-sm rounded-lg p-3 shadow-lg max-w-[140px] text-left">
+                          <div className="bg-white/95 backdrop-blur-sm rounded-lg p-3 shadow-lg text-left">
                             <div className="flex items-center gap-2 mb-2">
                               <ChartBar
                                 size={32}
@@ -509,9 +509,9 @@ export default function IndexPage({
                           </div>
                         </motion.div>
 
-                        {/* Top Right Card */}
+                        {/* Card 2 */}
                         <motion.div
-                          className="absolute right-[-40px] top-[calc(25%+50px)]"
+                          className="absolute left-0 top-[calc(100%+110px)] w-full"
                           animate={{ y: [11, -9, 11] }}
                           transition={{
                             duration: 3.6,
@@ -519,7 +519,7 @@ export default function IndexPage({
                             ease: "easeInOut",
                           }}
                         >
-                          <div className="bg-white/95 backdrop-blur-sm rounded-lg p-3 shadow-lg max-w-[140px] text-left">
+                          <div className="bg-white/95 backdrop-blur-sm rounded-lg p-3 shadow-lg text-left">
                             <div className="flex items-center gap-2 mb-2">
                               <MapPin
                                 size={32}
@@ -536,9 +536,9 @@ export default function IndexPage({
                           </div>
                         </motion.div>
 
-                        {/* Bottom Left Card */}
+                        {/* Card 3 */}
                         <motion.div
-                          className="absolute left-[-40px] top-[calc(40%+50px)]"
+                          className="absolute left-0 top-[calc(100%+200px)] w-full"
                           animate={{ y: [-7, 13, -7] }}
                           transition={{
                             duration: 4.6,
@@ -546,7 +546,7 @@ export default function IndexPage({
                             ease: "easeInOut",
                           }}
                         >
-                          <div className="bg-white/95 backdrop-blur-sm rounded-lg p-3 shadow-lg max-w-[140px] text-left">
+                          <div className="bg-white/95 backdrop-blur-sm rounded-lg p-3 shadow-lg text-left">
                             <div className="flex items-center gap-2 mb-2">
                               <Trophy
                                 size={32}
@@ -563,9 +563,9 @@ export default function IndexPage({
                           </div>
                         </motion.div>
 
-                        {/* Bottom Right Card */}
+                        {/* Card 4 */}
                         <motion.div
-                          className="absolute right-[-40px] top-[calc(55%+50px)]"
+                          className="absolute left-0 top-[calc(100%+290px)] w-full"
                           animate={{ y: [13, -7, 13] }}
                           transition={{
                             duration: 3.9,
@@ -573,7 +573,7 @@ export default function IndexPage({
                             ease: "easeInOut",
                           }}
                         >
-                          <div className="bg-white/95 backdrop-blur-sm rounded-lg p-3 shadow-lg max-w-[140px] text-left">
+                          <div className="bg-white/95 backdrop-blur-sm rounded-lg p-3 shadow-lg text-left">
                             <div className="flex items-center gap-2 mb-2">
                               <Brain
                                 size={32}
@@ -746,11 +746,11 @@ export default function IndexPage({
 
                       {/* Feature Cards - Responsive Layout */}
 
-                      {/* Mobile: Zigzag Cards */}
+                      {/* Mobile: Cards Below Mockup */}
                       <div className="lg:hidden">
-                        {/* Top Left Card */}
+                        {/* Card 1 */}
                         <motion.div
-                          className="absolute left-[-40px] top-[calc(10%+50px)]"
+                          className="absolute left-0 top-[calc(100%+20px)] w-full"
                           animate={{ y: [-10, 12, -10] }}
                           transition={{
                             duration: 4.1,
@@ -758,7 +758,7 @@ export default function IndexPage({
                             ease: "easeInOut",
                           }}
                         >
-                          <div className="bg-white/95 backdrop-blur-sm rounded-lg p-3 shadow-lg max-w-[140px] text-left">
+                          <div className="bg-white/95 backdrop-blur-sm rounded-lg p-3 shadow-lg text-left">
                             <div className="flex items-center gap-2 mb-2">
                               <Globe
                                 size={32}
@@ -775,9 +775,9 @@ export default function IndexPage({
                           </div>
                         </motion.div>
 
-                        {/* Top Right Card */}
+                        {/* Card 2 */}
                         <motion.div
-                          className="absolute right-[-40px] top-[calc(25%+50px)]"
+                          className="absolute left-0 top-[calc(100%+110px)] w-full"
                           animate={{ y: [12, -10, 12] }}
                           transition={{
                             duration: 3.7,
@@ -785,7 +785,7 @@ export default function IndexPage({
                             ease: "easeInOut",
                           }}
                         >
-                          <div className="bg-white/95 backdrop-blur-sm rounded-lg p-3 shadow-lg max-w-[140px] text-left">
+                          <div className="bg-white/95 backdrop-blur-sm rounded-lg p-3 shadow-lg text-left">
                             <div className="flex items-center gap-2 mb-2">
                               <Lock
                                 size={32}
@@ -802,9 +802,9 @@ export default function IndexPage({
                           </div>
                         </motion.div>
 
-                        {/* Bottom Left Card */}
+                        {/* Card 3 */}
                         <motion.div
-                          className="absolute left-[-40px] top-[calc(40%+50px)]"
+                          className="absolute left-0 top-[calc(100%+200px)] w-full"
                           animate={{ y: [-8, 14, -8] }}
                           transition={{
                             duration: 4.7,
@@ -812,7 +812,7 @@ export default function IndexPage({
                             ease: "easeInOut",
                           }}
                         >
-                          <div className="bg-white/95 backdrop-blur-sm rounded-lg p-3 shadow-lg max-w-[140px] text-left">
+                          <div className="bg-white/95 backdrop-blur-sm rounded-lg p-3 shadow-lg text-left">
                             <div className="flex items-center gap-2 mb-2">
                               <Sparkle
                                 size={32}
@@ -829,9 +829,9 @@ export default function IndexPage({
                           </div>
                         </motion.div>
 
-                        {/* Bottom Right Card */}
+                        {/* Card 4 */}
                         <motion.div
-                          className="absolute right-[-40px] top-[calc(55%+50px)]"
+                          className="absolute left-0 top-[calc(100%+290px)] w-full"
                           animate={{ y: [14, -8, 14] }}
                           transition={{
                             duration: 4.0,
@@ -839,7 +839,7 @@ export default function IndexPage({
                             ease: "easeInOut",
                           }}
                         >
-                          <div className="bg-white/95 backdrop-blur-sm rounded-lg p-3 shadow-lg max-w-[140px] text-left">
+                          <div className="bg-white/95 backdrop-blur-sm rounded-lg p-3 shadow-lg text-left">
                             <div className="flex items-center gap-2 mb-2">
                               <Money
                                 size={32}
