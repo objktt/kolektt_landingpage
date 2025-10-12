@@ -36,7 +36,7 @@ const getDefaultSections = (lang: string) => [
     links: [
       { name: "BPM Collect", href: "/bpm-collect" },
       { name: "Kolektt Hub", href: "/hub" },
-      { name: lang === 'ko' ? '소개' : 'About', href: "/about" },
+      { name: "About", href: "/about" },
     ],
   },
   {
@@ -140,10 +140,10 @@ export const Footer7 = ({
               {defaultDescription}
             </p>
 
-            {/* Beta Tester Application */}
+            {/* Pre-registration */}
             <div className="w-full max-w-sm">
               <h4 className="text-sm font-semibold text-white mb-3">
-                {lang === 'ko' ? '베타테스터 신청' : 'Apply for Beta Testing'}
+                {lang === 'ko' ? '사전등록 신청' : 'Pre-registration'}
               </h4>
               {!isSubmitted ? (
                 <form onSubmit={handleSubmit}>

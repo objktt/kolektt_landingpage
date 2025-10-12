@@ -1142,9 +1142,9 @@ export default function IndexPage({
                       </p>
                       <p className="text-gray-600 leading-relaxed">
                         {lang === 'ko' ? (
-                          '광고 없음, 고급 큐레이션, 프라이빗 컬렉션 등 독점 기능을 12개월간 무료로 이용하세요.'
+                          '고급 큐레이션, 프라이빗 컴렉션 등 독점 기능을 12개월간 무료로 이용하세요.'
                         ) : (
-                          'Enjoy ad-free experience, advanced curation, private collections, and exclusive features for 12 months absolutely free.'
+                          'Enjoy advanced curation, private collections, and exclusive features for 12 months absolutely free.'
                         )}
                       </p>
                     </motion.div>
