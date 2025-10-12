@@ -7,7 +7,7 @@ import UltraSimpleSelector from "@/components/UltraSimpleSelector";
 // import ParticleBackground from "@/components/ui/particle-background";
 import { motion } from "framer-motion";
 import { useState, use } from "react";
-import { useToast } from "@/components/ui/toast";
+import { useToast } from "@/components/ui/src/use-toast";
 import {
   MusicNote,
   MagnifyingGlass,
@@ -23,7 +23,7 @@ export default function BpmCollectPage({
   }>;
 }) {
   const { lang } = use(params);
-  const { showToast } = useToast();
+  const { toast } = useToast();
   const [currentBpm, setCurrentBpm] = useState(0);
   const [hasStarted, setHasStarted] = useState(false); // Track if user has started tapping
 
@@ -43,10 +43,10 @@ export default function BpmCollectPage({
   };
 
   const handleGooglePlayClick = () => {
-    showToast(
-      lang === 'ko' ? 'Google Play 버전 곧 출시 예정입니다! 🚀' : 'Coming Soon to Google Play! 🚀',
-      'info'
-    );
+    toast({
+      title: lang === 'ko' ? 'Google Play 버전 곳 출시 예정입니다! 🚀' : 'Coming Soon to Google Play! 🚀',
+      description: lang === 'ko' ? '빠른 시일 내에 Android 버전을 만나보세요.' : 'Meet the Android version soon.',
+    });
   };
 
   return (

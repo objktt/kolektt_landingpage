@@ -8,6 +8,7 @@ import { Menu, X, Globe, ChevronDown } from "lucide-react";
 
 import { cn } from "@/components/ui";
 import { Button } from "@/components/ui/button";
+import { useToast } from "@/components/ui/src/use-toast";
 import type { Locale } from "@/config/i18n-config";
 
 interface ShadcnHeaderProps {
@@ -20,6 +21,7 @@ export function ShadcnHeader({ lang }: ShadcnHeaderProps) {
   const [isLanguageMenuOpen, setIsLanguageMenuOpen] = React.useState(false);
   const router = useRouter();
   const pathname = usePathname();
+  const { toast } = useToast();
 
   React.useEffect(() => {
     const handleScroll = () => {
@@ -85,6 +87,10 @@ export function ShadcnHeader({ lang }: ShadcnHeaderProps) {
 
   const handleHubClick = (e: React.MouseEvent) => {
     e.preventDefault();
+    toast({
+      title: lang === 'ko' ? '준비중입니다' : 'Coming Soon',
+      description: lang === 'ko' ? 'Kolektt Hub는 곧 출시될 예정입니다.' : 'Kolektt Hub will be available soon.',
+    });
   };
 
 
@@ -134,19 +140,13 @@ export function ShadcnHeader({ lang }: ShadcnHeaderProps) {
                     BPM Collect
                   </Link>
 
-                  <div className="relative group inline-block">
-                    <a
-                      href="#"
-                      onClick={handleHubClick}
-                      className="relative text-gray-500 cursor-not-allowed px-0 py-2 pb-1 text-base font-bold transition-all"
-                    >
-                      Kolektt Hub
-                    </a>
-                    <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 bg-gray-700 text-white text-xs rounded-lg whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50">
-                      {lang === 'ko' ? '준비중입니다' : 'Coming Soon'}
-                      <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-2 h-2 bg-gray-700 rotate-45 -mt-1"></div>
-                    </div>
-                  </div>
+                  <a
+                    href="#"
+                    onClick={handleHubClick}
+                    className="relative text-gray-700 hover:text-gray-900 px-0 py-2 pb-1 text-base font-bold transition-all after:content-[''] after:absolute after:bottom-0 after:left-0 after:h-[2px] after:bg-black after:rounded-full after:transition-all after:duration-300 hover:after:w-full after:w-0"
+                  >
+                    Kolektt Hub
+                  </a>
 
                   <Link
                     href={`/${lang}/about`}
@@ -243,19 +243,13 @@ export function ShadcnHeader({ lang }: ShadcnHeaderProps) {
                   >
                     BPM Collect
                   </Link>
-                  <div className="relative group inline-block w-full">
-                    <a
-                      href="#"
-                      className="text-base font-medium text-gray-500 cursor-not-allowed px-3 py-3 rounded-lg transition-all block"
-                      onClick={(e) => { handleHubClick(e); }}
-                    >
-                      Kolektt Hub
-                    </a>
-                    <div className="absolute left-full top-1/2 transform -translate-y-1/2 ml-2 px-3 py-2 bg-gray-700 text-white text-xs rounded-lg whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50">
-                      {lang === 'ko' ? '준비중입니다' : 'Coming Soon'}
-                      <div className="absolute right-full top-1/2 transform -translate-y-1/2 w-2 h-2 bg-gray-700 rotate-45 mr-1"></div>
-                    </div>
-                  </div>
+                  <a
+                    href="#"
+                    className="text-base font-medium text-gray-900 hover:text-blue-600 hover:bg-gray-50 px-3 py-3 rounded-lg transition-all block"
+                    onClick={(e) => { handleHubClick(e); }}
+                  >
+                    Kolektt Hub
+                  </a>
                   <Link
                     href={`/${lang}/about`}
                     className="text-base font-medium text-gray-900 hover:text-blue-600 hover:bg-gray-50 px-3 py-3 rounded-lg transition-all"

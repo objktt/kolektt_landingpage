@@ -2,7 +2,7 @@ import Script from "next/script";
 import type { Locale } from "@/config/i18n-config";
 import { ShadcnHeader } from "@/components/shadcn-header";
 import { Footer7 } from "@/components/ui/footer-7";
-import { ToastProvider } from "@/components/ui/toast";
+import { Toaster } from "@/components/ui/src/toaster";
 
 export default async function MarketingLayout({
   children,
@@ -36,18 +36,19 @@ export default async function MarketingLayout({
         href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/fill/style.css"
       />
 
-      <ToastProvider>
-        <div className="main-page-wrapper bg-white text-gray-900 min-h-screen">
-          {/* ShadcnHeader */}
-          <ShadcnHeader lang={lang} />
+      <div className="main-page-wrapper bg-white text-gray-900 min-h-screen">
+        {/* ShadcnHeader */}
+        <ShadcnHeader lang={lang} />
 
-          {/* Page Content */}
-          <main>{children}</main>
+        {/* Page Content */}
+        <main>{children}</main>
 
-          {/* Footer */}
-          <Footer7 lang={lang} />
-        </div>
-      </ToastProvider>
+        {/* Footer */}
+        <Footer7 lang={lang} />
+        
+        {/* Toast Notifications */}
+        <Toaster />
+      </div>
 
       {/* Scripts - Load GSAP first for animations */}
       <Script

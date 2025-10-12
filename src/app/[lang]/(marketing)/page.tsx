@@ -10,7 +10,7 @@ import KolekttPricing from "@/components/ui/kolektt-pricing";
 import { CollectionBento } from "@/components/ui/collection-bento";
 import CursorTrail from "@/components/CursorTrail";
 import { motion } from "framer-motion";
-import { useToast } from "@/components/ui/toast";
+import { useToast } from "@/components/ui/src/use-toast";
 import {
   Camera,
   Robot,
@@ -38,7 +38,7 @@ export default function IndexPage({
   }>;
 }) {
   const { lang } = use(params);
-  const { showToast } = useToast();
+  const { toast } = useToast();
   
   // State for accordion functionality
   const [openAccordion, setOpenAccordion] = useState<number | null>(null);
@@ -48,10 +48,10 @@ export default function IndexPage({
   };
 
   const handleDownloadClick = () => {
-    showToast(
-      lang === 'ko' ? '곧 출시 예정입니다! 🎉' : 'Coming Soon! 🎉',
-      'info'
-    );
+    toast({
+      title: lang === 'ko' ? '곳 출시 예정입니다! 🎉' : 'Coming Soon! 🎉',
+      description: lang === 'ko' ? '빠른 시일 내에 앱을 만나보세요.' : 'Meet the app soon.',
+    });
   };
   
   return (
@@ -181,7 +181,7 @@ export default function IndexPage({
 
         {/* Snap Section */}
         <section className="px-[5%] mt-5">
-          <div className="bg-black pt-32 lg:pt-20 pb-32 lg:pb-20 rounded-[40px] overflow-hidden">
+          <div className="bg-black pt-32 lg:pt-20 pb-[500px] lg:pb-20 rounded-[40px] overflow-hidden">
             <div className="mx-auto w-4/5 px-4 sm:px-6 lg:px-8">
               <div className="flex flex-col lg:flex-row items-center">
                 <div className="w-full lg:w-1/2">
@@ -217,15 +217,7 @@ export default function IndexPage({
                       {/* Mobile: Cards Below Mockup */}
                       <div className="lg:hidden">
                         {/* Card 1 */}
-                        <motion.div
-                          className="absolute left-0 top-[calc(100%+20px)] w-full"
-                          animate={{ y: [-8, 8, -8] }}
-                          transition={{
-                            duration: 4,
-                            repeat: Infinity,
-                            ease: "easeInOut",
-                          }}
-                        >
+                        <div className="absolute left-0 top-[calc(100%+20px)] w-full">
                           <div className="bg-white/95 backdrop-blur-sm rounded-lg p-3 shadow-lg text-left">
                             <div className="flex items-center gap-2 mb-2">
                               <Camera
@@ -241,18 +233,10 @@ export default function IndexPage({
                               {lang === 'ko' ? '촬영만 하면 자동으로 시작됩니다' : 'Simply point and shoot to start'}
                             </p>
                           </div>
-                        </motion.div>
+                        </div>
 
                         {/* Card 2 */}
-                        <motion.div
-                          className="absolute left-0 top-[calc(100%+110px)] w-full"
-                          animate={{ y: [8, -8, 8] }}
-                          transition={{
-                            duration: 3.5,
-                            repeat: Infinity,
-                            ease: "easeInOut",
-                          }}
-                        >
+                        <div className="absolute left-0 top-[calc(100%+110px)] w-full">
                           <div className="bg-white/95 backdrop-blur-sm rounded-lg p-3 shadow-lg text-left">
                             <div className="flex items-center gap-2 mb-2">
                               <Robot
@@ -268,18 +252,10 @@ export default function IndexPage({
                               {lang === 'ko' ? '고급 ML이 앨범을 식별합니다' : 'Advanced ML identifies albums'}
                             </p>
                           </div>
-                        </motion.div>
+                        </div>
 
                         {/* Card 3 */}
-                        <motion.div
-                          className="absolute left-0 top-[calc(100%+200px)] w-full"
-                          animate={{ y: [-6, 10, -6] }}
-                          transition={{
-                            duration: 4.5,
-                            repeat: Infinity,
-                            ease: "easeInOut",
-                          }}
-                        >
+                        <div className="absolute left-0 top-[calc(100%+200px)] w-full">
                           <div className="bg-white/95 backdrop-blur-sm rounded-lg p-3 shadow-lg text-left">
                             <div className="flex items-center gap-2 mb-2">
                               <Lightning
@@ -292,21 +268,13 @@ export default function IndexPage({
                               </div>
                             </div>
                             <p className="text-xs text-gray-600 text-left">
-                              {lang === 'ko' ? '빠르게 이미지를 분석하여 정확한 데이터를 사용자의 컴렉션으로 만듭니다' : 'Quickly analyzes images and creates accurate data for your collection'}
+                              {lang === 'ko' ? '이미지를 분석하여 정확한 데이터를 사용자의 컬렉션으로 만듭니다' : 'Analyzes images and creates accurate data for your collection'}
                             </p>
                           </div>
-                        </motion.div>
+                        </div>
 
                         {/* Card 4 */}
-                        <motion.div
-                          className="absolute left-0 top-[calc(100%+290px)] w-full"
-                          animate={{ y: [10, -6, 10] }}
-                          transition={{
-                            duration: 3.8,
-                            repeat: Infinity,
-                            ease: "easeInOut",
-                          }}
-                        >
+                        <div className="absolute left-0 top-[calc(100%+290px)] w-full">
                           <div className="bg-white/95 backdrop-blur-sm rounded-lg p-3 shadow-lg text-left">
                             <div className="flex items-center gap-2 mb-2">
                               <Target
@@ -322,7 +290,7 @@ export default function IndexPage({
                               {lang === 'ko' ? '업계 최고 수준의 정확도를 제공합니다' : 'Delivers industry-leading precision'}
                             </p>
                           </div>
-                        </motion.div>
+                        </div>
                       </div>
 
                       {/* Desktop: Zigzag Cards */}
@@ -403,7 +371,7 @@ export default function IndexPage({
                               </div>
                             </div>
                             <p className="text-xs text-gray-600 text-left">
-                              {lang === 'ko' ? '빠르게 이미지를 분석하여 정확한 데이터를 사용자의 컬렉션으로 만듭니다' : 'Quickly analyzes images and creates accurate data for your collection'}
+                              {lang === 'ko' ? '이미지를 분석하여 정확한 데이터를 사용자의 컬렉션으로 만듭니다' : 'Analyzes images and creates accurate data for your collection'}
                             </p>
                           </div>
                         </motion.div>
@@ -445,7 +413,7 @@ export default function IndexPage({
 
         {/* Collect Section */}
         <section className="px-[5%] mt-10">
-          <div className="bg-transparent pt-32 lg:pt-20 pb-32 lg:pb-20 rounded-[40px] overflow-hidden">
+          <div className="bg-transparent pt-32 lg:pt-20 pb-[500px] lg:pb-20 rounded-[40px] overflow-hidden">
             <div className="mx-auto w-4/5 px-4 sm:px-6 lg:px-8">
               <div className="flex flex-col lg:flex-row items-center">
                 <div className="w-full lg:w-1/2 lg:order-last">
@@ -483,15 +451,7 @@ export default function IndexPage({
                       {/* Mobile: Cards Below Mockup */}
                       <div className="lg:hidden">
                         {/* Card 1 */}
-                        <motion.div
-                          className="absolute left-0 top-[calc(100%+20px)] w-full"
-                          animate={{ y: [-9, 11, -9] }}
-                          transition={{
-                            duration: 4.3,
-                            repeat: Infinity,
-                            ease: "easeInOut",
-                          }}
-                        >
+                        <div className="absolute left-0 top-[calc(100%+20px)] w-full">
                           <div className="bg-white/95 backdrop-blur-sm rounded-lg p-3 shadow-lg text-left">
                             <div className="flex items-center gap-2 mb-2">
                               <ChartBar
@@ -507,18 +467,10 @@ export default function IndexPage({
                               {lang === 'ko' ? '트렌드에 대한 깊은 인사이트를 제공합니다' : 'Provides deep insights into trends'}
                             </p>
                           </div>
-                        </motion.div>
+                        </div>
 
                         {/* Card 2 */}
-                        <motion.div
-                          className="absolute left-0 top-[calc(100%+110px)] w-full"
-                          animate={{ y: [11, -9, 11] }}
-                          transition={{
-                            duration: 3.6,
-                            repeat: Infinity,
-                            ease: "easeInOut",
-                          }}
-                        >
+                        <div className="absolute left-0 top-[calc(100%+110px)] w-full">
                           <div className="bg-white/95 backdrop-blur-sm rounded-lg p-3 shadow-lg text-left">
                             <div className="flex items-center gap-2 mb-2">
                               <MapPin
@@ -534,18 +486,10 @@ export default function IndexPage({
                               {lang === 'ko' ? '실시간으로 가격을 업데이트합니다' : 'Updates pricing in real-time'}
                             </p>
                           </div>
-                        </motion.div>
+                        </div>
 
                         {/* Card 3 */}
-                        <motion.div
-                          className="absolute left-0 top-[calc(100%+200px)] w-full"
-                          animate={{ y: [-7, 13, -7] }}
-                          transition={{
-                            duration: 4.6,
-                            repeat: Infinity,
-                            ease: "easeInOut",
-                          }}
-                        >
+                        <div className="absolute left-0 top-[calc(100%+200px)] w-full">
                           <div className="bg-white/95 backdrop-blur-sm rounded-lg p-3 shadow-lg text-left">
                             <div className="flex items-center gap-2 mb-2">
                               <Trophy
@@ -561,18 +505,10 @@ export default function IndexPage({
                               {lang === 'ko' ? '마모도와 품질을 모니터링합니다' : 'Monitors wear and quality'}
                             </p>
                           </div>
-                        </motion.div>
+                        </div>
 
                         {/* Card 4 */}
-                        <motion.div
-                          className="absolute left-0 top-[calc(100%+290px)] w-full"
-                          animate={{ y: [13, -7, 13] }}
-                          transition={{
-                            duration: 3.9,
-                            repeat: Infinity,
-                            ease: "easeInOut",
-                          }}
-                        >
+                        <div className="absolute left-0 top-[calc(100%+290px)] w-full">
                           <div className="bg-white/95 backdrop-blur-sm rounded-lg p-3 shadow-lg text-left">
                             <div className="flex items-center gap-2 mb-2">
                               <Brain
@@ -588,7 +524,7 @@ export default function IndexPage({
                               {lang === 'ko' ? 'AI 기반으로 추천합니다' : 'Recommends with AI power'}
                             </p>
                           </div>
-                        </motion.div>
+                        </div>
                       </div>
 
                       {/* Desktop: Zigzag Cards */}
@@ -711,7 +647,7 @@ export default function IndexPage({
 
         {/* Trade Section */}
         <section className="px-[5%] mt-10">
-          <div className="bg-black pt-32 lg:pt-20 pb-32 lg:pb-20 rounded-[40px] overflow-hidden">
+          <div className="bg-black pt-32 lg:pt-20 pb-[500px] lg:pb-20 rounded-[40px] overflow-hidden">
             <div className="mx-auto w-4/5 px-4 sm:px-6 lg:px-8">
               <div className="flex flex-col lg:flex-row items-center">
                 <div className="w-full lg:w-1/2">
@@ -749,15 +685,7 @@ export default function IndexPage({
                       {/* Mobile: Cards Below Mockup */}
                       <div className="lg:hidden">
                         {/* Card 1 */}
-                        <motion.div
-                          className="absolute left-0 top-[calc(100%+20px)] w-full"
-                          animate={{ y: [-10, 12, -10] }}
-                          transition={{
-                            duration: 4.1,
-                            repeat: Infinity,
-                            ease: "easeInOut",
-                          }}
-                        >
+                        <div className="absolute left-0 top-[calc(100%+20px)] w-full">
                           <div className="bg-white/95 backdrop-blur-sm rounded-lg p-3 shadow-lg text-left">
                             <div className="flex items-center gap-2 mb-2">
                               <Globe
@@ -773,18 +701,10 @@ export default function IndexPage({
                               {lang === 'ko' ? '신뢰도 높은 로컬 컬렉터와 손쉽게 거래합니다' : 'Trade easily with trusted local collectors'}
                             </p>
                           </div>
-                        </motion.div>
+                        </div>
 
                         {/* Card 2 */}
-                        <motion.div
-                          className="absolute left-0 top-[calc(100%+110px)] w-full"
-                          animate={{ y: [12, -10, 12] }}
-                          transition={{
-                            duration: 3.7,
-                            repeat: Infinity,
-                            ease: "easeInOut",
-                          }}
-                        >
+                        <div className="absolute left-0 top-[calc(100%+110px)] w-full">
                           <div className="bg-white/95 backdrop-blur-sm rounded-lg p-3 shadow-lg text-left">
                             <div className="flex items-center gap-2 mb-2">
                               <Lock
@@ -800,18 +720,10 @@ export default function IndexPage({
                               {lang === 'ko' ? '보호 기능으로 안전하게 거래합니다' : 'Trade safely with protection features'}
                             </p>
                           </div>
-                        </motion.div>
+                        </div>
 
                         {/* Card 3 */}
-                        <motion.div
-                          className="absolute left-0 top-[calc(100%+200px)] w-full"
-                          animate={{ y: [-8, 14, -8] }}
-                          transition={{
-                            duration: 4.7,
-                            repeat: Infinity,
-                            ease: "easeInOut",
-                          }}
-                        >
+                        <div className="absolute left-0 top-[calc(100%+200px)] w-full">
                           <div className="bg-white/95 backdrop-blur-sm rounded-lg p-3 shadow-lg text-left">
                             <div className="flex items-center gap-2 mb-2">
                               <Sparkle
@@ -827,18 +739,10 @@ export default function IndexPage({
                               {lang === 'ko' ? '정확한 기준으로 상태를 검증합니다' : 'Verify condition with accurate standards'}
                             </p>
                           </div>
-                        </motion.div>
+                        </div>
 
                         {/* Card 4 */}
-                        <motion.div
-                          className="absolute left-0 top-[calc(100%+290px)] w-full"
-                          animate={{ y: [14, -8, 14] }}
-                          transition={{
-                            duration: 4.0,
-                            repeat: Infinity,
-                            ease: "easeInOut",
-                          }}
-                        >
+                        <div className="absolute left-0 top-[calc(100%+290px)] w-full">
                           <div className="bg-white/95 backdrop-blur-sm rounded-lg p-3 shadow-lg text-left">
                             <div className="flex items-center gap-2 mb-2">
                               <Money
@@ -854,7 +758,7 @@ export default function IndexPage({
                               {lang === 'ko' ? '데이터 기반으로 투명하게 가격을 책정합니다' : 'Price transparently based on data'}
                             </p>
                           </div>
-                        </motion.div>
+                        </div>
                       </div>
 
                       {/* Desktop: Zigzag Cards */}

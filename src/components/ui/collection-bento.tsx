@@ -18,13 +18,13 @@ const getFeatures = (lang: Locale) => [
         <div className="absolute -right-10 -top-10 opacity-60">
           <div className="h-[300px] w-[300px] bg-gradient-to-br from-blue-400 to-purple-600 rounded-full blur-3xl" />
         </div>
-        <div className="absolute inset-0 flex items-center justify-center -translate-y-[50px]">
+        <div className="absolute inset-0 flex items-center justify-center -translate-y-[30px] md:-translate-y-[50px]">
           <Image
             src="/images/media/bpm.png"
             alt="BPM Collect"
             width={386}
             height={386}
-            className="object-contain opacity-100"
+            className="object-contain opacity-100 scale-50 md:scale-100 -translate-y-[10px] md:translate-y-0"
           />
         </div>
       </div>
@@ -44,7 +44,7 @@ const getFeatures = (lang: Locale) => [
         <div className="absolute -right-10 -top-10 opacity-60">
           <div className="h-[300px] w-[300px] bg-gradient-to-br from-orange-400 to-red-600 rounded-full blur-3xl" />
         </div>
-        <div className="absolute -right-[200px] top-20 w-[644px] h-[644px]">
+        <div className="absolute -right-[100px] md:-right-[200px] top-[50px] md:top-20 w-[322px] h-[322px] md:w-[644px] md:h-[644px]">
           <Image
             src="/images/media/hub.png"
             alt="Kolektt Hub"
