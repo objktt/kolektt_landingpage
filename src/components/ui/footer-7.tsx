@@ -32,7 +32,7 @@ interface Footer7Props {
 
 const getDefaultSections = (lang: string) => [
   {
-    title: lang === 'ko' ? '링크' : 'Links',
+    title: 'Link',
     links: [
       { name: "BPM Collect", href: "/bpm-collect" },
       { name: "Kolektt Hub", href: "/hub" },
@@ -40,7 +40,7 @@ const getDefaultSections = (lang: string) => [
     ],
   },
   {
-    title: lang === 'ko' ? '연락처' : 'Contact',
+    title: 'Contact',
     links: [
       { name: "hello@kolektt.kr", href: "mailto:hello@kolektt.kr" },
     ],
