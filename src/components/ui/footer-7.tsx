@@ -140,10 +140,10 @@ export const Footer7 = ({
               {defaultDescription}
             </p>
 
-            {/* Newsletter Signup */}
+            {/* Beta Tester Application */}
             <div className="w-full max-w-sm">
               <h4 className="text-sm font-semibold text-white mb-3">
-                {lang === 'ko' ? '뉴스레터 구독' : 'Subscribe to our Newsletter'}
+                {lang === 'ko' ? '베타테스터 신청' : 'Apply for Beta Testing'}
               </h4>
               {!isSubmitted ? (
                 <form onSubmit={handleSubmit}>
@@ -168,7 +168,7 @@ export const Footer7 = ({
                       {isLoading ? (
                         lang === 'ko' ? '전송중...' : 'Sending...'
                       ) : (
-                        lang === 'ko' ? '구독' : 'Subscribe'
+                        lang === 'ko' ? '신청' : 'Apply'
                       )}
                     </button>
                   </div>
@@ -181,7 +181,7 @@ export const Footer7 = ({
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
-                  <span>{lang === 'ko' ? '구독 완료!' : 'Subscribed!'}</span>
+                  <span>{lang === 'ko' ? '신청 완료!' : 'Application submitted!'}</span>
                 </div>
               )}
             </div>
