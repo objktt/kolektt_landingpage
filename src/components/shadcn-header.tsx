@@ -196,7 +196,7 @@ export function ShadcnHeader({ lang }: ShadcnHeaderProps) {
                     )}
                   </div>
 
-                  <div className="relative group inline-block">
+                  <div className="relative group hidden md:inline-block">
                     <Button
                       onClick={handleHubClick}
                       className="text-white shadow-sm cursor-not-allowed opacity-50"
