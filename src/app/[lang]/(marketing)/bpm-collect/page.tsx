@@ -44,8 +44,8 @@ export default function BpmCollectPage({
 
   const handleGooglePlayClick = () => {
     toast({
-      title: lang === 'ko' ? 'Google Play 버전 곳 출시 예정입니다! 🚀' : 'Coming Soon to Google Play! 🚀',
-      description: lang === 'ko' ? '빠른 시일 내에 Android 버전을 만나보세요.' : 'Meet the Android version soon.',
+      title: lang === 'ko' ? '준비중입니다' : 'Coming Soon',
+      description: lang === 'ko' ? 'Google Play 버전은 곧 출시될 예정입니다.' : 'Google Play version will be available soon.',
     });
   };
 
@@ -74,10 +74,11 @@ export default function BpmCollectPage({
                         BPM Collect
                       </h1>
                       <p className="text-xl md:text-2xl text-gray-700 mb-10">
-                        Measure BPM with intuitive animations, search Discogs
-                        integration, and create perfect setlists with
-                        genre-based classification. From pro DJs to music
-                        enthusiasts.
+                        {lang === 'ko' ? (
+                          '직관적인 애니메이션으로 BPM을 측정하고, Discogs 통합 검색으로 트랙 정보를 찾아보세요. 장르 기반 분류로 완벽한 셋리스트를 만들 수 있습니다. 프로 DJ부터 음악 애호가까지.'
+                        ) : (
+                          'Measure BPM with intuitive animations, search Discogs integration, and create perfect setlists with genre-based classification. From pro DJs to music enthusiasts.'
+                        )}
                       </p>
                       <div className="flex flex-col md:flex-row justify-center lg:justify-start items-center lg:items-start gap-5 mt-4">
                         <a
@@ -179,14 +180,18 @@ export default function BpmCollectPage({
                       </h2>
                     </div>
                     <p className="text-2xl text-white mb-10">
-                      The ultimate BPM measurement and music management app
+                      {lang === 'ko' ? (
+                        '최고의 BPM 측정 및 음악 관리 앱'
+                      ) : (
+                        'The ultimate BPM measurement and music management app'
+                      )}
                     </p>
                     <p className="text-xl text-white mb-10">
-                      BPM Collect is an innovative mobile app that
-                      revolutionizes how you measure, analyze, and organize
-                      music. With advanced beat detection technology and
-                      seamless Discogs integration, it's designed to enhance
-                      your music workflow.
+                      {lang === 'ko' ? (
+                        'BPM Collect는 음악을 측정하고, 분석하며, 정리하는 방식을 혁신하는 모바일 앱입니다. 고급 비트 감지 기술과 원활한 Discogs 통합으로 음악 작업 흐름을 향상시키도록 설계되었습니다.'
+                      ) : (
+                        'BPM Collect is an innovative mobile app that revolutionizes how you measure, analyze, and organize music. With advanced beat detection technology and seamless Discogs integration, it\'s designed to enhance your music workflow.'
+                      )}
                     </p>
                   </div>
                 </div>
@@ -436,101 +441,115 @@ export default function BpmCollectPage({
                   From Pro DJs to Music Enthusiasts
                 </h2>
                 <p className="text-2xl text-gray-900 mb-4">
-                  Perfect for every music professional and enthusiast
+                  {lang === 'ko' ? (
+                    '모든 음악 전문가와 애호가를 위한 완벽한 도구'
+                  ) : (
+                    'Perfect for every music professional and enthusiast'
+                  )}
                 </p>
                 <p className="text-xl text-gray-700">
-                  Whether you're a club DJ, mobile DJ, music collector, or
-                  producer, our app provides the tools you need for perfect
-                  music management.
+                  {lang === 'ko' ? (
+                    '클럽 DJ, 모바일 DJ, 음악 컬렉터, 프로듀서 등 누구든지 완벽한 음악 관리를 위한 도구를 제공합니다.'
+                  ) : (
+                    'Whether you\'re a club DJ, mobile DJ, music collector, or producer, our app provides the tools you need for perfect music management.'
+                  )}
                 </p>
               </div>
 
               <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
                 <motion.div
-                  className="bg-white backdrop-blur-lg rounded-3xl p-8 hover:bg-white/95 transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-blue-500/20 border border-gray-200"
+                  className="bg-white backdrop-blur-lg rounded-3xl p-8 hover:bg-white/95 transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-[#0036FF]/20 border border-gray-200"
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: 0.1 }}
                   viewport={{ once: true }}
                 >
-                  <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center mb-6">
-                    <span className="text-2xl">🎧</span>
+                  <div className="w-16 h-16 flex items-center justify-center mb-6" style={{ background: '#3934fa', borderRadius: '0' }}>
                   </div>
                   <h3 className="text-2xl font-bold mb-3 text-gray-900">
                     Club DJ
                   </h3>
-                  <p className="text-blue-600 mb-4 font-medium text-sm uppercase tracking-wide">
-                    For Professional Performances
+                  <p className="mb-4 font-medium text-sm uppercase tracking-wide" style={{ color: '#0036FF' }}>
+                    {lang === 'ko' ? '프로 공연을 위한' : 'For Professional Performances'}
                   </p>
                   <p className="text-gray-600 mb-6 leading-relaxed">
-                    Perfect setlist creation for club nights. Create seamless
-                    transitions with precise BPM matching.
+                    {lang === 'ko' ? (
+                      '클럽 나이트를 위한 완벽한 셋리스트 제작. 정확한 BPM 매칭으로 매끄러운 전환을 만들어보세요.'
+                    ) : (
+                      'Perfect setlist creation for club nights. Create seamless transitions with precise BPM matching.'
+                    )}
                   </p>
                 </motion.div>
 
                 <motion.div
-                  className="bg-white backdrop-blur-lg rounded-3xl p-8 hover:bg-white/95 transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-green-500/20 border border-gray-200"
+                  className="bg-white backdrop-blur-lg rounded-3xl p-8 hover:bg-white/95 transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-[#0036FF]/20 border border-gray-200"
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: 0.2 }}
                   viewport={{ once: true }}
                 >
-                  <div className="w-16 h-16 bg-gradient-to-br from-green-500 to-green-600 rounded-2xl flex items-center justify-center mb-6">
-                    <span className="text-2xl">🎤</span>
+                  <div className="w-16 h-16 flex items-center justify-center mb-6" style={{ background: '#3934fa', borderRadius: '32px 0 0 32px' }}>
                   </div>
                   <h3 className="text-2xl font-bold mb-3 text-gray-900">
                     Mobile DJ
                   </h3>
-                  <p className="text-green-600 mb-4 font-medium text-sm uppercase tracking-wide">
-                    For Events and Gigs
+                  <p className="mb-4 font-medium text-sm uppercase tracking-wide" style={{ color: '#0036FF' }}>
+                    {lang === 'ko' ? '이벤트와 공연을 위한' : 'For Events and Gigs'}
                   </p>
                   <p className="text-gray-600 mb-6 leading-relaxed">
-                    On-site instant BPM measurement. Analyze tracks on the fly
-                    during events without interrupting your performance.
+                    {lang === 'ko' ? (
+                      '현장에서 즉시 BPM 측정. 공연을 방해하지 않고 이벤트 중에 트랙을 분석하세요.'
+                    ) : (
+                      'On-site instant BPM measurement. Analyze tracks on the fly during events without interrupting your performance.'
+                    )}
                   </p>
                 </motion.div>
 
                 <motion.div
-                  className="bg-white backdrop-blur-lg rounded-3xl p-8 hover:bg-white/95 transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-purple-500/20 border border-gray-200"
+                  className="bg-white backdrop-blur-lg rounded-3xl p-8 hover:bg-white/95 transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-[#0036FF]/20 border border-gray-200"
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: 0.3 }}
                   viewport={{ once: true }}
                 >
-                  <div className="w-16 h-16 bg-gradient-to-br from-purple-500 to-purple-600 rounded-2xl flex items-center justify-center mb-6">
-                    <span className="text-2xl">💿</span>
+                  <div className="w-16 h-16 flex items-center justify-center mb-6" style={{ background: '#3934fa', borderRadius: '50%' }}>
                   </div>
                   <h3 className="text-2xl font-bold mb-3 text-gray-900">
                     Music Collector
                   </h3>
-                  <p className="text-purple-600 mb-4 font-medium text-sm uppercase tracking-wide">
-                    For Vinyl Enthusiasts
+                  <p className="mb-4 font-medium text-sm uppercase tracking-wide" style={{ color: '#0036FF' }}>
+                    {lang === 'ko' ? '바이널 애호가를 위한' : 'For Vinyl Enthusiasts'}
                   </p>
                   <p className="text-gray-600 mb-6 leading-relaxed">
-                    Systematic vinyl record management. Organize your collection
-                    with precise BPM data and comprehensive metadata.
+                    {lang === 'ko' ? (
+                      '체계적인 바이널 레코드 관리. 정확한 BPM 데이터와 포괄적인 메타데이터로 컬렉션을 정리하세요.'
+                    ) : (
+                      'Systematic vinyl record management. Organize your collection with precise BPM data and comprehensive metadata.'
+                    )}
                   </p>
                 </motion.div>
 
                 <motion.div
-                  className="bg-white backdrop-blur-lg rounded-3xl p-8 hover:bg-white/95 transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-orange-500/20 border border-gray-200"
+                  className="bg-white backdrop-blur-lg rounded-3xl p-8 hover:bg-white/95 transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-[#0036FF]/20 border border-gray-200"
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: 0.4 }}
                   viewport={{ once: true }}
                 >
-                  <div className="w-16 h-16 bg-gradient-to-br from-orange-500 to-orange-600 rounded-2xl flex items-center justify-center mb-6">
-                    <span className="text-2xl">🎹</span>
+                  <div className="w-16 h-16 flex items-center justify-center mb-6" style={{ background: '#3934fa', borderRadius: '0 32px 0 0' }}>
                   </div>
                   <h3 className="text-2xl font-bold mb-3 text-gray-900">
                     Music Producer
                   </h3>
-                  <p className="text-orange-600 mb-4 font-medium text-sm uppercase tracking-wide">
-                    For Studio Productions
+                  <p className="mb-4 font-medium text-sm uppercase tracking-wide" style={{ color: '#0036FF' }}>
+                    {lang === 'ko' ? '스튜디오 제작을 위한' : 'For Studio Productions'}
                   </p>
                   <p className="text-gray-600 mb-6 leading-relaxed">
-                    Reference track BPM analysis for your productions. Match
-                    tempos perfectly and create professional-quality music.
+                    {lang === 'ko' ? (
+                      '프로덕션을 위한 레퍼런스 트랙 BPM 분석. 템포를 완벽하게 매칭하고 전문가 품질의 음악을 만들어보세요.'
+                    ) : (
+                      'Reference track BPM analysis for your productions. Match tempos perfectly and create professional-quality music.'
+                    )}
                   </p>
                 </motion.div>
               </div>
@@ -547,7 +566,11 @@ export default function BpmCollectPage({
                   Experience BPM Collect
                 </h2>
                 <p className="text-xl text-white/90 mb-4">
-                  Tap the screen and feel the rhythm - just like in the real app
+                  {lang === 'ko' ? (
+                    '화면을 탭하고 리듬을 느껴보세요 - 실제 앱처럼'
+                  ) : (
+                    'Tap the screen and feel the rhythm - just like in the real app'
+                  )}
                 </p>
               </div>
 
@@ -584,7 +607,17 @@ export default function BpmCollectPage({
                   transition={{ duration: 0.6 }}
                   viewport={{ once: true }}
                 >
-                  Download from App Store and Start Smart Music Management
+                  {lang === 'ko' ? (
+                    <>
+                      App Store에서 다운로드하고<br />
+                      지금 바로 시작하세요
+                    </>
+                  ) : (
+                    <>
+                      Download from App Store<br />
+                      and Start Now
+                    </>
+                  )}
                 </motion.h2>
                 <motion.p
                   className="text-xl text-gray-700 mb-12"
@@ -593,31 +626,12 @@ export default function BpmCollectPage({
                   transition={{ duration: 0.6, delay: 0.1 }}
                   viewport={{ once: true }}
                 >
-                  Join thousands of music professionals and enthusiasts
-                  worldwide
+                  {lang === 'ko' ? (
+                    '직관적인 BPM 측정과 Discogs 통합으로 음악 관리를 혁신하세요'
+                  ) : (
+                    'Revolutionize your music management with intuitive BPM measurement and Discogs integration'
+                  )}
                 </motion.p>
-
-                {/* Stats Row */}
-                <motion.div
-                  className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12 max-w-2xl mx-auto"
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 0.2 }}
-                  viewport={{ once: true }}
-                >
-                  <div className="text-center">
-                    <h3 className="text-4xl font-bold text-black mb-2">4.8★</h3>
-                    <p className="text-gray-600">App Store Rating</p>
-                  </div>
-                  <div className="text-center">
-                    <h3 className="text-4xl font-bold text-black mb-2">99%</h3>
-                    <p className="text-gray-600">BPM Accuracy</p>
-                  </div>
-                  <div className="text-center">
-                    <h3 className="text-4xl font-bold text-black mb-2">50K+</h3>
-                    <p className="text-gray-600">Happy DJs</p>
-                  </div>
-                </motion.div>
 
                 <motion.div
                   className="flex flex-col md:flex-row gap-5 items-center justify-center"

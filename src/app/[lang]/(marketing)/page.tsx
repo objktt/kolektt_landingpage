@@ -49,8 +49,8 @@ export default function IndexPage({
 
   const handleDownloadClick = () => {
     toast({
-      title: lang === 'ko' ? '곳 출시 예정입니다! 🎉' : 'Coming Soon! 🎉',
-      description: lang === 'ko' ? '빠른 시일 내에 앱을 만나보세요.' : 'Meet the app soon.',
+      title: lang === 'ko' ? '사전등록을 신청하세요' : 'Please apply for pre-registration',
+      description: lang === 'ko' ? '푸터에서 사전등록을 신청하시면 출시 소식을 가장 먼저 받을 수 있습니다.' : 'Apply for pre-registration in the footer to get launch updates first.',
     });
   };
   
@@ -1142,7 +1142,7 @@ export default function IndexPage({
                       </p>
                       <p className="text-gray-600 leading-relaxed">
                         {lang === 'ko' ? (
-                          '고급 큐레이션, 프라이빗 컴렉션 등 독점 기능을 12개월간 무료로 이용하세요.'
+                          '고급 큐레이션, 프라이빗 컬렉션 등 독점 기능을 12개월간 무료로 이용하세요.'
                         ) : (
                           'Enjoy advanced curation, private collections, and exclusive features for 12 months absolutely free.'
                         )}

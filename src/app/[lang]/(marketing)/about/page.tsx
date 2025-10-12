@@ -5,6 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { MinimalistHero, MinimalistHeroRight, ShapeConnectAnimation, ShapeConnectAnimation01, ShapeConnectAnimation02 } from "@/components/ui";
+import { useToast } from "@/components/ui/src/use-toast";
 import type { Locale } from "@/config/i18n-config";
 
 export default function AboutPage({
@@ -15,6 +16,15 @@ export default function AboutPage({
   }>;
 }) {
   const { lang } = React.use(params);
+  const { toast } = useToast();
+  
+  const handleKolekttHubClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    toast({
+      title: lang === 'ko' ? '준비중입니다' : 'Coming Soon',
+      description: lang === 'ko' ? 'Kolektt Hub는 곧 출시될 예정입니다.' : 'Kolektt Hub will be available soon.',
+    });
+  };
   
   // Translation texts
   const translations = {
@@ -26,9 +36,9 @@ export default function AboutPage({
       visionDesc1: "Taste is personal. Humanity is universal. And Beyond is where new possibilities emerge.",
       visionDesc2: "We stand at the intersection of these three elements — creating experiences that honor individual taste, nurture human connection, and evolve gracefully as they move forward. From there, we venture beyond.",
       ecosystemDesc: "The philosophy of Objktt Studio comes to life through Kolektt, a platform designed to grow and change naturally over time.",
-      kolekttAppDesc: "Catalog, share, and explore vinyl collections as they evolve and expand.",
-      bpmCollectDesc: "Analyze BPM, map energy and duration, and design performances that connect music with experience.",
-      kolekttHubDesc: "Manage inventory, sales, and customer relationships with lifecycle-aware tools.",
+      kolekttAppDesc: "AI-powered camera recognition instantly catalogs your vinyl collection. Track value, discover connections, and join a community of collectors.",
+      bpmCollectDesc: "Tap-based BPM measurement with Discogs integration. Create perfect setlists with genre classification and Apple Watch support.",
+      kolekttHubDesc: "Professional inventory management for record dealers. Automated cataloging, pricing intelligence, and multi-channel sales integration.",
       aboutStudioDesc1: "Objktt Studio is a collective of designers, developers, and music lovers dedicated to solving problems by returning to their essence, while pacing every solution with sensitivity to context and growth.",
       aboutStudioDesc2: "We merge design, technology, and music to create products that are functional, soulful, and lasting. Rather than chasing fleeting trends or blind automation, we focus on what makes us human — taste, emotion, and connection — allowing these qualities to deepen and evolve over time.",
       joinTeamDesc: "We're looking for passionate individuals who share our vision of creating meaningful products that bridge music, technology, and humanity.",
@@ -46,11 +56,11 @@ export default function AboutPage({
       visionDesc1: "취향은 개인적이고, 인간성은 보편적이며, 그 너머는 새로운 가능성이 떠오르는 곳입니다.",
       visionDesc2: "우리는 이 세 가지 요소의 교차점에 서서 개인의 취향을 존중하고 인간적 연결을 키우며 앞으로 나아가면서 흥미롭게 진화하는 경험을 만듭니다. 그리고 그곳에서 우리는 아마도 미래로 나아갑니다.",
       ecosystemDesc: "Objktt Studio의 철학은 시간에 따라 자연스럽게 성장하고 변화하도록 설계된 플랫폼 Kolektt를 통해 구현됩니다.",
-      kolekttAppDesc: "바이닐 컬렉션이 진화하고 확장되는 과정을 카탈로그화하고, 공유하고, 탐색합니다.",
-      bpmCollectDesc: "BPM을 분석하고 에너지와 지속 시간을 매핑하여 음악과 경험을 연결하는 퍼포먼스를 설계합니다.",
-      kolekttHubDesc: "라이프사이클을 인식하는 도구로 재고, 판매, 고객 관계를 관리합니다.",
-      aboutStudioDesc1: "Objktt Studio는 디자이너, 개발자, 음악가들의 모여 문제를 가진 현재 본질을 해결하며, 컨텍스트와 그 진화에 대한 목적성을 가지고 모든 솔루션의 속도를 조절합니다.",
-      aboutStudioDesc2: "우리는 디자인, 기술, 음악을 융합하여 기능적이고 영혼이 담긴 지속 가능한 제품을 만듭니다. 일시적인 트렌드나 맹목적인 오토메이션을 쫓기보다는 인간을 인간답게 만드는 것, 즉 취향, 감정, 연결에 집중하며 이러한 특성이 시간이 지남에 따라 깊어지고 진화시키려고 합니다.",
+      kolekttAppDesc: "AI 기반 카메라 인식으로 바이널 컬렉션을 즉시 카탈로그화합니다. 가치를 추적하고, 연결을 발견하며, 컬렉터 커뮤니티에 참여하세요.",
+      bpmCollectDesc: "탭 기반 BPM 측정과 Discogs 통합. 장르 분류와 Apple Watch 지원으로 완벽한 셋리스트를 만드세요.",
+      kolekttHubDesc: "레코드 딜러를 위한 전문 재고 관리. 자동화된 카탈로그화, 가격 인텔리전스, 멀티채널 판매 통합.",
+      aboutStudioDesc1: "Objktt Studio는 디자이너, 개발자, 음악 애호가들이 모여 문제의 본질로 돌아가 해결하며, 컨텍스트와 성장에 대한 민감성을 가지고 모든 솔루션의 속도를 조절합니다.",
+      aboutStudioDesc2: "우리는 디자인, 기술, 음악을 융합하여 기능적이고 영혼이 담긴 지속 가능한 제품을 만듭니다. 일시적인 트렌드나 맹목적인 자동화를 쫓기보다는 인간을 인간답게 만드는 것, 즉 취향, 감정, 연결에 집중하며 이러한 특성이 시간이 지남에 따라 깊어지고 진화하도록 합니다.",
       joinTeamDesc: "음악, 기술, 인간성을 연결하는 의미 있는 제품을 만드는 우리의 비전을 공유하는 열정적인 분들을 찾고 있습니다.",
       learnMore: "자세히 보기",
       exploreKolektt: "Kolektt 둘러보기",
@@ -178,8 +188,7 @@ export default function AboutPage({
           <div className="grid md:grid-cols-3 gap-8 lg:gap-12">
             {/* Kolektt App Card */}
             <div className="bg-white/10 backdrop-blur-lg rounded-3xl p-8 hover:bg-white/20 transition-all duration-300 hover:scale-105 hover:shadow-2xl border border-white/20" style={{ boxShadow: 'var(--hover-shadow, 0 25px 50px -12px rgba(21, 32, 255, 0.2))' }}>
-              <div className="w-16 h-16 rounded-2xl flex items-center justify-center mb-6" style={{ background: 'linear-gradient(to bottom right, #1520FF, #0D16CC)' }}>
-                <span className="text-2xl">📱</span>
+              <div className="w-16 h-16 flex items-center justify-center mb-6" style={{ background: '#ffffff', borderRadius: '0' }}>
               </div>
               <h3 className="text-2xl font-bold mb-3 text-white">
                 Kolektt App
@@ -204,8 +213,7 @@ export default function AboutPage({
 
             {/* BPM Collect Card */}
             <div className="bg-white/10 backdrop-blur-lg rounded-3xl p-8 hover:bg-white/20 transition-all duration-300 hover:scale-105 hover:shadow-2xl border border-white/20" style={{ boxShadow: 'var(--hover-shadow, 0 25px 50px -12px rgba(21, 32, 255, 0.2))' }}>
-              <div className="w-16 h-16 rounded-2xl flex items-center justify-center mb-6" style={{ background: 'linear-gradient(to bottom right, #1520FF, #0D16CC)' }}>
-                <span className="text-2xl">🎵</span>
+              <div className="w-16 h-16 flex items-center justify-center mb-6" style={{ background: '#ffffff', borderRadius: '32px 0 0 32px' }}>
               </div>
               <h3 className="text-2xl font-bold mb-3 text-white">
                 BPM Collect
@@ -230,8 +238,7 @@ export default function AboutPage({
 
             {/* Kolektt Hub Card */}
             <div className="bg-white/10 backdrop-blur-lg rounded-3xl p-8 hover:bg-white/20 transition-all duration-300 hover:scale-105 hover:shadow-2xl border border-white/20" style={{ boxShadow: 'var(--hover-shadow, 0 25px 50px -12px rgba(21, 32, 255, 0.2))' }}>
-              <div className="w-16 h-16 rounded-2xl flex items-center justify-center mb-6" style={{ background: 'linear-gradient(to bottom right, #1520FF, #0D16CC)' }}>
-                <span className="text-2xl">🏪</span>
+              <div className="w-16 h-16 flex items-center justify-center mb-6" style={{ background: '#ffffff', borderRadius: '50%' }}>
               </div>
               <h3 className="text-2xl font-bold mb-3 text-white">
                 Kolektt Hub
@@ -242,16 +249,17 @@ export default function AboutPage({
               <p className="text-gray-300 mb-6 leading-relaxed">
                 {t.kolekttHubDesc}
               </p>
-              <Link
-                href={`/${lang}/hub`}
-                className="inline-flex items-center font-semibold transition-colors group"
+              <a
+                href="#"
+                onClick={handleKolekttHubClick}
+                className="inline-flex items-center font-semibold transition-colors group cursor-pointer"
                 style={{ color: '#6B7AFF' }}
               >
                 {t.learnMore}
                 <span className="ml-2 group-hover:translate-x-1 transition-transform">
                   →
                 </span>
-              </Link>
+              </a>
             </div>
           </div>
         </div>
