@@ -10,13 +10,21 @@ function AuthCallbackContent() {
   const type = searchParams.get('type') || 'signup';
 
   useEffect(() => {
-    // URL에서 해시 파라미터 확인 (Supabase는 #access_token 형식 사용)
+    // URL에서 파라미터 확인 (PKCE code 또는 implicit flow)
     const hash = window.location.hash.substring(1);
-    const params = new URLSearchParams(hash);
-    const accessToken = params.get('access_token');
-    const refreshToken = params.get('refresh_token');
-    const errorParam = params.get('error');
-    const errorDescription = params.get('error_description');
+    const hashParams = new URLSearchParams(hash);
+    const queryParams = new URLSearchParams(window.location.search);
+    
+    // PKCE flow: ?code=...
+    const code = queryParams.get('code');
+    
+    // Implicit flow: #access_token=...
+    const accessToken = hashParams.get('access_token');
+    const refreshToken = hashParams.get('refresh_token');
+    
+    // 에러 처리
+    const errorParam = queryParams.get('error') || hashParams.get('error');
+    const errorDescription = queryParams.get('error_description') || hashParams.get('error_description');
 
     if (errorParam) {
       setStatus('error');
@@ -24,7 +32,8 @@ function AuthCallbackContent() {
       return;
     }
 
-    if (accessToken || refreshToken) {
+    // PKCE code 또는 토큰이 있으면 성공
+    if (code || accessToken || refreshToken) {
       setStatus('success');
       
       // 카운트다운 시작
@@ -48,17 +57,21 @@ function AuthCallbackContent() {
   }, []);
 
   const redirectToApp = () => {
-    // 토큰을 포함한 전체 해시를 앱으로 전달
+    // 토큰을 포함한 URL 파라미터를 앱으로 전달
     const hash = window.location.hash;
+    const search = window.location.search;
     const appScheme = 'com.kolektt.app';
     const fallbackScheme = 'kolektt';
     
+    // PKCE code가 있으면 query string 사용, 없으면 hash 사용
+    const params = search || hash;
+    
     // 먼저 primary scheme 시도
-    window.location.href = `${appScheme}://auth-callback${hash}`;
+    window.location.href = `${appScheme}://auth-callback${params}`;
     
     // fallback으로 alternative scheme도 시도
     setTimeout(() => {
-      window.location.href = `${fallbackScheme}://auth-callback${hash}`;
+      window.location.href = `${fallbackScheme}://auth-callback${params}`;
     }, 500);
   };
 
