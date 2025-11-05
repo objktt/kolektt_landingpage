@@ -1,0 +1,16 @@
+# Allow all bots to crawl the site
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /.next/
+Disallow: /private/
+
+# Google-specific rules
+User-agent: Googlebot
+Allow: /
+
+# Sitemap location
+Sitemap: https://www.kolektt.kr/sitemap.xml
+
+# Crawl delay (optional - 1 request per second)
+Crawl-delay: 1
