@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Plus_Jakarta_Sans } from "next/font/google";
 import { siteConfig } from "@/config/site";
 import "./globals.css";
+import SchemaMarkup from "@/components/SchemaMarkup";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
   variable: "--font-plus-jakarta-sans",
@@ -26,10 +27,11 @@ export const metadata: Metadata = {
   creator: "Kolektt",
   openGraph: {
     type: "website",
-    locale: "en_US",
+    locale: "ko_KR",
+    alternateLocale: "en_US",
     url: siteConfig.url,
     siteName: siteConfig.name,
-    title: "Kolektt - Smart Platform for Record Collectors",
+    title: "Kolektt - 레코드 컬렉터를 위한 스마트 플랫폼",
     description: siteConfig.description,
     images: [
       {
@@ -37,18 +39,36 @@ export const metadata: Metadata = {
         width: 1200,
         height: 630,
         alt: "Kolektt",
+        type: "image/jpg",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Kolektt - Smart Platform for Record Collectors",
+    title: "Kolektt",
     description: siteConfig.description,
     images: [siteConfig.ogImage],
   },
-  robots: "index, follow",
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-snippet": -1,
+      "max-image-preview": "large",
+      "max-video-preview": -1,
+    },
+  },
   alternates: {
     canonical: siteConfig.url,
+    languages: {
+      "ko-KR": `${siteConfig.url}/ko`,
+      "en-US": `${siteConfig.url}/en`,
+    },
+  },
+  verification: {
+    google: "your-google-search-console-verification-code",
   },
 };
 
@@ -57,9 +77,6 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const organizationSchema = getOrganizationSchema();
-  const websiteSchema = getWebsiteSchema();
-
   return (
     <html lang="ko">
       <head>
@@ -67,20 +84,6 @@ export default function RootLayout({
         <meta
           name="google-site-verification"
           content="your-google-search-console-verification-code"
-        />
-
-        {/* Structured Data - JSON-LD */}
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(organizationSchema),
-          }}
-        />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(websiteSchema),
-          }}
         />
 
         {/* Additional SEO Meta Tags */}
@@ -92,6 +95,7 @@ export default function RootLayout({
         className={`${plusJakartaSans.variable} font-sans antialiased`}
         suppressHydrationWarning={true}
       >
+        <SchemaMarkup />
         {children}
       </body>
     </html>
