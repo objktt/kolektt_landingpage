@@ -45,7 +45,7 @@ export default function Testimonials() {
     <section className={`py-40 ${theme === "dark" ? "bg-[#0E0E0D] border-white/10" : "bg-background border-primary/5"} border-t`}>
       <div className="container mx-auto px-6 md:px-12 lg:px-24">
         <h2 className={`text-display text-[5rem] md:text-[7rem] lg:text-[8rem] mb-24 ${theme === "dark" ? "text-white" : "text-primary"} leading-none tracking-tighter`}>
-          What collectors say
+          What users say
         </h2>
 
         <div className="grid md:grid-cols-2 gap-8">
@@ -58,7 +58,7 @@ export default function Testimonials() {
               transition={{ delay: index * 0.1, duration: 0.5 }}
               className={`p-12 ${theme === "dark" ? "bg-[#1A1A1A] border-white/10" : "bg-white border-primary/5"} rounded-[2.5rem] border shadow-sm hover:shadow-lg transition-all duration-500`}
             >
-              <Quotes size={48} className="text-accent mb-8 opacity-20" weight="fill" />
+              <Quotes size={48} className="text-accent mb-8" weight="fill" />
               <p className={`text-2xl md:text-3xl font-korean font-medium leading-relaxed mb-10 ${theme === "dark" ? "text-white" : "text-primary"}`}>
                 "{item.quote}"
               </p>
