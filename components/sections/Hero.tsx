@@ -1,13 +1,18 @@
 "use client";
 
 import { motion } from "framer-motion";
-import AuroraTest from "@/components/effects/AuroraTest";
+import Aurora from "@/components/effects/Aurora";
 
 export default function Hero() {
   return (
     <section className="relative min-h-screen flex items-center pt-32 pb-20 overflow-hidden bg-background">
-      {/* Aurora Test */}
-      <AuroraTest />
+      {/* Aurora Effect */}
+      <Aurora 
+        colorStops={["#14248A", "#005C7A", "#4A148C"]}
+        blend={0.5}
+        amplitude={1.0}
+        speed={0.5}
+      />
       
       <div className="container mx-auto px-6 md:px-12 lg:px-24 relative z-10">
         
