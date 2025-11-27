@@ -1,14 +1,16 @@
 "use client";
 
 import { useLanguage } from "@/context/LanguageContext";
+import { useTheme } from "@/context/ThemeContext";
 
 export default function PrivacyPolicyPage() {
   const { language } = useLanguage();
+  const { theme } = useTheme();
 
   const content = {
     KO: {
       title: "개인정보 처리방침",
-      lastUpdated: "최종 수정일: 2025년 1월 1일",
+      lastUpdated: "최종 수정일: 2025년 11월 28일",
       intro: "Kolektt는 귀하의 개인정보를 소중히 여깁니다. 본 개인정보 처리방침은 귀하가 당사의 모바일 애플리케이션 및 서비스를 사용할 때 당사가 귀하의 정보를 수집, 사용, 공개 및 보호하는 방법을 설명합니다.",
       sections: [
         {
@@ -114,7 +116,7 @@ export default function PrivacyPolicyPage() {
     },
     EN: {
       title: "Privacy Policy",
-      lastUpdated: "Last Updated: January 1, 2025",
+      lastUpdated: "Last Updated: November 28, 2025",
       intro: "At Kolektt, we take your privacy seriously. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our mobile application and services.",
       sections: [
         {
@@ -223,22 +225,22 @@ export default function PrivacyPolicyPage() {
   const data = content[language] || content.EN;
 
   return (
-    <div className="min-h-screen bg-background pt-40 pb-20">
+    <div className={`min-h-screen pt-40 pb-20 ${theme === "dark" ? "bg-[#0E0E0D]" : "bg-background"}`}>
       <div className="max-w-4xl mx-auto px-6 md:px-10">
-        <h1 className="text-5xl md:text-6xl font-bold text-primary mb-4">
+        <h1 className={`text-5xl md:text-6xl font-bold mb-4 ${theme === "dark" ? "text-white" : "text-primary"}`}>
           {data.title}
         </h1>
-        <p className="text-sm text-primary/50 mb-8">
+        <p className={`text-sm mb-8 ${theme === "dark" ? "text-white/50" : "text-primary/50"}`}>
           {data.lastUpdated}
         </p>
-        <p className="text-lg text-primary/70 mb-12 leading-relaxed">
+        <p className={`text-lg mb-12 leading-relaxed ${theme === "dark" ? "text-white/70" : "text-primary/70"}`}>
           {data.intro}
         </p>
 
         <div className="space-y-10">
           {data.sections.map((section, idx) => (
             <section key={idx}>
-              <h2 className="text-3xl font-semibold text-primary mb-4">
+              <h2 className={`text-3xl font-semibold mb-4 ${theme === "dark" ? "text-white" : "text-primary"}`}>
                 {section.title}
               </h2>
 
@@ -246,10 +248,10 @@ export default function PrivacyPolicyPage() {
                 <div className="space-y-6">
                   {section.subsections.map((sub, subIdx) => (
                     <div key={subIdx}>
-                      <h3 className="text-xl font-medium text-primary/80 mb-3">
+                      <h3 className={`text-xl font-medium mb-3 ${theme === "dark" ? "text-white/80" : "text-primary/80"}`}>
                         {sub.subtitle}
                       </h3>
-                      <ul className="list-disc list-inside space-y-2 text-primary/70 ml-4">
+                      <ul className={`list-disc list-inside space-y-2 ml-4 ${theme === "dark" ? "text-white/70" : "text-primary/70"}`}>
                         {sub.items.map((item, itemIdx) => (
                           <li key={itemIdx} className="leading-relaxed">
                             {item}
@@ -262,13 +264,13 @@ export default function PrivacyPolicyPage() {
               )}
 
               {section.intro && (
-                <p className="text-primary/70 mb-3 leading-relaxed">
+                <p className={`mb-3 leading-relaxed ${theme === "dark" ? "text-white/70" : "text-primary/70"}`}>
                   {section.intro}
                 </p>
               )}
 
               {section.items && (
-                <ul className="list-disc list-inside space-y-2 text-primary/70 ml-4">
+                <ul className={`list-disc list-inside space-y-2 ml-4 ${theme === "dark" ? "text-white/70" : "text-primary/70"}`}>
                   {section.items.map((item, itemIdx) => (
                     <li key={itemIdx} className="leading-relaxed">
                       {item}
@@ -278,20 +280,20 @@ export default function PrivacyPolicyPage() {
               )}
 
               {section.outro && (
-                <p className="text-primary/70 mt-3 leading-relaxed">
+                <p className={`mt-3 leading-relaxed ${theme === "dark" ? "text-white/70" : "text-primary/70"}`}>
                   {section.outro}
                 </p>
               )}
 
               {section.contact && typeof section.contact === "string" && (
-                <p className="text-primary/70 mt-3 leading-relaxed">
+                <p className={`mt-3 leading-relaxed ${theme === "dark" ? "text-white/70" : "text-primary/70"}`}>
                   {section.contact}
                 </p>
               )}
 
               {section.contact && typeof section.contact === "object" && (
-                <div className="mt-4 text-primary/70">
-                  <p className="font-semibold text-primary">
+                <div className={`mt-4 ${theme === "dark" ? "text-white/70" : "text-primary/70"}`}>
+                  <p className={`font-semibold ${theme === "dark" ? "text-white" : "text-primary"}`}>
                     {section.contact.company}
                   </p>
                   <p>
@@ -316,7 +318,7 @@ export default function PrivacyPolicyPage() {
               )}
 
               {section.content && (
-                <p className="text-primary/70 leading-relaxed">
+                <p className={`leading-relaxed ${theme === "dark" ? "text-white/70" : "text-primary/70"}`}>
                   {section.content}
                 </p>
               )}

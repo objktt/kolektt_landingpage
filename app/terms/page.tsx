@@ -1,14 +1,16 @@
 "use client";
 
 import { useLanguage } from "@/context/LanguageContext";
+import { useTheme } from "@/context/ThemeContext";
 
 export default function TermsOfServicePage() {
   const { language } = useLanguage();
+  const { theme } = useTheme();
 
   const content = {
     KO: {
       title: "이용약관",
-      lastUpdated: "최종 수정일: 2025년 1월 1일",
+      lastUpdated: "최종 수정일: 2025년 11월 28일",
       intro: 'Kolektt에 오신 것을 환영합니다. 당사의 모바일 애플리케이션 및 서비스에 접근하거나 사용함으로써, 귀하는 본 이용약관("약관")에 구속됨에 동의합니다. 주의 깊게 읽어주시기 바랍니다.',
       sections: [
         {
@@ -176,7 +178,7 @@ export default function TermsOfServicePage() {
     },
     EN: {
       title: "Terms of Service",
-      lastUpdated: "Last Updated: January 1, 2025",
+      lastUpdated: "Last Updated: November 28, 2025",
       intro: 'Welcome to Kolektt. By accessing or using our mobile application and services, you agree to be bound by these Terms of Service ("Terms"). Please read them carefully.',
       sections: [
         {
@@ -349,27 +351,27 @@ export default function TermsOfServicePage() {
   const data = content[language] || content.EN;
 
   return (
-    <div className="min-h-screen bg-background pt-40 pb-20">
+    <div className={`min-h-screen pt-40 pb-20 ${theme === "dark" ? "bg-[#0E0E0D]" : "bg-background"}`}>
       <div className="max-w-4xl mx-auto px-6 md:px-10">
-        <h1 className="text-5xl md:text-6xl font-bold text-primary mb-4">
+        <h1 className={`text-5xl md:text-6xl font-bold mb-4 ${theme === "dark" ? "text-white" : "text-primary"}`}>
           {data.title}
         </h1>
-        <p className="text-sm text-primary/50 mb-8">
+        <p className={`text-sm mb-8 ${theme === "dark" ? "text-white/50" : "text-primary/50"}`}>
           {data.lastUpdated}
         </p>
-        <p className="text-lg text-primary/70 mb-12 leading-relaxed">
+        <p className={`text-lg mb-12 leading-relaxed ${theme === "dark" ? "text-white/70" : "text-primary/70"}`}>
           {data.intro}
         </p>
 
         <div className="space-y-10">
           {data.sections.map((section, idx) => (
             <section key={idx}>
-              <h2 className="text-3xl font-semibold text-primary mb-4">
+              <h2 className={`text-3xl font-semibold mb-4 ${theme === "dark" ? "text-white" : "text-primary"}`}>
                 {section.title}
               </h2>
 
               {section.content && (
-                <p className="text-primary/70 leading-relaxed mb-4">
+                <p className={`leading-relaxed mb-4 ${theme === "dark" ? "text-white/70" : "text-primary/70"}`}>
                   {section.content}
                 </p>
               )}
@@ -378,21 +380,21 @@ export default function TermsOfServicePage() {
                 <div className="space-y-6">
                   {section.subsections.map((sub, subIdx) => (
                     <div key={subIdx}>
-                      <h3 className="text-xl font-medium text-primary/80 mb-3">
+                      <h3 className={`text-xl font-medium mb-3 ${theme === "dark" ? "text-white/80" : "text-primary/80"}`}>
                         {sub.subtitle}
                       </h3>
                       {sub.content && (
-                        <p className="text-primary/70 mb-3 leading-relaxed">
+                        <p className={`mb-3 leading-relaxed ${theme === "dark" ? "text-white/70" : "text-primary/70"}`}>
                           {sub.content}
                         </p>
                       )}
                       {sub.intro && (
-                        <p className="text-primary/70 mb-3 leading-relaxed">
+                        <p className={`mb-3 leading-relaxed ${theme === "dark" ? "text-white/70" : "text-primary/70"}`}>
                           {sub.intro}
                         </p>
                       )}
                       {sub.items && (
-                        <ul className="list-disc list-inside space-y-2 text-primary/70 ml-4">
+                        <ul className={`list-disc list-inside space-y-2 ml-4 ${theme === "dark" ? "text-white/70" : "text-primary/70"}`}>
                           {sub.items.map((item, itemIdx) => (
                             <li key={itemIdx} className="leading-relaxed">
                               {item}
@@ -406,13 +408,13 @@ export default function TermsOfServicePage() {
               )}
 
               {section.intro && (
-                <p className="text-primary/70 mb-3 leading-relaxed">
+                <p className={`mb-3 leading-relaxed ${theme === "dark" ? "text-white/70" : "text-primary/70"}`}>
                   {section.intro}
                 </p>
               )}
 
               {section.items && (
-                <ul className="list-disc list-inside space-y-2 text-primary/70 ml-4">
+                <ul className={`list-disc list-inside space-y-2 ml-4 ${theme === "dark" ? "text-white/70" : "text-primary/70"}`}>
                   {section.items.map((item, itemIdx) => (
                     <li key={itemIdx} className="leading-relaxed">
                       {item}
@@ -422,14 +424,14 @@ export default function TermsOfServicePage() {
               )}
 
               {section.outro && (
-                <p className="text-primary/70 mt-3 leading-relaxed">
+                <p className={`mt-3 leading-relaxed ${theme === "dark" ? "text-white/70" : "text-primary/70"}`}>
                   {section.outro}
                 </p>
               )}
 
               {section.contact && (
-                <div className="mt-4 text-primary/70">
-                  <p className="font-semibold text-primary">
+                <div className={`mt-4 ${theme === "dark" ? "text-white/70" : "text-primary/70"}`}>
+                  <p className={`font-semibold ${theme === "dark" ? "text-white" : "text-primary"}`}>
                     {section.contact.company}
                   </p>
                   <p>

@@ -57,12 +57,12 @@ export default function Header() {
                 alt="Kolektt Logo" 
                 width={96} 
                 height={26} 
-                className={`h-[26px] w-auto absolute top-0 left-0 transition-opacity duration-300 group-hover:opacity-0 ${isAboutPage || theme === "dark" || isMobileMenuOpen ? "invert" : ""}`}
+                className={`h-[26px] w-auto absolute top-0 left-0 transition-opacity duration-300 group-hover:opacity-0 ${isAboutPage || theme === "dark" ? "invert" : ""}`}
                 priority
               />
               {/* Hover Symbol - Animated SVG */}
               <svg 
-                className={`h-[26px] w-auto absolute top-0 left-1/2 -translate-x-1/2 ${isAboutPage || theme === "dark" || isMobileMenuOpen ? "invert" : ""}`}
+                className={`h-[26px] w-auto absolute top-0 left-1/2 -translate-x-1/2 ${isAboutPage || theme === "dark" ? "invert" : ""}`}
                 viewBox="0 0 1920 639.95" 
                 xmlns="http://www.w3.org/2000/svg"
               >
@@ -173,7 +173,7 @@ export default function Header() {
 
           {/* Mobile Menu Button */}
           <button
-            className={`md:hidden z-50 relative cursor-pointer ${isAboutPage || theme === "dark" || isMobileMenuOpen ? "text-white" : "text-primary"}`}
+            className={`md:hidden z-50 relative cursor-pointer ${isAboutPage || theme === "dark" ? "text-white" : "text-primary"}`}
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           >
             {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
