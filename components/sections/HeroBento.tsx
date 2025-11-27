@@ -75,13 +75,15 @@ export default function HeroBento() {
             {/* Particles Effect */}
             <Particles
               particleColors={theme === "dark" ? ['#ffffff', '#ffffff'] : ['#000000', '#2452FF']}
-              particleCount={200}
+              particleCount={300}
               particleSpread={10}
               speed={0.1}
-              particleBaseSize={100}
               moveParticlesOnHover={true}
-              alphaParticles={false}
-              disableRotation={false}
+              particleHoverFactor={2}
+              alphaParticles={true}
+              particleBaseSize={100}
+              sizeRandomness={0.5}
+              cameraDistance={20}
             />
             
             <div className="relative z-10">
