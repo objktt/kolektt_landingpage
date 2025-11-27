@@ -211,15 +211,13 @@ export default function AboutPage() {
                   : "Optimize your store's inventory, track sales, and connect with the trading community. Your shop, everywhere."}
               </p>
               <div className="mt-auto pt-6">
-                <Link
-                  href="/hub"
-                  className="inline-flex items-center font-semibold text-accent hover:underline group"
-                >
+                <span className="inline-flex items-center font-semibold text-accent cursor-not-allowed group relative">
                   Learn More
-                  <span className="ml-2 group-hover:translate-x-1 transition-transform">
-                    →
+                  <span className="ml-2">→</span>
+                  <span className="absolute -top-8 left-1/2 -translate-x-1/2 px-2 py-1 rounded text-xs font-medium whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none bg-white text-black">
+                    {language === "KO" ? "준비중" : "Coming Soon"}
                   </span>
-                </Link>
+                </span>
               </div>
             </motion.div>
           </div>
