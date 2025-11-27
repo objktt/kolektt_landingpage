@@ -7,9 +7,12 @@ import Image from "next/image";
 import { useLanguage } from "@/context/LanguageContext";
 import { useTheme } from "@/context/ThemeContext";
 
+import { useMediaQuery } from "@/hooks/useMediaQuery";
+
 export default function Collect() {
   const { language } = useLanguage();
   const { theme } = useTheme();
+  const isMobile = useMediaQuery("(max-width: 768px)");
 
   return (
     <section id="collect" className={`py-40 ${theme === "dark" ? "bg-[#0E0E0D]" : "bg-white"} overflow-hidden`}>
@@ -26,7 +29,9 @@ export default function Collect() {
           >
             <motion.div 
               className="relative flex justify-center items-center cursor-pointer"
-              whileHover="hover"
+              whileHover={isMobile ? undefined : "hover"}
+              whileInView={isMobile ? "hover" : undefined}
+              viewport={{ once: false, amount: 0.6 }}
               initial="initial"
             >
               <Image

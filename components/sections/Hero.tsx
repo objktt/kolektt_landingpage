@@ -1,17 +1,34 @@
 "use client";
 
 import { motion } from "framer-motion";
-import Aurora from "@/components/effects/Aurora";
+import Particles from "@/components/effects/Particles";
+
+import React from "react";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 
 export default function Hero() {
+  const isMobile = useMediaQuery("(max-width: 768px)");
+  const [activeButton, setActiveButton] = React.useState<string | null>(null);
+
+  const handleButtonClick = (buttonId: string) => {
+    if (isMobile) {
+      setActiveButton(buttonId);
+      setTimeout(() => setActiveButton(null), 2000);
+    }
+  };
+
   return (
     <section className="relative min-h-screen flex items-center pt-32 pb-20 overflow-hidden bg-background">
-      {/* Aurora Effect */}
-      <Aurora 
-        colorStops={["#14248A", "#005C7A", "#4A148C"]}
-        blend={0.5}
-        amplitude={1.0}
-        speed={0.5}
+      {/* Particles Effect */}
+      <Particles
+        particleColors={['#ffffff', '#ffffff']}
+        particleCount={200}
+        particleSpread={10}
+        speed={0.1}
+        particleBaseSize={100}
+        moveParticlesOnHover={true}
+        alphaParticles={false}
+        disableRotation={false}
       />
       
       <div className="container mx-auto px-6 md:px-12 lg:px-24 relative z-10">
@@ -36,19 +53,32 @@ export default function Hero() {
             </p>
             
             <div className="flex flex-wrap gap-4 mt-4">
-              <button type="button" className="px-4 py-2 cursor-pointer inline-flex items-center rounded-lg text-white text-xl tracking-wider border-none outline-none bg-black hover:bg-[#222] active:bg-black transition-colors">
-                <svg xmlns="http://www.w3.org/2000/svg" width="36px" fill="#fff" className="inline mr-2" viewBox="0 0 22.773 22.773">
-                  <path d="M15.769 0h.162c.13 1.606-.483 2.806-1.228 3.675-.731.863-1.732 1.7-3.351 1.573-.108-1.583.506-2.694 1.25-3.561C13.292.879 14.557.16 15.769 0zm4.901 16.716v.045c-.455 1.378-1.104 2.559-1.896 3.655-.723.995-1.609 2.334-3.191 2.334-1.367 0-2.275-.879-3.676-.903-1.482-.024-2.297.735-3.652.926h-.462c-.995-.144-1.798-.932-2.383-1.642-1.725-2.098-3.058-4.808-3.306-8.276v-1.019c.105-2.482 1.311-4.5 2.914-5.478.846-.52 2.009-.963 3.304-.765.555.086 1.122.276 1.619.464.471.181 1.06.502 1.618.485.378-.011.754-.208 1.135-.347 1.116-.403 2.21-.865 3.652-.648 1.733.262 2.963 1.032 3.723 2.22-1.466.933-2.625 2.339-2.427 4.74.176 2.181 1.444 3.457 3.028 4.209z" />
-                </svg>
-                <div className="flex flex-col items-start leading-none">
-                  <span className="text-[10px] text-white leading-none text-left font-medium">Download on the</span>
-                  <span className="text-lg">App Store</span>
+              <button 
+                type="button" 
+                onClick={() => handleButtonClick('appstore')}
+                className="group/btn relative px-4 py-2 cursor-pointer inline-flex items-center rounded-lg text-white text-xl tracking-wider border-none outline-none bg-black hover:bg-[#222] active:bg-black transition-colors overflow-hidden"
+              >
+                <div className={`flex items-center transition-opacity duration-300 ${(activeButton === 'appstore') ? 'opacity-20' : 'group-hover/btn:opacity-20'}`}>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="36px" fill="#fff" className="inline mr-2" viewBox="0 0 22.773 22.773">
+                    <path d="M15.769 0h.162c.13 1.606-.483 2.806-1.228 3.675-.731.863-1.732 1.7-3.351 1.573-.108-1.583.506-2.694 1.25-3.561C13.292.879 14.557.16 15.769 0zm4.901 16.716v.045c-.455 1.378-1.104 2.559-1.896 3.655-.723.995-1.609 2.334-3.191 2.334-1.367 0-2.275-.879-3.676-.903-1.482-.024-2.297.735-3.652.926h-.462c-.995-.144-1.798-.932-2.383-1.642-1.725-2.098-3.058-4.808-3.306-8.276v-1.019c.105-2.482 1.311-4.5 2.914-5.478.846-.52 2.009-.963 3.304-.765.555.086 1.122.276 1.619.464.471.181 1.06.502 1.618.485.378-.011.754-.208 1.135-.347 1.116-.403 2.21-.865 3.652-.648 1.733.262 2.963 1.032 3.723 2.22-1.466.933-2.625 2.339-2.427 4.74.176 2.181 1.444 3.457 3.028 4.209z" />
+                  </svg>
+                  <div className="flex flex-col items-start leading-none">
+                    <span className="text-[10px] text-white leading-none text-left font-medium">Download on the</span>
+                    <span className="text-lg">App Store</span>
+                  </div>
+                </div>
+                <div className={`absolute inset-0 flex items-center justify-center transition-opacity duration-300 ${(activeButton === 'appstore') ? 'opacity-100' : 'opacity-0 group-hover/btn:opacity-100'}`}>
+                  <span className="text-base font-bold font-korean">준비중</span>
                 </div>
               </button>
 
-              <button type="button" className="group relative px-4 py-2 cursor-pointer inline-flex items-center rounded-lg text-white text-xl tracking-wider border-none outline-none bg-black hover:bg-[#222] active:bg-black transition-colors overflow-hidden">
+              <button 
+                type="button" 
+                onClick={() => handleButtonClick('googleplay')}
+                className="group/btn relative px-4 py-2 cursor-pointer inline-flex items-center rounded-lg text-white text-xl tracking-wider border-none outline-none bg-black hover:bg-[#222] active:bg-black transition-colors overflow-hidden"
+              >
                 {/* Button Content */}
-                <div className="flex items-center transition-opacity duration-300 group-hover:opacity-20">
+                <div className={`flex items-center transition-opacity duration-300 ${(activeButton === 'googleplay') ? 'opacity-20' : 'group-hover/btn:opacity-20'}`}>
                   <svg xmlns="http://www.w3.org/2000/svg" width="36px" fill="#fff" className="inline mr-2" viewBox="0 0 64 64">
                     <path fill="#57cef3" d="M7 3v58l33-29z" />
                     <path fill="#fff200" d="m36 32 8-10 15 10-15 10z" />
@@ -65,7 +95,7 @@ export default function Hero() {
                 </div>
                 
                 {/* Hover Overlay */}
-                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <div className={`absolute inset-0 flex items-center justify-center transition-opacity duration-300 ${(activeButton === 'googleplay') ? 'opacity-100' : 'opacity-0 group-hover/btn:opacity-100'}`}>
                   <span className="text-base font-bold font-korean">준비중</span>
                 </div>
               </button>
