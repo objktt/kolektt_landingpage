@@ -45,7 +45,7 @@ export default function Testimonials() {
     <section className={`py-40 ${theme === "dark" ? "bg-[#0E0E0D] border-white/10" : "bg-background border-primary/5"} border-t`}>
       <div className="container mx-auto px-6 md:px-12 lg:px-24">
         <h2 className={`text-display text-[5rem] md:text-[7rem] lg:text-[8rem] mb-24 ${theme === "dark" ? "text-white" : "text-primary"} leading-none tracking-tighter`}>
-          What users say
+          What Users Say
         </h2>
 
         <div className="grid md:grid-cols-2 gap-8">
