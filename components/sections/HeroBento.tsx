@@ -55,7 +55,7 @@ export default function HeroBento() {
             <Aurora 
               colorStops={theme === "dark" 
                 ? ["#14248A", "#005C7A", "#4A148C"]  // Dark Mode: Deep Blue, Dark Teal, Deep Purple
-                : ["#5C7CFA", "#66D9E8", "#B197FC"]  // Light Mode: Bright Blue, Cyan, Light Purple
+                : ["#A5D8FF", "#99E9F2", "#E5DBFF"]  // Light Mode: Very Light Blue, Pale Cyan, Very Light Purple
               }
               blend={0.5}
               amplitude={1.0}
