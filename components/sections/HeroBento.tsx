@@ -10,7 +10,7 @@ const Lottie = dynamic(() => import('lottie-react'), { ssr: false });
 
 import { useLanguage } from "@/context/LanguageContext";
 import { useTheme } from "@/context/ThemeContext";
-import Aurora from "@/components/effects/Aurora";
+import Particles from "@/components/effects/Particles";
 
 export default function HeroBento() {
   const { language } = useLanguage();
@@ -18,6 +18,24 @@ export default function HeroBento() {
   const [lightningAnimation, setLightningAnimation] = React.useState(null);
   const [lightbulbAnimation, setLightbulbAnimation] = React.useState(null);
   const [clapperAnimation, setClapperAnimation] = React.useState(null);
+  
+  // Mobile detection and Viewport states
+  const [isMobile, setIsMobile] = React.useState(false);
+  const [heroInView, setHeroInView] = React.useState(false);
+  const [guideInView, setGuideInView] = React.useState(false);
+  const [interviewInView, setInterviewInView] = React.useState(false);
+  const [studioInView, setStudioInView] = React.useState(false);
+  const [newsInView, setNewsInView] = React.useState(false);
+
+  React.useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   React.useEffect(() => {
     // Cloud with lightning - U+1F329 FE0F
@@ -49,17 +67,21 @@ export default function HeroBento() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
+            onViewportEnter={() => setHeroInView(true)}
+            onViewportLeave={() => setHeroInView(false)}
+            viewport={{ amount: 0.3 }}
             className={`md:col-span-2 md:row-span-2 ${theme === "dark" ? "bg-[#1A1A1A]" : "bg-[#EAEAE6]"} rounded-[2rem] p-10 flex flex-col justify-center relative overflow-hidden group`}
           >
-            {/* Aurora Effect */}
-            <Aurora 
-              colorStops={theme === "dark" 
-                ? ["#14248A", "#005C7A", "#4A148C"]  // Dark Mode: Deep Blue, Dark Teal, Deep Purple
-                : ["#A5D8FF", "#99E9F2", "#E5DBFF"]  // Light Mode: Very Light Blue, Pale Cyan, Very Light Purple
-              }
-              blend={0.5}
-              amplitude={1.0}
-              speed={0.5}
+            {/* Particles Effect */}
+            <Particles
+              particleColors={theme === "dark" ? ['#ffffff', '#ffffff'] : ['#000000', '#2452FF']}
+              particleCount={200}
+              particleSpread={10}
+              speed={0.1}
+              particleBaseSize={100}
+              moveParticlesOnHover={true}
+              alphaParticles={false}
+              disableRotation={false}
             />
             
             <div className="relative z-10">
@@ -79,7 +101,7 @@ export default function HeroBento() {
                   type="button" 
                   className={`group relative flex items-center px-6 py-3 rounded-xl border-none min-w-[200px] hover:scale-105 active:scale-95 cursor-pointer shadow-lg transition-all overflow-hidden ${theme === "dark" ? "bg-white text-black hover:bg-gray-200" : "bg-[#1e1e1d] text-white hover:bg-black"}`}
                 >
-                  <div className="flex items-center transition-opacity duration-300 group-hover:opacity-20 w-full">
+                  <div className={`flex items-center transition-opacity duration-300 w-full ${(isMobile && heroInView) ? 'opacity-20' : 'group-hover:opacity-20'}`}>
                     <svg xmlns="http://www.w3.org/2000/svg" width="28px" fill={theme === "dark" ? "#000" : "#fff"} className="mr-3" viewBox="0 0 22.773 22.773">
                       <path d="M15.769 0h.162c.13 1.606-.483 2.806-1.228 3.675-.731.863-1.732 1.7-3.351 1.573-.108-1.583.506-2.694 1.25-3.561C13.292.879 14.557.16 15.769 0zm4.901 16.716v.045c-.455 1.378-1.104 2.559-1.896 3.655-.723.995-1.609 2.334-3.191 2.334-1.367 0-2.275-.879-3.676-.903-1.482-.024-2.297.735-3.652.926h-.462c-.995-.144-1.798-.932-2.383-1.642-1.725-2.098-3.058-4.808-3.306-8.276v-1.019c.105-2.482 1.311-4.5 2.914-5.478.846-.52 2.009-.963 3.304-.765.555.086 1.122.276 1.619.464.471.181 1.06.502 1.618.485.378-.011.754-.208 1.135-.347 1.116-.403 2.21-.865 3.652-.648 1.733.262 2.963 1.032 3.723 2.22-1.466.933-2.625 2.339-2.427 4.74.176 2.181 1.444 3.457 3.028 4.209z" />
                     </svg>
@@ -88,7 +110,7 @@ export default function HeroBento() {
                       <span className="text-lg font-bold">App Store</span>
                     </div>
                   </div>
-                  <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <div className={`absolute inset-0 flex items-center justify-center transition-opacity duration-300 ${(isMobile && heroInView) ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}`}>
                     <span className="text-base font-bold font-korean">
                       {language === "KO" ? "준비중" : "Coming Soon"}
                     </span>
@@ -99,7 +121,7 @@ export default function HeroBento() {
                   type="button" 
                   className={`group relative flex items-center px-6 py-3 rounded-xl border-none min-w-[200px] hover:scale-105 active:scale-95 cursor-pointer shadow-lg transition-all overflow-hidden ${theme === "dark" ? "bg-white text-black hover:bg-gray-200" : "bg-[#1e1e1d] text-white hover:bg-black"}`}
                 >
-                  <div className="flex items-center transition-opacity duration-300 group-hover:opacity-20 w-full">
+                  <div className={`flex items-center transition-opacity duration-300 w-full ${(isMobile && heroInView) ? 'opacity-20' : 'group-hover:opacity-20'}`}>
                     <svg xmlns="http://www.w3.org/2000/svg" width="28px" className="mr-3 shrink-0" viewBox="0 0 64 64">
                       <path fill="#57cef3" d="M7 3v58l33-29z" />
                       <path fill="#fff200" d="m36 32 8-10 15 10-15 10z" />
@@ -114,7 +136,7 @@ export default function HeroBento() {
                       <span className="text-lg font-bold">Google Play</span>
                     </div>
                   </div>
-                  <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <div className={`absolute inset-0 flex items-center justify-center transition-opacity duration-300 ${(isMobile && heroInView) ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}`}>
                     <span className="text-base font-bold font-korean">
                       {language === "KO" ? "준비중" : "Coming Soon"}
                     </span>
@@ -132,6 +154,9 @@ export default function HeroBento() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
+            onViewportEnter={() => setNewsInView(true)}
+            onViewportLeave={() => setNewsInView(false)}
+            viewport={{ amount: 0.3 }}
             className={`md:col-span-1 md:row-span-2 ${theme === "dark" ? "bg-[#1A1A1A] hover:bg-[#222]" : "bg-white hover:bg-gray-50"} rounded-[2rem] relative overflow-hidden group transition-colors`}
           >
             <Link 
@@ -165,7 +190,7 @@ export default function HeroBento() {
                     </>
                   )}
                 </p>
-                <div className={`w-10 h-10 rounded-full ${theme === "dark" ? "bg-white text-black" : "bg-[#111111] text-white"} flex items-center justify-center group-hover:scale-110 transition-transform`}>
+                <div className={`w-10 h-10 rounded-full ${theme === "dark" ? "bg-white text-black" : "bg-[#111111] text-white"} flex items-center justify-center transition-transform ${(isMobile && newsInView) ? 'scale-110' : 'group-hover:scale-110'}`}>
                   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <line x1="7" y1="17" x2="17" y2="7"></line>
                     <polyline points="7 7 17 7 17 17"></polyline>
@@ -191,6 +216,9 @@ export default function HeroBento() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.3 }}
+            onViewportEnter={() => setGuideInView(true)}
+            onViewportLeave={() => setGuideInView(false)}
+            viewport={{ amount: 0.3 }}
             className={`md:col-span-1 ${theme === "dark" ? "bg-white hover:bg-gray-100" : "bg-[#111111] hover:bg-black"} rounded-[2rem] relative overflow-hidden group transition-colors`}
           >
             <div className="relative block w-full h-full p-8 flex flex-col justify-between min-h-[300px] cursor-pointer group/card">
@@ -214,7 +242,7 @@ export default function HeroBento() {
                     </>
                   )}
                 </p>
-                <div className={`w-10 h-10 rounded-full ${theme === "dark" ? "bg-black text-white" : "bg-white text-[#111111]"} flex items-center justify-center group-hover:rotate-45 transition-transform duration-300`}>
+                <div className={`w-10 h-10 rounded-full ${theme === "dark" ? "bg-black text-white" : "bg-white text-[#111111]"} flex items-center justify-center transition-transform duration-300 ${(isMobile && guideInView) ? 'rotate-45' : 'group-hover:rotate-45'}`}>
                   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <line x1="7" y1="17" x2="17" y2="7"></line>
                     <polyline points="7 7 17 7 17 17"></polyline>
@@ -224,7 +252,7 @@ export default function HeroBento() {
               
               {/* Animated Lightbulb Lottie */}
               {lightbulbAnimation && (
-                <div className="absolute top-6 right-6 w-16 h-16 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <div className={`absolute top-6 right-6 w-16 h-16 transition-opacity duration-300 ${(isMobile && guideInView) ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}`}>
                   <Lottie 
                     animationData={lightbulbAnimation}
                     loop={true}
@@ -233,7 +261,7 @@ export default function HeroBento() {
                 </div>
               )}
               {/* Coming Soon Overlay */}
-              <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover/card:opacity-100 transition-opacity duration-300 bg-black/60 backdrop-blur-sm rounded-[2rem]">
+              <div className={`absolute inset-0 flex items-center justify-center transition-opacity duration-300 bg-black/60 backdrop-blur-sm rounded-[2rem] ${(isMobile && guideInView) ? 'opacity-100' : 'opacity-0 group-hover/card:opacity-100'}`}>
                 <span className={`text-2xl font-bold font-korean ${theme === "dark" ? "text-white" : "text-white"}`}>
                   {language === "KO" ? "준비중" : "Coming Soon"}
                 </span>
@@ -246,6 +274,9 @@ export default function HeroBento() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
+            onViewportEnter={() => setInterviewInView(true)}
+            onViewportLeave={() => setInterviewInView(false)}
+            viewport={{ amount: 0.3 }}
             className={`md:col-span-1 ${theme === "dark" ? "bg-[#2A2A2A] hover:bg-[#333]" : "bg-[#E0E0DC] hover:bg-[#D6D6D2]"} rounded-[2rem] relative overflow-hidden group transition-colors`}
           >
             <div className="relative block w-full h-full p-8 flex flex-col justify-between min-h-[300px] cursor-pointer group/card">
@@ -269,7 +300,7 @@ export default function HeroBento() {
                     </>
                   )}
                 </p>
-                <div className={`w-10 h-10 rounded-full ${theme === "dark" ? "bg-white text-black" : "bg-[#111111] text-white"} flex items-center justify-center group-hover:rotate-45 transition-transform duration-300`}>
+                <div className={`w-10 h-10 rounded-full ${theme === "dark" ? "bg-white text-black" : "bg-[#111111] text-white"} flex items-center justify-center transition-transform duration-300 ${(isMobile && interviewInView) ? 'rotate-45' : 'group-hover:rotate-45'}`}>
                   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <line x1="7" y1="17" x2="17" y2="7"></line>
                     <polyline points="7 7 17 7 17 17"></polyline>
@@ -279,7 +310,7 @@ export default function HeroBento() {
               
               {/* Animated Clapper Board Lottie */}
               {clapperAnimation && (
-                <div className="absolute top-6 right-6 w-16 h-16 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <div className={`absolute top-6 right-6 w-16 h-16 transition-opacity duration-300 ${(isMobile && interviewInView) ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}`}>
                   <Lottie 
                     animationData={clapperAnimation}
                     loop={true}
@@ -288,7 +319,7 @@ export default function HeroBento() {
                 </div>
               )}
               {/* Coming Soon Overlay */}
-              <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover/card:opacity-100 transition-opacity duration-300 bg-black/60 backdrop-blur-sm rounded-[2rem]">
+              <div className={`absolute inset-0 flex items-center justify-center transition-opacity duration-300 bg-black/60 backdrop-blur-sm rounded-[2rem] ${(isMobile && interviewInView) ? 'opacity-100' : 'opacity-0 group-hover/card:opacity-100'}`}>
                 <span className={`text-2xl font-bold font-korean ${theme === "dark" ? "text-white" : "text-white"}`}>
                   {language === "KO" ? "준비중" : "Coming Soon"}
                 </span>
@@ -301,6 +332,9 @@ export default function HeroBento() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.5 }}
+            onViewportEnter={() => setStudioInView(true)}
+            onViewportLeave={() => setStudioInView(false)}
+            viewport={{ amount: 0.3 }}
             className="md:col-span-1 bg-accent rounded-[2rem] relative overflow-hidden group hover:bg-accent/90 transition-colors"
           >
             <Link href="/about" className="block w-full h-full p-8 flex flex-col justify-between min-h-[300px]">
@@ -324,7 +358,7 @@ export default function HeroBento() {
                     </>
                   )}
                 </p>
-                <div className="w-10 h-10 rounded-full bg-white text-accent flex items-center justify-center group-hover:rotate-45 transition-transform duration-300">
+                <div className={`w-10 h-10 rounded-full bg-white text-accent flex items-center justify-center transition-transform duration-300 ${(isMobile && studioInView) ? 'rotate-45' : 'group-hover:rotate-45'}`}>
                   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <line x1="7" y1="17" x2="17" y2="7"></line>
                     <polyline points="7 7 17 7 17 17"></polyline>
@@ -334,7 +368,7 @@ export default function HeroBento() {
               
               {/* Animated Lightning Lottie */}
               {lightningAnimation && (
-                <div className="absolute top-6 right-6 w-16 h-16 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <div className={`absolute top-6 right-6 w-16 h-16 transition-opacity duration-300 ${(isMobile && studioInView) ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}`}>
                   <Lottie 
                     animationData={lightningAnimation}
                     loop={true}
