@@ -218,7 +218,7 @@ export default function Footer() {
                   {section.title === 'Contact' && (
                     <li className="pt-4">
                       <a 
-                        href="https://www.instagram.com/kolektt_app" 
+                        href="https://www.instagram.com/kolektt.mag" 
                         target="_blank" 
                         rel="noopener noreferrer"
                         className="group flex items-center gap-3 px-4 py-2.5 bg-white/5 hover:bg-white/10 border-white/10 border rounded-xl transition-all duration-300 w-fit"

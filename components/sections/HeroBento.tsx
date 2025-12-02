@@ -174,7 +174,7 @@ export default function HeroBento() {
             className={`md:col-span-1 md:row-span-2 ${theme === "dark" ? "bg-[#1A1A1A] hover:bg-[#222]" : "bg-white hover:bg-gray-50"} rounded-[2rem] relative overflow-hidden group transition-colors`}
           >
             <Link 
-              href="https://www.instagram.com/kolektt_app" 
+              href="https://www.instagram.com/kolektt.mag" 
               target="_blank"
               className="block w-full h-full p-8 flex flex-col justify-between"
             >

@@ -7,6 +7,6 @@ export const siteConfig = {
   links: {
     github: "https://github.com/kolektt",
     twitter: "https://twitter.com/kolektt",
-    instagram: "https://instagram.com/kolektt",
+    instagram: "https://instagram.com/kolektt.mag",
   },
 };
