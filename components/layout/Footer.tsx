@@ -14,6 +14,7 @@ export default function Footer() {
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
   const [os, setOs] = useState('');
+  const [accountEmail, setAccountEmail] = useState('');
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
@@ -44,7 +45,7 @@ export default function Footer() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!email || !name || !os) return;
+    if (!email || !name || !os || !accountEmail) return;
 
     setIsLoading(true);
     setError('');
@@ -55,7 +56,7 @@ export default function Footer() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ email, name, os }),
+        body: JSON.stringify({ email, name, os, accountEmail }),
       });
 
       if (response.ok) {
@@ -63,6 +64,7 @@ export default function Footer() {
         setEmail('');
         setName('');
         setOs('');
+        setAccountEmail('');
         setTimeout(() => setIsSubmitted(false), 3000);
       } else {
         setError(language === "KO" ? '유효한 이메일을 입력해주세요.' : 'Please enter a valid email.');
@@ -138,13 +140,36 @@ export default function Footer() {
                     </div>
                   </div>
 
-                  {/* Email Input & Submit */}
+                  {/* Account Email Input */}
+                  <input
+                    type="email"
+                    value={accountEmail}
+                    onChange={(e) => setAccountEmail(e.target.value)}
+                    placeholder={
+                      language === "KO"
+                        ? os === 'iOS' 
+                          ? "Apple ID (베타 테스트 초대용)"
+                          : os === 'Android'
+                          ? "Google Play 계정 (베타 테스트 초대용)"
+                          : "앱스토어 계정 (베타 테스트 초대용)"
+                        : os === 'iOS'
+                        ? "Apple ID (for TestFlight invite)"
+                        : os === 'Android'
+                        ? "Google Play Account (for beta invite)"
+                        : "App Store Account (for beta invite)"
+                    }
+                    className="w-full px-4 py-2 text-sm border border-white/10 bg-[#1A1A1A] text-white placeholder-white/40 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                    required
+                    disabled={isLoading}
+                  />
+
+                  {/* Contact Email Input & Submit */}
                   <div className="flex">
                     <input
                       type="email"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
-                      placeholder={language === "KO" ? "이메일" : "Email"}
+                      placeholder={language === "KO" ? "연락받을 이메일" : "Contact Email"}
                       className="flex-1 px-4 py-2 text-sm border border-white/10 bg-[#1A1A1A] text-white placeholder-white/40 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
                       required
                       disabled={isLoading}
@@ -172,6 +197,12 @@ export default function Footer() {
                   <span>{language === "KO" ? "신청 완료!" : "Submitted!"}</span>
                 </div>
               )}
+              {/* Waitlist Notice */}
+              <p className="text-xs text-white/50 mt-3 leading-relaxed">
+                {language === "KO"
+                  ? "※ 사전 신청 대기 리스트에 등록 시, 구글 플레이 계정 또는 iOS 앱스토어 계정을 함께 등록해 주시기 바랍니다."
+                  : "※ When registering for the waitlist, please register your Google Play or iOS App Store account."}
+              </p>
             </div>
 
 

@@ -3,13 +3,20 @@ import { google } from 'googleapis';
 
 export async function POST(request: Request) {
   try {
-    const { email, name, os } = await request.json();
+    const { email, name, os, accountEmail } = await request.json();
 
     // Basic email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!email || !emailRegex.test(email)) {
       return NextResponse.json(
         { error: 'Invalid email address' },
+        { status: 400 }
+      );
+    }
+
+    if (!accountEmail || !emailRegex.test(accountEmail)) {
+      return NextResponse.json(
+        { error: 'Invalid account email address' },
         { status: 400 }
       );
     }
@@ -51,10 +58,10 @@ export async function POST(request: Request) {
 
     await sheets.spreadsheets.values.append({
       spreadsheetId: sheetId,
-      range: 'A:D', // Email, Name, OS, Timestamp
+      range: 'A:E', // Email, Name, OS, iOS/Android Account, Timestamp
       valueInputOption: 'USER_ENTERED',
       requestBody: {
-        values: [[email, name, os, timestamp]],
+        values: [[email, name, os, accountEmail, timestamp]],
       },
     });
 
