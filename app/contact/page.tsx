@@ -82,12 +82,7 @@ export default function ContactPage() {
                 <h3 className="text-lg font-bold mb-2 opacity-60">EMAIL</h3>
                 <p className="text-2xl font-sans">hello@kolektt.kr</p>
               </div>
-              <div>
-                <h3 className="text-lg font-bold mb-2 opacity-60">OFFICE</h3>
-                <p className="text-xl font-korean">
-                  {language === "KO" ? "서울특별시 성동구" : "Seongdong-gu, Seoul, Republic of Korea"}
-                </p>
-              </div>
+
             </div>
           </motion.div>
 
