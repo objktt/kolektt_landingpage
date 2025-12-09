@@ -226,6 +226,7 @@ export default function HeroBento() {
           </motion.div>
 
           {/* 3. Guide Card (Bottom Left) */}
+          {/* 3. Guide Card -> What's Next Card (Bottom Left) */}
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -235,24 +236,24 @@ export default function HeroBento() {
             viewport={{ amount: 0.3 }}
             className={`md:col-span-1 ${theme === "dark" ? "bg-white hover:bg-gray-100" : "bg-[#111111] hover:bg-black"} rounded-[2rem] relative overflow-hidden group transition-colors`}
           >
-            <div className="relative block w-full h-full p-8 flex flex-col justify-between min-h-[300px] cursor-pointer group/card">
+            <Link href="/whats-next" className="block w-full h-full p-8 flex flex-col justify-between min-h-[300px] cursor-pointer group/card">
               <div className="relative z-10">
                 <span className={`inline-block px-3 py-1 rounded-full ${theme === "dark" ? "bg-black/20 text-black" : "bg-white/20 text-white"} text-xs font-bold mb-4`}>
-                  GUIDE
+                  VISION
                 </span>
-                <h3 className={`text-3xl font-bold mb-2 ${theme === "dark" ? "text-black" : "text-white"} font-display`}>How to<br/>Kolektt</h3>
+                <h3 className={`text-3xl font-bold mb-2 ${theme === "dark" ? "text-black" : "text-white"} font-display`}>What’s Next<br/>for Kolektt</h3>
               </div>
               <div className="flex justify-between items-end">
                 <p className={`${theme === "dark" ? "text-black/60" : "text-white/60"} font-korean text-lg font-medium leading-tight`}>
                   {language === "KO" ? (
                     <>
-                      Kolektt<br/>
-                      사용법
+                      Kolektt의<br/>
+                      미래와 비전
                     </>
                   ) : (
                     <>
-                      How to use<br/>
-                      Kolektt
+                      Future &<br/>
+                      Vision
                     </>
                   )}
                 </p>
@@ -274,13 +275,7 @@ export default function HeroBento() {
                   />
                 </div>
               )}
-              {/* Coming Soon Overlay */}
-              <div className={`absolute inset-0 flex items-center justify-center transition-opacity duration-300 bg-black/60 backdrop-blur-sm rounded-[2rem] ${(isMobile && guideInView) ? 'opacity-100' : 'opacity-0 group-hover/card:opacity-100'}`}>
-                <span className={`text-2xl font-bold font-korean ${theme === "dark" ? "text-white" : "text-white"}`}>
-                  {language === "KO" ? "준비중" : "Coming Soon"}
-                </span>
-              </div>
-            </div>
+            </Link>
           </motion.div>
 
           {/* 4. Interview Card (Bottom Center) */}

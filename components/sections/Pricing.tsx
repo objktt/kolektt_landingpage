@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { Check } from "lucide-react";
+import Link from "next/link";
 
 import { useLanguage } from "@/context/LanguageContext";
 import { useTheme } from "@/context/ThemeContext";
@@ -120,8 +121,8 @@ export default function Pricing() {
               </ul>
 
               {plan.name === "Enterprise" ? (
-                <a
-                  href="mailto:hello@kolektt.kr?subject=Enterprise Plan Inquiry"
+                <Link
+                  href="/contact"
                   className={`w-full py-5 rounded-2xl font-bold text-lg transition-all text-center block ${
                     plan.recommended
                       ? "bg-white text-primary hover:bg-gray-100"
@@ -131,7 +132,7 @@ export default function Pricing() {
                   }`}
                 >
                   Contact Us
-                </a>
+                </Link>
               ) : (
                 <a
                   href="#download"

@@ -9,6 +9,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/pricing',
     '/terms',
     '/privacy',
+    '/whats-next',
   ]
 
   const currentDate = new Date().toISOString()
