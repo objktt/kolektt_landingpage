@@ -33,7 +33,7 @@ export default function Footer() {
     {
       title: 'Contact',
       links: [
-        { name: "hello@kolektt.kr", href: "mailto:hello@kolektt.kr" },
+        { name: "hello@kolektt.kr", href: "/contact" },
       ],
     },
   ];
@@ -228,13 +228,6 @@ export default function Footer() {
                             <div className="absolute top-full left-4 w-2 h-2 bg-gray-700 rotate-45 -mt-1"></div>
                           </div>
                         </div>
-                      ) : link.href.startsWith("mailto:") ? (
-                        <a
-                          href={link.href}
-                          className="text-sm text-white/60 hover:text-white transition-colors"
-                        >
-                          {link.name}
-                        </a>
                       ) : (
                         <Link
                           href={link.href}
