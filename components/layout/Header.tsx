@@ -16,7 +16,7 @@ export default function Header() {
   const { language, toggleLanguage } = useLanguage();
   const { theme, toggleTheme } = useTheme();
   const pathname = usePathname();
-  const isAboutPage = pathname === "/about";
+  const isForceDarkPage = pathname === "/about" || pathname === "/whats-next";
 
   useEffect(() => {
     const handleScroll = () => {
@@ -40,7 +40,7 @@ export default function Header() {
           isMobileMenuOpen
             ? "bg-transparent py-4"
             : isScrolled
-            ? isAboutPage
+            ? isForceDarkPage
               ? "bg-black/80 backdrop-blur-md py-4"
               : theme === "dark"
               ? "bg-black/80 backdrop-blur-md py-4"
@@ -57,12 +57,12 @@ export default function Header() {
                 alt="Kolektt Logo" 
                 width={96} 
                 height={26} 
-                className={`h-[26px] w-auto absolute top-0 left-0 transition-opacity duration-300 group-hover:opacity-0 ${isAboutPage || theme === "dark" ? "invert" : ""}`}
+                className={`h-[26px] w-auto absolute top-0 left-0 transition-opacity duration-300 group-hover:opacity-0 ${isForceDarkPage || theme === "dark" ? "invert" : ""}`}
                 priority
               />
               {/* Hover Symbol - Animated SVG */}
               <svg 
-                className={`h-[26px] w-auto absolute top-0 left-1/2 -translate-x-1/2 ${isAboutPage || theme === "dark" ? "invert" : ""}`}
+                className={`h-[26px] w-auto absolute top-0 left-1/2 -translate-x-1/2 ${isForceDarkPage || theme === "dark" ? "invert" : ""}`}
                 viewBox="0 0 1920 639.95" 
                 xmlns="http://www.w3.org/2000/svg"
               >
@@ -109,7 +109,7 @@ export default function Header() {
                 <span
                   key={link.name}
                   className={`text-sm font-bold transition-colors font-sans relative group cursor-not-allowed ${
-                    isAboutPage
+                    isForceDarkPage
                       ? "text-white/50"
                       : theme === "dark"
                       ? "text-white/50"
@@ -118,7 +118,7 @@ export default function Header() {
                 >
                   {link.name}
                   <span className={`absolute -top-8 left-1/2 -translate-x-1/2 px-2 py-1 rounded text-[10px] font-medium whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none ${
-                    isAboutPage || theme === "dark"
+                    isForceDarkPage || theme === "dark"
                       ? "bg-white text-black" 
                       : "bg-primary text-white"
                   }`}>
@@ -130,7 +130,7 @@ export default function Header() {
                   key={link.name}
                   href={link.href}
                   className={`text-sm font-bold transition-colors font-sans relative group cursor-pointer ${
-                    isAboutPage
+                    isForceDarkPage
                       ? "text-white/80 hover:text-white"
                       : theme === "dark"
                       ? "text-white/80 hover:text-white"
@@ -145,7 +145,7 @@ export default function Header() {
               <button
                 onClick={toggleLanguage}
                 className={`px-4 py-2 text-sm font-bold transition-all duration-300 font-sans flex items-center gap-1 cursor-pointer ${
-                  isAboutPage
+                  isForceDarkPage
                     ? "text-white/80 hover:text-white"
                     : theme === "dark"
                     ? "text-white/80 hover:text-white"
@@ -158,7 +158,7 @@ export default function Header() {
               <button
                 onClick={toggleTheme}
                 className={`p-2 text-sm font-bold transition-all duration-300 cursor-pointer ${
-                  isAboutPage
+                  isForceDarkPage
                     ? "text-white/80 hover:text-white"
                     : theme === "dark"
                     ? "text-white/80 hover:text-white"
@@ -173,7 +173,7 @@ export default function Header() {
 
           {/* Mobile Menu Button */}
           <button
-            className={`md:hidden z-50 relative cursor-pointer ${isAboutPage || theme === "dark" ? "text-white" : "text-primary"}`}
+            className={`md:hidden z-50 relative cursor-pointer ${isForceDarkPage || theme === "dark" ? "text-white" : "text-primary"}`}
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           >
             {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}

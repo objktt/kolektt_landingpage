@@ -1,3 +1,4 @@
+
 "use client";
 
 import { motion } from "framer-motion";
@@ -5,12 +6,14 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import dynamic from "next/dynamic";
+import FluidBackground from "@/components/effects/FluidBackground";
+import InteractiveShapes from "@/components/effects/InteractiveShapes";
 
 const Lottie = dynamic(() => import('lottie-react'), { ssr: false });
 
 import { useLanguage } from "@/context/LanguageContext";
 import { useTheme } from "@/context/ThemeContext";
-import Particles from "@/components/effects/Particles";
+
 
 export default function HeroBento() {
   const { language } = useLanguage();
@@ -80,21 +83,12 @@ export default function HeroBento() {
             onViewportEnter={() => setHeroInView(true)}
             onViewportLeave={() => setHeroInView(false)}
             viewport={{ amount: 0.3 }}
-            className={`md:col-span-2 md:row-span-2 ${theme === "dark" ? "bg-[#1A1A1A]" : "bg-[#EAEAE6]"} rounded-[2rem] p-10 flex flex-col justify-center relative overflow-hidden group`}
+            className={`md:col-span-2 md:row-span-2 bg-gray-500/5 rounded-[2rem] p-10 flex flex-col justify-center relative overflow-hidden group`}
           >
-            {/* Particles Effect */}
-            <Particles
-              particleColors={theme === "dark" ? ['#ffffff', '#ffffff'] : ['#000000', '#2452FF']}
-              particleCount={300}
-              particleSpread={10}
-              speed={0.1}
-              moveParticlesOnHover={true}
-              particleHoverFactor={2}
-              alphaParticles={true}
-              particleBaseSize={100}
-              sizeRandomness={0.5}
-              cameraDistance={20}
-            />
+            {/* 3D Shapes Background */}
+            <div className="absolute inset-0 z-0 w-full h-full rounded-[2rem] overflow-hidden">
+               <InteractiveShapes />
+            </div>
             
             <div className="relative z-10">
               <h1 className={`text-display text-5xl md:text-7xl lg:text-8xl ${theme === "dark" ? "text-white" : "text-[#111111]"} leading-[0.95] tracking-tight mb-8`}>
@@ -187,6 +181,10 @@ export default function HeroBento() {
                   Instagram <br/>
                   Open
                 </h3>
+              </div>
+              {/* Fluid Background */}
+              <div className="absolute inset-0 z-0 w-full h-full rounded-[2rem] overflow-hidden">
+                <FluidBackground theme={theme} />
               </div>
               <div className="flex justify-between items-end">
                 <p className={`${theme === "dark" ? "text-white/60" : "text-[#111111]/60"} font-korean text-lg font-medium`}>
