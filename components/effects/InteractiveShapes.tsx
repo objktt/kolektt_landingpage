@@ -180,6 +180,7 @@ function Particles({ count = 80, mouse, color }: any) {
 
   useFrame((state, delta) => {
     if (!meshRef.current) return;
+    const mesh = meshRef.current;
 
     // Mouse Interaction: Very slow rotation of the entire particle cloud
     // This creates a parallax-like effect against the main shapes
@@ -187,8 +188,8 @@ function Particles({ count = 80, mouse, color }: any) {
         const targetRotationY = mouse.current.x * Math.PI * 0.05; // Very subtle total rotation
         const targetRotationX = mouse.current.y * Math.PI * 0.05;
         
-        meshRef.current.rotation.y = THREE.MathUtils.lerp(meshRef.current.rotation.y, targetRotationY, 0.02); // Ultra slow lerp
-        meshRef.current.rotation.x = THREE.MathUtils.lerp(meshRef.current.rotation.x, targetRotationX, 0.02);
+        mesh.rotation.y = THREE.MathUtils.lerp(mesh.rotation.y, targetRotationY, 0.02); // Ultra slow lerp
+        mesh.rotation.x = THREE.MathUtils.lerp(mesh.rotation.x, targetRotationX, 0.02);
     }
 
     particles.forEach((particle, i) => {
@@ -214,9 +215,9 @@ function Particles({ count = 80, mouse, color }: any) {
       dummy.updateMatrix();
       
       // Apply to instance
-      meshRef.current.setMatrixAt(i, dummy.matrix);
+      mesh.setMatrixAt(i, dummy.matrix);
     });
-    meshRef.current.instanceMatrix.needsUpdate = true;
+    mesh.instanceMatrix.needsUpdate = true;
   });
 
   return (
@@ -310,7 +311,7 @@ export default function InteractiveShapes() {
   const { theme } = useTheme();
   // Dark Mode: Deep Blue (#0000FF)
   // Light Mode: Gold/Yellow Tone (#FFD700)
-  const color = theme === "dark" || !theme ? "#0000FF" : "#FFC107"; 
+  const color = theme === "dark" || !theme ? "#0000FF" : "#f9c049"; 
 
   return (
     <div className="absolute inset-0 w-full h-full z-0 pointer-events-none">
