@@ -12,10 +12,11 @@ import {
   AdaptiveEvents
 } from "@react-three/drei";
 import * as THREE from "three";
+import { useTheme } from "@/context/ThemeContext";
 
 // --- Shapes ---
 
-function Disk({ position, mouse }: any) {
+function Disk({ position, mouse, color }: any) {
   const meshRef = useRef<THREE.Mesh>(null);
   
   // Use ExtrudeGeometry to get rounded edges (bevel) on the disk
@@ -55,7 +56,7 @@ function Disk({ position, mouse }: any) {
       <mesh ref={meshRef} position={position} rotation={[Math.PI / 4, 0, 0]}>
         <extrudeGeometry args={[shape, extrudeSettings]} />
         <meshPhysicalMaterial
-          color="#0000FF"
+          color={color}
           roughness={0.2}
           transmission={0.4}
           thickness={0.25} // Reduced material thickness
@@ -68,7 +69,7 @@ function Disk({ position, mouse }: any) {
   );
 }
 
-function Box({ position, mouse }: any) {
+function Box({ position, mouse, color }: any) {
   const meshRef = useRef<THREE.Group>(null);
 
   useFrame((state, delta) => {
@@ -89,7 +90,7 @@ function Box({ position, mouse }: any) {
         {/* RoundedBox for smoothed corners. Larger size args */}
         <RoundedBox args={[2.2, 2.2, 2.2]} radius={0.2} smoothness={4}>
           <meshPhysicalMaterial
-            color="#0000FF"
+            color={color}
             roughness={0.2}
             transmission={0.4}
             thickness={2}
@@ -101,7 +102,7 @@ function Box({ position, mouse }: any) {
   );
 }
 
-function HalfCapsule({ position, mouse }: any) {
+function HalfCapsule({ position, mouse, color }: any) {
   const meshRef = useRef<THREE.Mesh>(null);
 
   const shape = useMemo(() => {
@@ -141,7 +142,7 @@ function HalfCapsule({ position, mouse }: any) {
        <mesh ref={meshRef} position={position} rotation={[0, 0, -Math.PI / 4]}>
         <extrudeGeometry args={[shape, extrudeSettings]} />
          <meshPhysicalMaterial
-          color="#0000FF" // Deep Blue
+          color={color} // Deep Blue
           roughness={0.2}
           transmission={0.4} // Semi-transparent/Frosted glass look
           thickness={2}
@@ -156,7 +157,7 @@ function HalfCapsule({ position, mouse }: any) {
 
 // --- Particles ---
 
-function Particles({ count = 80, mouse }: any) {
+function Particles({ count = 80, mouse, color }: any) {
   const meshRef = useRef<THREE.InstancedMesh>(null);
   const lightRef = useRef<THREE.Object3D>(new THREE.Object3D());
 
@@ -223,7 +224,7 @@ function Particles({ count = 80, mouse }: any) {
       {/* Tiny Disk Geometry */}
       <cylinderGeometry args={[0.05, 0.05, 0.01, 20]} /> 
       <meshPhysicalMaterial
-        color="#0000FF"
+        color={color}
         roughness={0.2}
         transmission={0.4}
         thickness={0.5} 
@@ -237,7 +238,7 @@ function Particles({ count = 80, mouse }: any) {
 
 // --- Main Scene ---
 
-function Scene() {
+function Scene({ color }: { color: string }) {
   // Global mouse tracker... (Keep existing logic)
   const mouse = useRef({ x: 0, y: 0 });
 
@@ -280,31 +281,41 @@ function Scene() {
       <Box 
         position={[-2.5, 0, -3]} 
         mouse={mouse}
+        color={color}
       />
 
       {/* 2. Transparent Disk (Glass) - Foreground Layer */}
       <Disk 
         position={[0.8, -0.8, 2.5]} 
         mouse={mouse}
+        color={color}
       />
 
       {/* 3. Blue Half Capsule - Middle Layer */}
       <HalfCapsule 
         position={[2, 1.5, -0.5]} 
         mouse={mouse}
+        color={color}
       />
 
       {/* 4. Background Particles */}
-      <Particles count={100} mouse={mouse} />
+      <Particles count={100} mouse={mouse} color={color} />
     </>
   );
 }
 
+
+
 export default function InteractiveShapes() {
+  const { theme } = useTheme();
+  // Dark Mode: Deep Blue (#0000FF)
+  // Light Mode: Gold/Yellow Tone (#FFD700)
+  const color = theme === "dark" || !theme ? "#0000FF" : "#FFC107"; 
+
   return (
     <div className="absolute inset-0 w-full h-full z-0 pointer-events-none">
       <Canvas dpr={[1, 2]} performance={{ min: 0.5 }}>
-        <Scene />
+        <Scene color={color} />
       </Canvas>
     </div>
   );
