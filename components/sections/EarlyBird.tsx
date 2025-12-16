@@ -12,7 +12,7 @@ export default function EarlyBird() {
 
   const benefits = [
     {
-      title: language === "KO" ? "첫 100명 한정" : "First 100 Only",
+      title: language === "KO" ? "첫 50명 한정" : "First 50 Only",
       subtitle: language === "KO" ? "1년 무료 프리미엄" : "1 Year Free Premium",
       description: language === "KO" 
         ? "고급 큐레이션, 프라이빗 컬렉션 등 독점 기능을 12개월간 무료로 이용하세요."
