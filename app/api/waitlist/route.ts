@@ -3,7 +3,7 @@ import { google } from 'googleapis';
 
 export async function POST(request: Request) {
   try {
-    const { email, name, os, accountEmail } = await request.json();
+    const { email, name } = await request.json();
 
     // Basic email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -14,12 +14,7 @@ export async function POST(request: Request) {
       );
     }
 
-    if (!accountEmail || !emailRegex.test(accountEmail)) {
-      return NextResponse.json(
-        { error: 'Invalid account email address' },
-        { status: 400 }
-      );
-    }
+
 
     // Google Sheets Integration
     const serviceAccountEmail = process.env.GOOGLE_CLIENT_EMAIL;
@@ -61,7 +56,7 @@ export async function POST(request: Request) {
       range: 'A:E', // Email, Name, OS, iOS/Android Account, Timestamp
       valueInputOption: 'USER_ENTERED',
       requestBody: {
-        values: [[email, name, os, accountEmail, timestamp]],
+        values: [[email, name, "", "", timestamp]],
       },
     });
 

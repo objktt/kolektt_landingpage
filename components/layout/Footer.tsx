@@ -13,8 +13,7 @@ export default function Footer() {
   const { theme } = useTheme();
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
-  const [os, setOs] = useState('');
-  const [accountEmail, setAccountEmail] = useState('');
+
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
@@ -45,7 +44,7 @@ export default function Footer() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!email || !name || !os || !accountEmail) return;
+    if (!email || !name) return;
 
     setIsLoading(true);
     setError('');
@@ -56,15 +55,13 @@ export default function Footer() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ email, name, os, accountEmail }),
+        body: JSON.stringify({ email, name }),
       });
 
       if (response.ok) {
         setIsSubmitted(true);
         setEmail('');
         setName('');
-        setOs('');
-        setAccountEmail('');
         setTimeout(() => setIsSubmitted(false), 3000);
       } else {
         setError(language === "KO" ? '유효한 이메일을 입력해주세요.' : 'Please enter a valid email.');
@@ -103,7 +100,7 @@ export default function Footer() {
             {/* Pre-registration */}
             <div className="w-full max-w-sm">
               <h4 className="text-sm font-semibold text-white mb-3">
-                {language === "KO" ? "사전등록 신청" : "Pre-registration"}
+                {language === "KO" ? "뉴스레터 신청하기" : "Subscribe to Newsletter"}
               </h4>
               {!isSubmitted ? (
                 <form onSubmit={handleSubmit} className="space-y-3">
@@ -118,50 +115,7 @@ export default function Footer() {
                     disabled={isLoading}
                   />
 
-                  {/* OS Selection */}
-                  <div className="relative">
-                    <select
-                      value={os}
-                      onChange={(e) => setOs(e.target.value)}
-                      className="w-full px-4 py-2 text-sm border border-white/10 bg-[#1A1A1A] text-white placeholder-white/40 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent appearance-none"
-                      required
-                      disabled={isLoading}
-                    >
-                      <option value="" disabled>
-                        {language === "KO" ? "모바일 OS 선택" : "Select Mobile OS"}
-                      </option>
-                      <option value="iOS">iOS</option>
-                      <option value="Android">Android</option>
-                    </select>
-                    <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none text-white/40">
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
-                      </svg>
-                    </div>
-                  </div>
 
-                  {/* Account Email Input */}
-                  <input
-                    type="email"
-                    value={accountEmail}
-                    onChange={(e) => setAccountEmail(e.target.value)}
-                    placeholder={
-                      language === "KO"
-                        ? os === 'iOS' 
-                          ? "Apple ID (베타 테스트 초대용)"
-                          : os === 'Android'
-                          ? "Google Play 계정 (베타 테스트 초대용)"
-                          : "앱스토어 계정 (베타 테스트 초대용)"
-                        : os === 'iOS'
-                        ? "Apple ID (for TestFlight invite)"
-                        : os === 'Android'
-                        ? "Google Play Account (for beta invite)"
-                        : "App Store Account (for beta invite)"
-                    }
-                    className="w-full px-4 py-2 text-sm border border-white/10 bg-[#1A1A1A] text-white placeholder-white/40 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-                    required
-                    disabled={isLoading}
-                  />
 
                   {/* Contact Email Input & Submit */}
                   <div className="flex">
@@ -197,12 +151,7 @@ export default function Footer() {
                   <span>{language === "KO" ? "신청 완료!" : "Submitted!"}</span>
                 </div>
               )}
-              {/* Waitlist Notice */}
-              <p className="text-xs text-white/50 mt-3 leading-relaxed">
-                {language === "KO"
-                  ? "※ 사전 신청 대기 리스트에 등록 시, 구글 플레이 계정 또는 iOS 앱스토어 계정을 함께 등록해 주시기 바랍니다."
-                  : "※ When registering for the waitlist, please register your Google Play or iOS App Store account."}
-              </p>
+
             </div>
 
 

@@ -1,13 +1,13 @@
 
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import dynamic from "next/dynamic";
 import FluidBackground from "@/components/effects/FluidBackground";
-import InteractiveShapes from "@/components/effects/InteractiveShapes";
+import PhysicsShapes from "@/components/effects/PhysicsShapes";
 
 const Lottie = dynamic(() => import('lottie-react'), { ssr: false });
 
@@ -32,6 +32,9 @@ export default function HeroBento() {
 
   // Mobile button click state
   const [activeButton, setActiveButton] = React.useState<string | null>(null);
+
+  // YouTube dialog state
+  const [isVideoOpen, setIsVideoOpen] = React.useState(false);
 
   const handleButtonClick = (buttonId: string) => {
     if (isMobile) {
@@ -85,10 +88,23 @@ export default function HeroBento() {
             viewport={{ amount: 0.3 }}
             className={`md:col-span-2 md:row-span-2 bg-gray-500/5 rounded-[2rem] p-10 flex flex-col justify-center relative overflow-hidden group`}
           >
-            {/* 3D Shapes Background */}
+            {/* Video Background */}
             <div className="absolute inset-0 z-0 w-full h-full rounded-[2rem] overflow-hidden">
-               <InteractiveShapes />
+              <video
+                autoPlay
+                loop
+                muted
+                playsInline
+                className="w-full h-full object-cover opacity-50" // Adjusted opacity for better text visibility
+              >
+                <source src="/videos/hero_background_optimized.mp4" type="video/mp4" />
+              </video>
             </div>
+
+            {/* 3D Shapes Background - Disabled for now */}
+            {/* <div className="absolute inset-0 z-0 w-full h-full rounded-[2rem] overflow-hidden">
+               <PhysicsShapes />
+            </div> */}
             
             <div className="relative z-10">
               <h1 className={`text-display text-5xl md:text-7xl lg:text-8xl ${theme === "dark" ? "text-white" : "text-[#111111]"} leading-[0.95] tracking-tight mb-8`}>
@@ -277,7 +293,7 @@ export default function HeroBento() {
           </motion.div>
 
           {/* 4. Interview Card (Bottom Center) */}
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
@@ -286,7 +302,10 @@ export default function HeroBento() {
             viewport={{ amount: 0.3 }}
             className={`md:col-span-1 ${theme === "dark" ? "bg-[#2A2A2A] hover:bg-[#333]" : "bg-[#E0E0DC] hover:bg-[#D6D6D2]"} rounded-[2rem] relative overflow-hidden group transition-colors`}
           >
-            <div className="relative block w-full h-full p-8 flex flex-col justify-between min-h-[300px] cursor-pointer group/card">
+            <div
+              onClick={() => setIsVideoOpen(true)}
+              className="relative block w-full h-full p-8 flex flex-col justify-between min-h-[300px] cursor-pointer group/card"
+            >
               <div className="relative z-10">
                 <span className={`inline-block px-3 py-1 rounded-full ${theme === "dark" ? "bg-white/10 text-white" : "bg-[#111111]/5 text-[#111111]"} text-xs font-bold mb-4`}>
                   INTERVIEW
@@ -309,28 +328,21 @@ export default function HeroBento() {
                 </p>
                 <div className={`w-10 h-10 rounded-full ${theme === "dark" ? "bg-white text-black" : "bg-[#111111] text-white"} flex items-center justify-center transition-transform duration-300 ${(isMobile && interviewInView) ? 'rotate-45' : 'group-hover:rotate-45'}`}>
                   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <line x1="7" y1="17" x2="17" y2="7"></line>
-                    <polyline points="7 7 17 7 17 17"></polyline>
+                    <polygon points="5 3 19 12 5 21 5 3" fill="currentColor"></polygon>
                   </svg>
                 </div>
               </div>
-              
+
               {/* Animated Clapper Board Lottie */}
               {clapperAnimation && (
                 <div className={`absolute top-6 right-6 w-16 h-16 transition-opacity duration-300 ${(isMobile && interviewInView) ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}`}>
-                  <Lottie 
+                  <Lottie
                     animationData={clapperAnimation}
                     loop={true}
                     style={{ width: '100%', height: '100%' }}
                   />
                 </div>
               )}
-              {/* Coming Soon Overlay */}
-              <div className={`absolute inset-0 flex items-center justify-center transition-opacity duration-300 bg-black/60 backdrop-blur-sm rounded-[2rem] ${(isMobile && interviewInView) ? 'opacity-100' : 'opacity-0 group-hover/card:opacity-100'}`}>
-                <span className={`text-2xl font-bold font-korean ${theme === "dark" ? "text-white" : "text-white"}`}>
-                  {language === "KO" ? "준비중" : "Coming Soon"}
-                </span>
-              </div>
             </div>
           </motion.div>
 
@@ -388,6 +400,53 @@ export default function HeroBento() {
 
         </div>
       </div>
+
+      {/* YouTube Video Dialog */}
+      <AnimatePresence>
+        {isVideoOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-8"
+            onClick={() => setIsVideoOpen(false)}
+          >
+            {/* Backdrop */}
+            <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" />
+
+            {/* Dialog Container */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.9 }}
+              transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+              className="relative w-full max-w-5xl aspect-video bg-black rounded-2xl overflow-hidden shadow-2xl"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Close Button */}
+              <button
+                onClick={() => setIsVideoOpen(false)}
+                className="absolute -top-12 right-0 md:top-4 md:right-4 z-10 w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors duration-200"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <line x1="18" y1="6" x2="6" y2="18"></line>
+                  <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+              </button>
+
+              {/* YouTube Embed */}
+              <iframe
+                src="https://www.youtube.com/embed/niaLmTXYeWY?autoplay=1&rel=0"
+                title="CEO Interview"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                className="w-full h-full"
+              />
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   );
 }
